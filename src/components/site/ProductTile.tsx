@@ -2,7 +2,7 @@ import { Link } from "@tanstack/react-router";
 import { ArrowUpRight, Instagram } from "lucide-react";
 import type { CSSProperties, MouseEvent } from "react";
 
-import { formatPrice, type Product } from "@/data/products";
+import { formatPrice, productSrcSet, type Product } from "@/data/products";
 import { INSTAGRAM_URL, VINTED_URL } from "@/lib/site";
 
 /** La foto del producto viaja a la ficha con una View Transition (elemento compartido). */
@@ -36,11 +36,12 @@ export function ProductTile({
         data-product-slug={product.slug}
         data-product-family={product.family}
         data-product-color={product.color}
+        data-cursor="Ver"
       >
         <div className="tile-media">
           <img
             src={product.image}
-            srcSet={`${product.image640} 640w, ${product.image} ${product.w}w`}
+            srcSet={productSrcSet(product)}
             sizes={sizes}
             alt={product.alt}
             width={product.w}
@@ -75,7 +76,7 @@ export function ProductTile({
             target="_blank"
             rel="noopener"
             className="btn-solid btn-sm"
-            aria-label={`Ver ${product.name} en Vinted`}
+            aria-label={`Ver en Vinted: ${product.name}`}
           >
             Ver en Vinted <ArrowUpRight className="h-4 w-4" aria-hidden="true" strokeWidth={1.5} />
           </a>
@@ -84,7 +85,7 @@ export function ProductTile({
             target="_blank"
             rel="noopener"
             className="btn-ghost btn-sm"
-            aria-label={`Preguntar por ${product.name} en Instagram`}
+            aria-label={`Instagram: preguntar por ${product.name}`}
           >
             <Instagram className="h-4 w-4" aria-hidden="true" strokeWidth={1.5} />
             Instagram

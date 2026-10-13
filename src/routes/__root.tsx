@@ -64,6 +64,11 @@ const WEBSITE_LD = {
   name: SITE_NAME,
   inLanguage: "es-ES",
   publisher: { "@id": `${SITE_URL}/#organization` },
+  potentialAction: {
+    "@type": "SearchAction",
+    target: { "@type": "EntryPoint", urlTemplate: `${SITE_URL}/coleccion?q={search_term_string}` },
+    "query-input": "required name=search_term_string",
+  },
 };
 
 function NotFoundComponent() {
@@ -191,7 +196,14 @@ function RootComponent() {
   }, []);
 
   // Herramientas WebMCP para agentes del navegador (solo lectura, por detección de característica)
-  useEffect(() => registerWebMcpTools(), []);
+  const router = useRouter();
+  useEffect(
+    () =>
+      registerWebMcpTools((to, search) =>
+        router.navigate({ to, search: search ? Object.fromEntries(Object.entries(search).filter(([, v]) => v)) : {} } as never),
+      ),
+    [router],
+  );
 
   return (
     <QueryClientProvider client={queryClient}>

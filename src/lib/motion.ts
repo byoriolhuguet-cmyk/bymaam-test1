@@ -120,6 +120,7 @@ export function useMotionEngine(pathname: string) {
 
 /**
  * Script inline que se ejecuta ANTES de pintar: decide si hay movimiento y si
- * toca pantalla de carga (solo en la portada y solo una vez por sesión).
+ * toca pantalla de carga (solo en la portada, una vez por sesión, en pantallas
+ * grandes y sin ahorro de datos: en móvil la portada se pinta al instante).
  */
-export const MOTION_BOOT_SCRIPT = `(function(d){try{var r=window.matchMedia('(prefers-reduced-motion: reduce)').matches;if(!r)d.classList.add('motion-ok');var seen=false;try{seen=!!sessionStorage.getItem('bymaam-intro')}catch(e){}var home=location.pathname==='/'||location.pathname==='/index.html';d.setAttribute('data-intro',(!r&&home&&!seen)?'run':'skip')}catch(e){d.setAttribute('data-intro','skip')}})(document.documentElement)`;
+export const MOTION_BOOT_SCRIPT = `(function(d){try{var w=window,r=w.matchMedia('(prefers-reduced-motion: reduce)').matches;if(!r)d.classList.add('motion-ok');var seen=false;try{seen=!!sessionStorage.getItem('bymaam-intro')}catch(e){}var home=location.pathname==='/'||location.pathname==='/index.html';var c=navigator.connection||{};var big=w.matchMedia('(min-width: 1024px) and (pointer: fine)').matches;var slow=c.saveData||/(^|-)2g|3g/.test(c.effectiveType||'');d.setAttribute('data-intro',(!r&&home&&!seen&&big&&!slow)?'run':'skip')}catch(e){d.setAttribute('data-intro','skip')}})(document.documentElement)`;

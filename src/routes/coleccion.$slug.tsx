@@ -4,7 +4,7 @@ import type { CSSProperties } from "react";
 
 import { ProductTile } from "@/components/site/ProductTile";
 import { ShareButtons } from "@/components/site/ShareButtons";
-import { PRODUCTS, formatPrice, getProduct, productPath } from "@/data/products";
+import { PRODUCTS, formatPrice, getProduct, productPath, productSrcSet } from "@/data/products";
 import { breadcrumbLd, seo } from "@/lib/seo";
 import { INSTAGRAM_URL, SITE_URL, VINTED_URL } from "@/lib/site";
 
@@ -106,7 +106,7 @@ function ProductPage() {
           <div className="pdp-media">
             <img
               src={p.image}
-              srcSet={`${p.image640} 640w, ${p.image} ${p.w}w`}
+              srcSet={productSrcSet(p)}
               sizes="(min-width: 1024px) 56vw, 92vw"
               alt={p.alt}
               width={p.w}

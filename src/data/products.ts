@@ -36,6 +36,10 @@ export const PRODUCTS = raw as Product[];
 export const formatPrice = (value: number) =>
   `${value.toFixed(2).replace(".", ",")} €`;
 
+/** srcset de la foto: 640, 800 (móviles de alta densidad) y original. */
+export const productSrcSet = (p: Product) =>
+  `${p.image640} 640w, ${p.image.replace(/\.webp$/, "-800.webp")} 800w, ${p.image} ${p.w}w`;
+
 export const productPath = (slug: string) => `/coleccion/${slug}`;
 
 export const getProduct = (slug: string) => PRODUCTS.find((p) => p.slug === slug);

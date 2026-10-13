@@ -912,7 +912,18 @@ body:has(.menu-overlay[data-open="true"]) { overflow: hidden; }
 .motion-ok .hero-fade { opacity: 1; }
 .motion-ok .hero-line > span { transform: translate3d(0, 112%, 0); }
 .motion-ok .hero-fade { opacity: 0; transform: translate3d(0, 18px, 0); }
-.motion-ok .hero-stage { opacity: 0; clip-path: inset(100% 0 0 0); }
+/* La foto principal se pinta desde el primer frame (LCP rápido en móvil); una cortina la descubre. */
+.hero-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  background: var(--color-paper);
+  transform-origin: 50% 0;
+  transform: scaleY(0);
+  pointer-events: none;
+}
+.motion-ok .hero-card::after { transform: scaleY(1); }
 .motion-ok:not([data-intro="run"]) .hero-line > span {
   animation: rise 1.2s var(--ease-out) both;
   animation-delay: calc(var(--i) * 110ms + 100ms);
@@ -921,12 +932,16 @@ body:has(.menu-overlay[data-open="true"]) { overflow: hidden; }
   animation: fade-up 1s var(--ease-out) both;
   animation-delay: calc(var(--i, 0) * 100ms + 600ms);
 }
-.motion-ok:not([data-intro="run"]) .hero-stage {
-  animation: stage-in 1.5s var(--ease-io) 0.25s both;
+.motion-ok:not([data-intro="run"]) .hero-card::after {
+  animation: curtain-up 1.3s var(--ease-io) 0.2s both;
+}
+.motion-ok:not([data-intro="run"]) .hero-frame::before {
+  animation: frame-tilt 1.6s var(--ease-out) 0.5s both;
 }
 @keyframes rise { from { transform: translate3d(0, 112%, 0); } to { transform: none; } }
 @keyframes fade-up { from { opacity: 0; transform: translate3d(0, 18px, 0); } to { opacity: 1; transform: none; } }
-@keyframes stage-in { from { opacity: 1; clip-path: inset(100% 0 0 0); } to { opacity: 1; clip-path: inset(0 0 0 0); } }
+@keyframes curtain-up { from { transform: scaleY(1); } to { transform: scaleY(0); } }
+@keyframes frame-tilt { from { opacity: 0; transform: rotate(0deg) scale(0.96); } to { opacity: 1; transform: rotate(2.4deg); } }
 
 /* ———————————————————————— Cinta de texto ———————————————————————— */
 
@@ -1213,6 +1228,78 @@ body:has(.menu-overlay[data-open="true"]) { overflow: hidden; }
   transition: transform 0.5s var(--ease-soft), background 0.3s, opacity 0.4s;
 }
 
+/* ———————————————————————— Coreografía de la portada (useHomeChoreography) ———————————————————————— */
+
+/* Titular elástico: --p (0..1) lo pone el hook; sin movimiento queda en su estado final. */
+.stretch-band { overflow: hidden; padding-block: clamp(3.5rem, 9vw, 8rem); }
+.stretch-type {
+  display: flex;
+  flex-direction: column;
+  font-family: var(--font-display);
+  font-size: clamp(3.2rem, 12.5vw, 12.5rem);
+  line-height: 0.86;
+  letter-spacing: -0.055em;
+  color: var(--color-foreground);
+  padding-inline: clamp(1.25rem, 4vw, 3rem);
+}
+.stretch-line {
+  display: block;
+  white-space: nowrap;
+  font-variation-settings: "SOFT" 100;
+  font-weight: calc(260 + var(--p, 1) * 560);
+  transform-origin: 0 50%;
+  transform: translate3d(calc((1 - var(--p, 1)) * -14vw), 0, 0) scaleX(calc(0.78 + var(--p, 1) * 0.22));
+}
+.stretch-line--alt { align-self: flex-end; transform-origin: 100% 50%; transform: translate3d(calc((1 - var(--p, 1)) * 14vw), 0, 0) scaleX(calc(0.78 + var(--p, 1) * 0.22)); }
+.stretch-line em { font-style: italic; color: var(--color-wine); }
+.stretch-line:last-child { font-size: 0.42em; letter-spacing: -0.03em; margin-top: 0.35em; padding-left: 0.1em; color: var(--color-clay); }
+
+/* Cintas que se inclinan con la velocidad del scroll */
+.marquee-item { transform: skewX(var(--skew, 0deg)); }
+
+/* Pasos que se apilan al hacer scroll (solo CSS, sticky) */
+.steps-stack { display: grid; gap: 1.25rem; }
+.step-card {
+  position: sticky;
+  top: calc(var(--header-h) + 1rem + var(--i) * 1.1rem);
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: clamp(1.25rem, 4vw, 3rem);
+  align-items: start;
+  padding: clamp(1.5rem, 4vw, 3rem);
+  background: var(--color-card);
+  border: 1px solid var(--color-border);
+  box-shadow: 0 -18px 40px -32px color-mix(in oklab, var(--color-cocoa) 60%, transparent);
+}
+.step-card .step-num { font-size: clamp(2.5rem, 7vw, 5.5rem); line-height: 0.8; font-style: italic; }
+
+/* Cursor "Ver", zoom que sigue al puntero y botones magnéticos (solo ratón) */
+.choreo-cursor { position: fixed; left: 0; top: 0; z-index: 70; pointer-events: none; }
+.choreo-cursor span {
+  display: grid;
+  place-items: center;
+  width: 5.5rem;
+  height: 5.5rem;
+  margin: -2.75rem 0 0 -2.75rem;
+  border-radius: 50%;
+  background: var(--color-wine);
+  color: var(--color-cream);
+  font-size: 0.72rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  transform: scale(0);
+  transition: transform 0.5s var(--ease-out);
+}
+.choreo-cursor.is-on span { transform: scale(1); }
+.choreo-fine [data-cursor] { cursor: none; }
+.choreo-fine [data-cursor] .tile-pill { display: none; }
+.choreo-fine .tile-media img { transform-origin: var(--ox, 50%) var(--oy, 50%); transition: transform 0.9s var(--ease-out); }
+.choreo-fine .product-tile:hover .tile-media img { transform: scale(1.35); }
+[data-magnetic] { transition: translate 0.5s var(--ease-out), color 0.4s var(--ease-soft), background 0.4s var(--ease-soft), border-color 0.4s var(--ease-soft), transform 0.4s var(--ease-soft); }
+
+/* Rendimiento: secciones lejanas no se pintan hasta acercarse */
+.cv-auto { content-visibility: auto; contain-intrinsic-size: auto 900px; }
+
 /* ———————————————————————— Movimiento reducido ———————————————————————— */
 
 @media (prefers-reduced-motion: reduce) {
@@ -1224,6 +1311,7 @@ body:has(.menu-overlay[data-open="true"]) { overflow: hidden; }
   .btn-solid::before, .btn-ghost::before { transition: none; }
   .product-tile:hover .tile-media img, .material:hover .material-media img, .ig-grid a:hover img { transform: none; }
   .tile-pill { transform: none; }
+  .marquee-item, .stretch-line { transform: none; }
   ::view-transition-group(*), ::view-transition-old(*), ::view-transition-new(*) { animation: none !important; }
 }
 

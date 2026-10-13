@@ -124,6 +124,12 @@ ${list}
 - [Catálogo en JSON](${url("/products.json")})
 - [Resumen completo en Markdown](${url("/llms-full.txt")})
 - [Sitemap](${url("/sitemap.xml")})
+
+## Para agentes de IA
+- Colección filtrable por URL: \`${url("/coleccion")}?tipo=Bolsos|Fundas&color=<color>&q=<texto>\` (por ejemplo [bolsos negros](${url("/coleccion")}?tipo=Bolsos&color=Negro)).
+- WebMCP (navigator.modelContext): herramientas \`buscar_piezas\`, \`ver_pieza\`, \`como_comprar_y_contactar\` (solo lectura), \`ir_a_pagina\` y \`filtrar_coleccion\` (navegan la web).
+- El formulario de [contacto](${url("/contacto")}) se expone como herramienta declarativa \`escribir_a_marta\`; el envío lo confirma la persona.
+- La compra se hace siempre en Vinted (enlace de cada pieza) o por Instagram; la web no tiene carrito ni pagos.
 `,
 );
 

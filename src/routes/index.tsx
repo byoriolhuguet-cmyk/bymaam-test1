@@ -2,10 +2,10 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowUpRight, Instagram } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 
-import { CollectionRail } from "@/components/site/CollectionRail";
+import { ScrollShowcase, useHomeChoreography } from "@/components/site/ScrollShowcase";
 import { LitWords, Marquee, SplitHeading } from "@/components/site/Motion";
 import { Newsletter } from "@/components/site/Newsletter";
-import { BAGS, PRODUCTS, formatPrice } from "@/data/products";
+import { BAGS, PRODUCTS, formatPrice, productSrcSet } from "@/data/products";
 import { INSTAGRAM_PHOTOS } from "@/data/instagram";
 import { seo } from "@/lib/seo";
 import { INSTAGRAM_HANDLE, INSTAGRAM_URL, NEWSLETTER_ENDPOINT, SITE_URL, VINTED_URL } from "@/lib/site";
@@ -50,7 +50,7 @@ export const Route = createFileRoute("/")({
           rel: "preload",
           as: "image",
           href: first.image,
-          imageSrcSet: `${first.image640} 640w, ${first.image} ${first.w}w`,
+          imageSrcSet: productSrcSet(first),
           imageSizes: "(min-width: 1024px) 46vw, 92vw",
           fetchPriority: "high",
         },
@@ -60,16 +60,16 @@ export const Route = createFileRoute("/")({
   component: Index,
 });
 
-const MARQUEE = ["Hecho a mano", "Edición limitada", "Piel real", "Flecos y tachuelas", "Envío con seguimiento", "Barcelona, España"];
+const MARQUEE = ["Hecho a mano", "Edición limitada", "Flecos y tachuelas", "Envío con seguimiento", "Barcelona, España"];
 
 const STATS = [
   { value: "4–5 h", label: "de trabajo en cada bolso" },
   { value: "1 mesa", label: "donde se corta, se cose y se remacha" },
-  { value: "100 %", label: "piel real, con correa incluida" },
+  { value: "100 %", label: "hecho a mano, con correa incluida" },
 ];
 
 const MATERIALS = [
-  { src: "/images/materials/piel.webp", title: "Piel", text: "Grano natural, cortada y cosida a mano.", alt: "Detalle de la piel marrón chocolate de un bolso By Maam con tachuelas doradas" },
+  { src: "/images/materials/piel.webp", title: "Piel", text: "Con textura, cortada y cosida a mano.", alt: "Detalle de la piel marrón chocolate de un bolso By Maam con tachuelas doradas" },
   { src: "/images/materials/flecos.webp", title: "Flecos", text: "Largos, densos y con mucho movimiento.", alt: "Detalle de los flecos camel de un bolso hecho a mano By Maam" },
   { src: "/images/materials/tachuelas.webp", title: "Tachuelas", text: "Doradas, bronce o plateadas, según el modelo.", alt: "Detalle de las tachuelas plateadas sobre piel blanca de una funda By Maam" },
   { src: "/images/materials/textura.webp", title: "Color", text: "Tonos de edición limitada: camel, violeta, gris, chocolate.", alt: "Detalle de la piel violeta texturizada y los flecos grises del bolso Cassis" },
@@ -91,6 +91,9 @@ function HeroStage() {
   const [active, setActive] = useState(0);
   const [prev, setPrev] = useState<number | null>(null);
   const [cycled, setCycled] = useState(false);
+  // Solo se descargan la diapositiva visible y la siguiente (en móvil, 1 foto en vez de 6 al cargar)
+  const [reach, setReach] = useState(0);
+  useEffect(() => setReach((r) => Math.max(r, active + 1)), [active]);
   const paused = useRef(false);
   const count = BAGS.length;
 
@@ -137,18 +140,20 @@ function HeroStage() {
       <div className="hero-card" data-cycled={cycled}>
         {BAGS.map((p, i) => (
           <div key={p.slug} className={`hero-slide ${i === active ? "is-active" : i === prev ? "is-prev" : ""}`} aria-hidden={i !== active}>
+            {(i === active || i === prev || i <= reach) && (
             <img
               src={p.image}
-              srcSet={`${p.image640} 640w, ${p.image} ${p.w}w`}
+              srcSet={productSrcSet(p)}
               sizes="(min-width: 1024px) 46vw, 92vw"
               alt={p.alt}
               width={p.w}
               height={p.h}
               loading={i === 0 ? "eager" : "lazy"}
-              fetchPriority={i === 0 ? "high" : "auto"}
+              fetchPriority={i === 0 ? "high" : "low"}
               decoding="async"
               style={{ objectPosition: p.pos }}
             />
+            )}
           </div>
         ))}
       </div>
@@ -175,8 +180,11 @@ function HeroStage() {
 }
 
 function Index() {
+  const rootRef = useRef<HTMLDivElement>(null);
+  useHomeChoreography(rootRef);
+
   return (
-    <>
+    <div ref={rootRef}>
       {/* PORTADA */}
       <section className="hero-home" aria-labelledby="hero-title">
         <div className="container-brand hero-grid">
@@ -236,7 +244,7 @@ function Index() {
       </section>
 
       {/* COLECCIÓN (carril horizontal) */}
-      <CollectionRail products={BAGS} />
+      <ScrollShowcase products={BAGS} />
 
       {/* MATERIALES */}
       <section className="section-y" aria-labelledby="materiales">
@@ -264,6 +272,15 @@ function Index() {
         </div>
       </section>
 
+      {/* TITULAR ELÁSTICO (se ensancha y gana peso con el scroll) */}
+      <section className="stretch-band" aria-label="Hecho a mano, pieza a pieza">
+        <p className="stretch-type" data-stretch>
+          <span className="stretch-line">Hecho</span>
+          <span className="stretch-line stretch-line--alt"><em>a mano,</em></span>
+          <span className="stretch-line">pieza a pieza</span>
+        </p>
+      </section>
+
       {/* MARTA */}
       <section className="story section-y" aria-labelledby="historia">
         <div className="container-brand grid gap-14 lg:grid-cols-2 lg:items-center">
@@ -274,8 +291,8 @@ function Index() {
               srcSet="/images/brand/marta-amarelo-700.webp 700w, /images/brand/marta-amarelo.webp 1400w"
               sizes="(min-width: 1024px) 40vw, 92vw"
               alt="Marta Amarelo, fundadora de By Maam"
-              width={894}
-              height={878}
+              width={1400}
+              height={1375}
               loading="lazy"
               decoding="async"
             />
@@ -303,17 +320,19 @@ function Index() {
         <div className="container-brand">
           <p className="eyebrow" data-reveal>Cómo comprar</p>
           <SplitHeading id="como-comprar" lines={["Tres pasos,", <em key="e" className="text-wine">sin complicaciones</em>]} className="mt-4 text-4xl leading-[1.02] md:text-6xl" />
-          <ol className="mt-14 grid gap-10 md:grid-cols-3">
+          <ol className="steps-stack mt-14">
             {STEPS.map((s, i) => (
-              <li key={s.title} data-reveal style={{ ["--d" as string]: `${i * 120}ms` }} className="border-t border-foreground/80 pt-5">
+              <li key={s.title} className="step-card" style={{ ["--i" as string]: i }}>
                 <span className="step-num">{String(i + 1).padStart(2, "0")}</span>
-                <h3 className="mt-3 font-display text-2xl">{s.title}</h3>
-                <p className="mt-3 max-w-xs text-sm leading-relaxed text-muted-foreground">{s.text}</p>
+                <div>
+                  <h3 className="font-display text-2xl md:text-4xl">{s.title}</h3>
+                  <p className="mt-3 max-w-md text-sm leading-relaxed text-muted-foreground md:text-base">{s.text}</p>
+                </div>
               </li>
             ))}
           </ol>
           <div className="mt-12 flex flex-wrap gap-3" data-reveal>
-            <a href={VINTED_URL} target="_blank" rel="noopener" className="btn-solid">
+            <a href={VINTED_URL} target="_blank" rel="noopener" className="btn-solid" data-magnetic>
               Comprar en Vinted <ArrowUpRight className="h-4 w-4" aria-hidden="true" strokeWidth={1.5} />
             </a>
             <Link to="/pedidos" className="btn-ghost">Pedir un modelo personalizado</Link>
@@ -322,7 +341,7 @@ function Index() {
       </section>
 
       {/* RESEÑAS */}
-      <section className="border-y border-border bg-card section-y" aria-labelledby="resenas">
+      <section className="cv-auto border-y border-border bg-card section-y" aria-labelledby="resenas">
         <div className="container-brand">
           <p className="eyebrow" data-reveal>Lo que dicen</p>
           <SplitHeading id="resenas" lines={["Quien lo lleva,", <em key="e" className="text-wine">repite</em>]} className="mt-4 text-4xl leading-[1.02] md:text-6xl" />
@@ -362,7 +381,7 @@ function Index() {
                 Cada edición nueva se anuncia primero en Instagram. Síguela para no perderte ninguna.
               </p>
               <div className="mt-9" data-reveal style={{ ["--d" as string]: "200ms" }}>
-                <a href={INSTAGRAM_URL} target="_blank" rel="noopener" className="btn-cream">
+                <a href={INSTAGRAM_URL} target="_blank" rel="noopener" className="btn-cream" data-magnetic>
                   <Instagram className="h-[18px] w-[18px]" aria-hidden="true" strokeWidth={1.5} />
                   Seguir {INSTAGRAM_HANDLE}
                 </a>
@@ -373,7 +392,7 @@ function Index() {
       </section>
 
       {/* INSTAGRAM */}
-      <section className="overflow-hidden py-6 md:py-10" aria-label="Instagram de By Maam">
+      <section className="cv-auto overflow-hidden py-6 md:py-10" aria-label="Instagram de By Maam">
         <a href={INSTAGRAM_URL} target="_blank" rel="noopener" className="block" aria-label={`Abrir Instagram ${INSTAGRAM_HANDLE}`}>
           <Marquee className="marquee-xl" items={[INSTAGRAM_HANDLE, "bolsos hechos a mano", INSTAGRAM_HANDLE, "edición limitada"]} />
         </a>
@@ -389,6 +408,6 @@ function Index() {
           </div>
         )}
       </section>
-    </>
+    </div>
   );
 }

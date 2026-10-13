@@ -30,3 +30,9 @@ By Maam es una marca artesanal de bolsos y fundas de piel hechos a mano. Cada pi
 - [Catálogo en JSON](https://bymaam.netlify.app/products.json)
 - [Resumen completo en Markdown](https://bymaam.netlify.app/llms-full.txt)
 - [Sitemap](https://bymaam.netlify.app/sitemap.xml)
+
+## Para agentes de IA
+- Colección filtrable por URL: `https://bymaam.netlify.app/coleccion?tipo=Bolsos|Fundas&color=<color>&q=<texto>` (por ejemplo [bolsos negros](https://bymaam.netlify.app/coleccion?tipo=Bolsos&color=Negro)).
+- WebMCP (navigator.modelContext): herramientas `buscar_piezas`, `ver_pieza`, `como_comprar_y_contactar` (solo lectura), `ir_a_pagina` y `filtrar_coleccion` (navegan la web).
+- El formulario de [contacto](https://bymaam.netlify.app/contacto) se expone como herramienta declarativa `escribir_a_marta`; el envío lo confirma la persona.
+- La compra se hace siempre en Vinted (enlace de cada pieza) o por Instagram; la web no tiene carrito ni pagos.
