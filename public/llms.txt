@@ -1,0 +1,32 @@
+# By Maam
+
+> Bolsos hechos a mano de piel con flecos y tachuelas, diseñados y cosidos a mano por Marta Amarelo en Galicia (España). Ediciones limitadas, correa incluida en los bolsos. Se compran en Vinted o por Instagram.
+
+By Maam es una marca artesanal de bolsos y fundas de piel hechos a mano. Cada pieza lleva de 4 a 5 horas de trabajo. Las series son muy cortas.
+
+## Colección
+- [Bolso Brunello (Marrón chocolate, 35,90 €)](https://bymaam.netlify.app/coleccion/bolso-brunello): Flecos marrones y tachuelas doradas. Incluye correa.
+- [Bolso Savanna (Camel, 35,90 €)](https://bymaam.netlify.app/coleccion/bolso-savanna): Tono cálido con flecos camel y tachuelas doradas. Incluye correa.
+- [Bolso Selene (Blanco, 35,90 €)](https://bymaam.netlify.app/coleccion/bolso-selene): Blanco con flecos marrones y tachuelas bronce. Incluye correa.
+- [Bolso Cassis (Violeta, 35,90 €)](https://bymaam.netlify.app/coleccion/bolso-cassis): Violeta texturizado con flecos grises. Incluye correa.
+- [Bolso Nox (Negro, 35,90 €)](https://bymaam.netlify.app/coleccion/bolso-nox): Negro total con tachuelas plateadas. Incluye correa.
+- [Bolso Bruma (Gris, 35,90 €)](https://bymaam.netlify.app/coleccion/bolso-bruma): Gris suave, fácil de combinar. Incluye correa.
+- [Funda Lumen (Blanco, 39,90 €)](https://bymaam.netlify.app/coleccion/funda-lumen): Funda blanca con flecos grises y tachuelas plateadas.
+- [Funda Nero (Negro, 39,90 €)](https://bymaam.netlify.app/coleccion/funda-nero): Funda negra con tachuelas plateadas.
+- [Funda Eclipse (Negro, 39,90 €)](https://bymaam.netlify.app/coleccion/funda-eclipse): Funda negra con tachuelas doradas.
+
+## Cómo comprar
+- [Perfil en Vinted (compra protegida)](https://www.vinted.es/member/3179779854)
+- [Instagram @bymaam_ (reservas y consultas)](https://www.instagram.com/bymaam_?utm_source=qr)
+- [Pedidos personalizados](https://bymaam.netlify.app/pedidos): otro color o un diseño a medida; respuesta en menos de 48 h.
+
+## Información
+- [Sobre Marta Amarelo](https://bymaam.netlify.app/sobre-mi)
+- [Preguntas frecuentes](https://bymaam.netlify.app/faq)
+- [Contacto](https://bymaam.netlify.app/contacto): bymaam@gmail.com
+- [Política de devoluciones](https://bymaam.netlify.app/devoluciones)
+
+## Datos estructurados
+- [Catálogo en JSON](https://bymaam.netlify.app/products.json)
+- [Resumen completo en Markdown](https://bymaam.netlify.app/llms-full.txt)
+- [Sitemap](https://bymaam.netlify.app/sitemap.xml)

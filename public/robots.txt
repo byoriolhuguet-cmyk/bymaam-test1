@@ -1,0 +1,23 @@
+# By Maam: se permite todo el rastreo, incluidos los asistentes de IA que citan y recomiendan.
+User-agent: *
+Allow: /
+
+User-agent: GPTBot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-SearchBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+Sitemap: https://bymaam.netlify.app/sitemap.xml

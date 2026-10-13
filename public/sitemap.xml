@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+  <url>
+    <loc>https://bymaam.netlify.app/</loc>
+    <lastmod>2026-10-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://bymaam.netlify.app/coleccion</loc>
+    <lastmod>2026-10-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://bymaam.netlify.app/coleccion/bolso-brunello</loc>
+    <lastmod>2026-10-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://bymaam.netlify.app/images/products/bolso-brunello.webp</image:loc>
+      <image:title>Bolso Brunello Marrón chocolate</image:title>
+      <image:caption>Bolso Brunello de piel marrón chocolate con flecos y tachuelas doradas, hecho a mano</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://bymaam.netlify.app/coleccion/bolso-savanna</loc>
+    <lastmod>2026-10-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://bymaam.netlify.app/images/products/bolso-savanna.webp</image:loc>
+      <image:title>Bolso Savanna Camel</image:title>
+      <image:caption>Bolso Savanna color camel con flecos largos y tachuelas doradas, hecho a mano</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://bymaam.netlify.app/coleccion/bolso-selene</loc>
+    <lastmod>2026-10-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://bymaam.netlify.app/images/products/bolso-selene.webp</image:loc>
+      <image:title>Bolso Selene Blanco</image:title>
+      <image:caption>Bolso Selene blanco con flecos marrones y tachuelas bronce, hecho a mano</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://bymaam.netlify.app/coleccion/bolso-cassis</loc>
+    <lastmod>2026-10-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://bymaam.netlify.app/images/products/bolso-cassis.webp</image:loc>
+      <image:title>Bolso Cassis Violeta</image:title>
+      <image:caption>Bolso Cassis violeta texturizado con flecos grises, hecho a mano</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://bymaam.netlify.app/coleccion/bolso-nox</loc>
+    <lastmod>2026-10-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://bymaam.netlify.app/images/products/bolso-nox.webp</image:loc>
+      <image:title>Bolso Nox Negro</image:title>
+      <image:caption>Bolso Nox negro de piel con flecos y tachuelas plateadas, hecho a mano</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://bymaam.netlify.app/coleccion/bolso-bruma</loc>
+    <lastmod>2026-10-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://bymaam.netlify.app/images/products/bolso-bruma.webp</image:loc>
+      <image:title>Bolso Bruma Gris</image:title>
+      <image:caption>Bolso Bruma gris suave con flecos marrón oscuro y tachuelas doradas, hecho a mano</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://bymaam.netlify.app/coleccion/funda-lumen</loc>
+    <lastmod>2026-10-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://bymaam.netlify.app/images/products/funda-lumen.webp</image:loc>
+      <image:title>Funda Lumen Blanco</image:title>
+      <image:caption>Funda Lumen blanca de piel con flecos grises y tachuelas plateadas, hecha a mano</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://bymaam.netlify.app/coleccion/funda-nero</loc>
+    <lastmod>2026-10-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://bymaam.netlify.app/images/products/funda-nero.webp</image:loc>
+      <image:title>Funda Nero Negro</image:title>
+      <image:caption>Funda Nero negra de piel con flecos negros y tachuelas plateadas, hecha a mano</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://bymaam.netlify.app/coleccion/funda-eclipse</loc>
+    <lastmod>2026-10-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://bymaam.netlify.app/images/products/funda-eclipse.webp</image:loc>
+      <image:title>Funda Eclipse Negro</image:title>
+      <image:caption>Funda Eclipse negra de piel con flecos negros y tachuelas doradas, hecha a mano</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://bymaam.netlify.app/sobre-mi</loc>
+    <lastmod>2026-10-13</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bymaam.netlify.app/pedidos</loc>
+    <lastmod>2026-10-13</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bymaam.netlify.app/faq</loc>
+    <lastmod>2026-10-13</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bymaam.netlify.app/contacto</loc>
+    <lastmod>2026-10-13</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://bymaam.netlify.app/devoluciones</loc>
+    <lastmod>2026-10-13</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+  <url>
+    <loc>https://bymaam.netlify.app/privacidad</loc>
+    <lastmod>2026-10-13</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  <url>
+    <loc>https://bymaam.netlify.app/aviso-legal</loc>
+    <lastmod>2026-10-13</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  <url>
+    <loc>https://bymaam.netlify.app/cookies</loc>
+    <lastmod>2026-10-13</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.2</priority>
+  </url>
+</urlset>

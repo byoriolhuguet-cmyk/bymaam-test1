@@ -1,0 +1,6 @@
+- [x] Rediseño editorial: portada, colección, ficha de producto, menú y pie nuevos.
+- [x] Pantalla de carga, transiciones entre páginas (View Transitions) y animaciones de scroll con movimiento reducido.
+- [x] SEO: keyword "bolsos hechos a mano", JSON-LD, sitemap con imágenes, una URL por pieza, HTML prerenderizado.
+- [x] Navegación agéntica: llms.txt, products.json, WebMCP de solo lectura.
+- [x] Imágenes locales (las rutas /__l5e/ de Lovable no existen en Netlify).
+- [ ] Conectar Formspree, newsletter y GA4; dominio propio; fotos de Instagram; URL de Vinted por pieza.
