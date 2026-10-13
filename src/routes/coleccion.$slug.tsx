@@ -85,7 +85,7 @@ function ProductPage() {
     ["Flecos", p.fringe],
     ["Herrajes", p.studs],
     ...(p.strap ? ([["Correa", "Incluida"]] as [string, string][]) : []),
-    ["Hecho en", "Galicia, a mano"],
+    ["Hecho en", "Barcelona, a mano"],
     ["Serie", "Edición limitada"],
   ];
 

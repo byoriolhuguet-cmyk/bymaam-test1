@@ -142,7 +142,7 @@ export function Header() {
         </nav>
         <div className="menu-foot">
           <p className="max-w-xs leading-relaxed opacity-80">
-            Bolsos de piel hechos a mano por Marta Amarelo, en Galicia. Ediciones limitadas.
+            Bolsos de piel hechos a mano por Marta Amarelo en Barcelona. Ediciones limitadas.
           </p>
           <ul className="flex flex-wrap gap-x-6 gap-y-2">
             <li><a className="link-draw" href={INSTAGRAM_URL} target="_blank" rel="noopener">Instagram {INSTAGRAM_HANDLE}</a></li>

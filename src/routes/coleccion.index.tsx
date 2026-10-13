@@ -97,7 +97,7 @@ function ColeccionPage() {
           </h2>
           <div className="space-y-5 leading-relaxed text-muted-foreground" data-reveal style={{ ["--d" as string]: "150ms" }}>
             <p>
-              Los bolsos de By Maam se diseñan, se cortan y se cosen a mano en Galicia. Cada pieza combina piel, flecos largos y tachuelas doradas, bronce o plateadas, y se hace en series muy cortas: si un color se agota, normalmente no vuelve igual.
+              Los bolsos de By Maam se diseñan, se cortan y se cosen a mano en Barcelona. Cada pieza combina piel, flecos largos y tachuelas doradas, bronce o plateadas, y se hace en series muy cortas: si un color se agota, normalmente no vuelve igual.
             </p>
             <p>
               Si quieres otro color o una combinación distinta, puedes encargar un modelo personalizado. Marta responde en menos de 48 horas.

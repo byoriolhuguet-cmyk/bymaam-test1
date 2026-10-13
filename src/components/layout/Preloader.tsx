@@ -83,7 +83,7 @@ export function Preloader() {
         <small>by</small>
         <span>maam</span>
       </div>
-      <p className="preloader-note">Handmade · Galicia</p>
+      <p className="preloader-note">Handmade · Barcelona</p>
       <div className="preloader-card">
         {run &&
           BAGS.map((p) => (

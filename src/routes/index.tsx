@@ -12,7 +12,7 @@ import { INSTAGRAM_HANDLE, INSTAGRAM_URL, NEWSLETTER_ENDPOINT, SITE_URL, VINTED_
 
 const TITLE = "Bolsos hechos a mano de piel con flecos | By Maam";
 const DESC =
-  "Bolsos hechos a mano de piel con flecos y tachuelas, cosidos por Marta Amarelo en Galicia. Ediciones limitadas, correa incluida. Compra en Vinted.";
+  "Bolsos hechos a mano de piel con flecos y tachuelas, cosidos por Marta Amarelo en Barcelona. Ediciones limitadas, correa incluida. Compra en Vinted.";
 
 export const Route = createFileRoute("/")({
   head: () => {
@@ -60,7 +60,7 @@ export const Route = createFileRoute("/")({
   component: Index,
 });
 
-const MARQUEE = ["Hecho a mano", "Edición limitada", "Piel real", "Flecos y tachuelas", "Envío con seguimiento", "Galicia, España"];
+const MARQUEE = ["Hecho a mano", "Edición limitada", "Piel real", "Flecos y tachuelas", "Envío con seguimiento", "Barcelona, España"];
 
 const STATS = [
   { value: "4–5 h", label: "de trabajo en cada bolso" },
@@ -181,7 +181,7 @@ function Index() {
       <section className="hero-home" aria-labelledby="hero-title">
         <div className="container-brand hero-grid">
           <div>
-            <p className="eyebrow hero-fade" style={{ ["--i" as string]: 0 }}>Handmade · Galicia · Edición limitada</p>
+            <p className="eyebrow hero-fade" style={{ ["--i" as string]: 0 }}>Handmade · Barcelona · Edición limitada</p>
             <h1 id="hero-title" className="hero-title">
               <span className="split-line hero-line"><span style={{ ["--i" as string]: 0 }}>Bolsos</span></span>{" "}
               <span className="split-line hero-line"><span style={{ ["--i" as string]: 1 }}>hechos</span></span>{" "}
@@ -191,12 +191,17 @@ function Index() {
               Bolsos y fundas de piel con flecos y tachuelas, cosidos uno a uno por Marta Amarelo. Series cortas, correa incluida.
             </p>
             <div className="hero-actions hero-fade" style={{ ["--i" as string]: 3 }}>
-              <Link to="/coleccion" className="btn-solid">Ver la colección</Link>
+              <a href={VINTED_URL} target="_blank" rel="noopener" className="btn-solid">
+                Ver en Vinted <ArrowUpRight className="h-4 w-4" aria-hidden="true" strokeWidth={1.5} />
+              </a>
               <a href={INSTAGRAM_URL} target="_blank" rel="noopener" className="btn-ghost">
                 <Instagram className="h-[18px] w-[18px]" aria-hidden="true" strokeWidth={1.5} />
-                Pedir por Instagram
+                Ver en Instagram
               </a>
             </div>
+            <p className="hero-fade mt-5 text-sm" style={{ ["--i" as string]: 4 }}>
+              <Link to="/coleccion" className="link-draw">Ver toda la colección →</Link>
+            </p>
           </div>
           <HeroStage />
         </div>
@@ -216,7 +221,7 @@ function Index() {
             <h2 id="manifiesto" className="sr-only">Cómo se hace un bolso de By Maam</h2>
             <LitWords
               className="statement mt-6"
-              text="Cada bolso lleva de cuatro a cinco horas de trabajo. Patrón, corte, costura y tachuelas salen de la misma mesa, en Galicia."
+              text="Cada bolso lleva de cuatro a cinco horas de trabajo. Patrón, corte, costura y tachuelas salen de la misma mesa, en Barcelona."
             />
           </div>
           <dl className="grid gap-8 sm:grid-cols-3 lg:grid-cols-1">
@@ -368,7 +373,7 @@ function Index() {
       </section>
 
       {/* INSTAGRAM */}
-      <section className="overflow-hidden py-14 md:py-20" aria-label="Instagram de By Maam">
+      <section className="overflow-hidden py-6 md:py-10" aria-label="Instagram de By Maam">
         <a href={INSTAGRAM_URL} target="_blank" rel="noopener" className="block" aria-label={`Abrir Instagram ${INSTAGRAM_HANDLE}`}>
           <Marquee className="marquee-xl" items={[INSTAGRAM_HANDLE, "bolsos hechos a mano", INSTAGRAM_HANDLE, "edición limitada"]} />
         </a>

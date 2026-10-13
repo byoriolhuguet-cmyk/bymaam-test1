@@ -55,7 +55,7 @@ function SobrePage() {
           </div>
           <div>
             <p className="rule-label">La historia</p>
-            <h2 className="mt-6 text-3xl md:text-4xl">Marta Amarelo, 21 años, Galicia</h2>
+            <h2 className="mt-6 text-3xl md:text-4xl">Marta Amarelo, 21 años. De Galicia, cose en Barcelona</h2>
             <div className="mt-6 space-y-5 leading-relaxed text-muted-foreground">
               <p>
                 By Maam nació de las manos de Marta Amarelo, una chica de 21 años que

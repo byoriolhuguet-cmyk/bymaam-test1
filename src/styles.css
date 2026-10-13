@@ -830,6 +830,7 @@ body:has(.menu-overlay[data-open="true"]) { overflow: hidden; }
   inset: 0;
   opacity: 0;
   z-index: 0;
+  background: var(--color-paper);
 }
 .hero-slide img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .hero-slide.is-prev { opacity: 1; z-index: 1; }
@@ -966,7 +967,7 @@ body:has(.menu-overlay[data-open="true"]) { overflow: hidden; }
 .marquee-xl .marquee-item {
   font-family: var(--font-display);
   font-variation-settings: "SOFT" 100;
-  font-size: clamp(3rem, 9vw, 8rem);
+  font-size: clamp(1.75rem, 4.5vw, 3.75rem);
   letter-spacing: -0.04em;
   text-transform: none;
   padding-block: 0.2em;
@@ -1009,7 +1010,7 @@ body:has(.menu-overlay[data-open="true"]) { overflow: hidden; }
 }
 .rail-viewport::-webkit-scrollbar { display: none; }
 .rail-track { display: flex; gap: clamp(1rem, 2vw, 1.75rem); width: max-content; }
-.rail-tile { scroll-snap-align: start; flex: 0 0 auto; width: max(15rem, min(clamp(17rem, 40vw, 34rem), calc((100svh - 23rem) * 1.3333))); }
+.rail-tile { scroll-snap-align: start; flex: 0 0 auto; width: max(15rem, min(clamp(17rem, 40vw, 34rem), calc((100svh - 26rem) * 1.3333))); }
 
 /* Modo fijado: el scroll vertical mueve el carril. Solo con JS y movimiento permitido. */
 .rail[data-pinned="true"] .rail-stage {
@@ -1029,6 +1030,8 @@ body:has(.menu-overlay[data-open="true"]) { overflow: hidden; }
 .rail:not([data-pinned="true"]) .rail-progress { display: none; }
 
 .product-tile { display: block; color: inherit; text-decoration: none; }
+.tile-actions { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1rem; }
+.tile-actions > a { flex: 1 1 auto; }
 .tile-media {
   position: relative;
   aspect-ratio: 4 / 3;

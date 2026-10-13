@@ -1,23 +1,23 @@
 # By Maam: bolsos hechos a mano
 
-By Maam (@bymaam_) es la marca de Marta Amarelo: bolsos y fundas de piel hechos a mano en Galicia, con flecos y tachuelas. Última actualización: 13 de octubre de 2026.
+By Maam (@bymaam_) es la marca de Marta Amarelo: bolsos y fundas de piel hechos a mano en Barcelona, con flecos y tachuelas. Última actualización: 13 de octubre de 2026.
 
 ## Colección
 
 ### Bolso Brunello
 - Tipo: Bolso
 - Color: Marrón chocolate
-- Precio: 35,90 €
+- Precio: 38,50 €
 - Material: Piel marrón chocolate; flecos marrón chocolate; tachuelas doradas
 - Correa: incluida
 - Disponible: sí
 - URL: https://bymaam.netlify.app/coleccion/bolso-brunello
-- Descripción: Bolso de piel marrón chocolate hecho a mano, con solapa de tachuelas doradas y flecos largos del mismo tono que se mueven al caminar. Es una pieza de edición limitada, cortada y cosida por Marta Amarelo en Galicia. Incluye correa.
+- Descripción: Bolso de piel marrón chocolate hecho a mano, con solapa de tachuelas doradas y flecos largos del mismo tono que se mueven al caminar. Es una pieza de edición limitada, cortada y cosida por Marta Amarelo en Barcelona. Incluye correa.
 
 ### Bolso Savanna
 - Tipo: Bolso
 - Color: Camel
-- Precio: 35,90 €
+- Precio: 38,50 €
 - Material: Piel marrón cálido; flecos camel; tachuelas doradas
 - Correa: incluida
 - Disponible: sí
@@ -27,7 +27,7 @@ By Maam (@bymaam_) es la marca de Marta Amarelo: bolsos y fundas de piel hechos 
 ### Bolso Selene
 - Tipo: Bolso
 - Color: Blanco
-- Precio: 35,90 €
+- Precio: 38,50 €
 - Material: Piel blanca; flecos marrones; tachuelas bronce
 - Correa: incluida
 - Disponible: sí
@@ -37,7 +37,7 @@ By Maam (@bymaam_) es la marca de Marta Amarelo: bolsos y fundas de piel hechos 
 ### Bolso Cassis
 - Tipo: Bolso
 - Color: Violeta
-- Precio: 35,90 €
+- Precio: 38,50 €
 - Material: Piel violeta texturizada; flecos grises; sin tachuelas
 - Correa: incluida
 - Disponible: sí
@@ -47,7 +47,7 @@ By Maam (@bymaam_) es la marca de Marta Amarelo: bolsos y fundas de piel hechos 
 ### Bolso Nox
 - Tipo: Bolso
 - Color: Negro
-- Precio: 35,90 €
+- Precio: 38,50 €
 - Material: Piel negra; flecos negros; tachuelas plateadas
 - Correa: incluida
 - Disponible: sí
@@ -57,7 +57,7 @@ By Maam (@bymaam_) es la marca de Marta Amarelo: bolsos y fundas de piel hechos 
 ### Bolso Bruma
 - Tipo: Bolso
 - Color: Gris
-- Precio: 35,90 €
+- Precio: 38,50 €
 - Material: Piel gris suave; flecos marrón oscuro; tachuelas doradas
 - Correa: incluida
 - Disponible: sí
@@ -67,32 +67,32 @@ By Maam (@bymaam_) es la marca de Marta Amarelo: bolsos y fundas de piel hechos 
 ### Funda Lumen
 - Tipo: Funda
 - Color: Blanco
-- Precio: 39,90 €
+- Precio: 42,90 €
 - Material: Piel blanca; flecos grises; tachuelas plateadas
 - Correa: no aplica
 - Disponible: sí
 - URL: https://bymaam.netlify.app/coleccion/funda-lumen
-- Descripción: Funda de piel blanca hecha a mano, con tres filas de tachuelas plateadas y flecos grises. Edición limitada, cosida por Marta Amarelo en Galicia.
+- Descripción: Funda de piel blanca hecha a mano, con tres filas de tachuelas plateadas y flecos grises. Edición limitada, cosida por Marta Amarelo en Barcelona.
 
 ### Funda Nero
 - Tipo: Funda
 - Color: Negro
-- Precio: 39,90 €
+- Precio: 42,90 €
 - Material: Piel negra; flecos negros; tachuelas plateadas
 - Correa: no aplica
 - Disponible: sí
 - URL: https://bymaam.netlify.app/coleccion/funda-nero
-- Descripción: Funda de piel negra hecha a mano, con tres filas de tachuelas plateadas y flecos negros. Edición limitada, cosida por Marta Amarelo en Galicia.
+- Descripción: Funda de piel negra hecha a mano, con tres filas de tachuelas plateadas y flecos negros. Edición limitada, cosida por Marta Amarelo en Barcelona.
 
 ### Funda Eclipse
 - Tipo: Funda
 - Color: Negro
-- Precio: 39,90 €
+- Precio: 42,90 €
 - Material: Piel negra; flecos negros; tachuelas doradas
 - Correa: no aplica
 - Disponible: sí
 - URL: https://bymaam.netlify.app/coleccion/funda-eclipse
-- Descripción: Funda de piel negra hecha a mano, con tachuelas doradas y flecos negros. Edición limitada, cosida por Marta Amarelo en Galicia.
+- Descripción: Funda de piel negra hecha a mano, con tachuelas doradas y flecos negros. Edición limitada, cosida por Marta Amarelo en Barcelona.
 
 ## Cómo comprar
 1. Elige una pieza en https://bymaam.netlify.app/coleccion.
