@@ -1,20 +1,22 @@
 import { Link } from "@tanstack/react-router";
-import { ArrowUpRight, Instagram } from "lucide-react";
-import type { CSSProperties, MouseEvent } from "react";
+import type { MouseEvent } from "react";
 
 import { formatPrice, productSrcSet, type Product } from "@/data/products";
 import { INSTAGRAM_URL, VINTED_URL } from "@/lib/site";
 
 /** La foto del producto viaja a la ficha con una View Transition (elemento compartido). */
 const markShared = (event: MouseEvent<HTMLAnchorElement>) => {
-  const media = event.currentTarget.querySelector<HTMLElement>(".tile-media");
-  if (media) media.style.setProperty("view-transition-name", "product-hero");
+  event.currentTarget.style.setProperty("view-transition-name", "product-hero");
 };
 
+/**
+ * Pieza en cuadrícula estilo Miu Miu: foto a sangre sobre fondo de estudio, nombre y precio
+ * pequeños y centrados, y enlaces subrayados a Vinted e Instagram.
+ */
 export function ProductTile({
   product,
   priority = false,
-  sizes = "(min-width: 1024px) 34vw, 82vw",
+  sizes = "(min-width: 1024px) 25vw, 50vw",
   headingLevel = 3,
   actions = true,
 }: {
@@ -22,72 +24,63 @@ export function ProductTile({
   priority?: boolean;
   sizes?: string;
   headingLevel?: 2 | 3;
-  /** Botones "Ver en Vinted" / "Ver en Instagram" bajo la pieza. */
+  /** Enlaces "Comprar en Vinted" / "Instagram" bajo la pieza. */
   actions?: boolean;
 }) {
   const Heading = headingLevel === 2 ? "h2" : "h3";
+  const name = product.name.replace(/^(Bolso|Funda) /, "");
   return (
-    <div className="product-card">
+    <div
+      className="miu-tile product-card"
+      data-product-slug={product.slug}
+      data-product-family={product.family}
+      data-product-color={product.color}
+    >
       <Link
         to="/coleccion/$slug"
         params={{ slug: product.slug }}
-        className="product-tile group"
+        className="miu-tile-media"
         onClick={markShared}
-        data-product-slug={product.slug}
-        data-product-family={product.family}
-        data-product-color={product.color}
         data-cursor="Ver"
+        aria-label={`${product.name}, ${product.color}, ${formatPrice(product.price)}`}
       >
-        <div className="tile-media">
-          <img
-            src={product.image}
-            srcSet={productSrcSet(product)}
-            sizes={sizes}
-            alt={product.alt}
-            width={product.w}
-            height={product.h}
-            loading={priority ? "eager" : "lazy"}
-            fetchPriority={priority ? "high" : "auto"}
-            decoding="async"
-            style={{ objectPosition: product.pos }}
-          />
-          {!product.available && <span className="tile-sold">Agotado</span>}
-          <span className="tile-pill" aria-hidden="true">
-            Ver pieza →
-          </span>
-        </div>
-        <div className="mt-4 flex items-baseline justify-between gap-4">
-          <Heading className="font-display text-xl md:text-2xl">{product.name}</Heading>
-          <span className="text-sm tabular-nums">{formatPrice(product.price)}</span>
-        </div>
-        <p className="mt-1 flex items-center gap-2 text-sm text-muted-foreground">
-          <span
-            className="swatch"
-            style={{ "--sw": product.swatch } as CSSProperties}
-            aria-hidden="true"
-          />
-          {product.color} · {product.strap ? "Incluye correa" : "Funda de piel"}
-        </p>
+        <img
+          src={product.image}
+          srcSet={productSrcSet(product)}
+          sizes={sizes}
+          alt={product.alt}
+          width={product.w}
+          height={product.h}
+          loading={priority ? "eager" : "lazy"}
+          fetchPriority={priority ? "high" : "auto"}
+          decoding="async"
+        />
+        {!product.available && <span className="tile-sold">Agotado</span>}
       </Link>
+      <Heading className="miu-tile-label">
+        {product.family === "Fundas" ? `Funda ${name}` : name}
+      </Heading>
+      <p className="miu-tile-note">
+        {product.color} · {formatPrice(product.price)}
+      </p>
       {actions && (
-        <div className="tile-actions">
+        <div className="miu-links miu-links--tight">
           <a
             href={product.vinted || VINTED_URL}
             target="_blank"
             rel="noopener"
-            className="btn-solid btn-sm"
-            aria-label={`Ver en Vinted: ${product.name}`}
+            className="miu-link"
+            aria-label={`Comprar en Vinted: ${product.name}`}
           >
-            Ver en Vinted <ArrowUpRight className="h-4 w-4" aria-hidden="true" strokeWidth={1.5} />
+            Comprar en Vinted
           </a>
           <a
             href={INSTAGRAM_URL}
             target="_blank"
             rel="noopener"
-            className="btn-ghost btn-sm"
+            className="miu-link"
             aria-label={`Instagram: preguntar por ${product.name}`}
           >
-            <Instagram className="h-4 w-4" aria-hidden="true" strokeWidth={1.5} />
             Instagram
           </a>
         </div>

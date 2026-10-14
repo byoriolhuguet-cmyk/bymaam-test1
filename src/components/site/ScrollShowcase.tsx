@@ -37,12 +37,17 @@ export function ScrollShowcase({ products }: { products: Product[] }) {
       aria-labelledby="rail-title"
       id="coleccion-destacada"
     >
-      <h2 id="rail-title" className="miu-title miu-look-title">
+      <h2 id="rail-title" className="miu-title miu-look-title" data-reveal>
         Las piezas que definen la colección
       </h2>
       <ul className="miu-row" aria-label="Bolsos disponibles">
-        {products.map((p) => (
-          <li key={p.slug} className="miu-tile">
+        {products.map((p, i) => (
+          <li
+            key={p.slug}
+            className="miu-tile"
+            data-reveal
+            style={{ ["--d" as string]: `${i * 90}ms` }}
+          >
             <Link
               to="/coleccion/$slug"
               params={{ slug: p.slug }}
@@ -162,6 +167,19 @@ export function useHomeChoreography(rootRef: RefObject<HTMLElement | null>) {
       }
     };
 
+    // Profundidad entre paneles: la imagen del que entra se asienta (1.08 → 1) y el que queda
+    // debajo se aleja y se oscurece. Transform/opacity sobre el propio elemento, nunca por variable heredada.
+    const panelMedia = panels.map((p) => p.querySelector<HTMLElement>("[data-panel-media]"));
+    const shades = panels.map((p) => {
+      if (!motion) return null;
+      const shade = document.createElement("i");
+      shade.className = "miu-shade";
+      shade.setAttribute("aria-hidden", "true");
+      p.appendChild(shade);
+      return shade;
+    });
+    const last = panels.map(() => ({ m: "", o: "" }));
+
     if (motion) root.classList.add("miu-stack");
 
     let frame = 0;
@@ -199,6 +217,23 @@ export function useHomeChoreography(rootRef: RefObject<HTMLElement | null>) {
       }
 
       if (motion) {
+        const enters = panels.map((p) =>
+          clamp(1 - Math.max(0, p.getBoundingClientRect().top) / vh),
+        );
+        panels.forEach((_, i) => {
+          const e = easeOut(enters[i]!);
+          const covered = i + 1 < panels.length ? enters[i + 1]! : 0;
+          const m = panelMedia[i];
+          if (m) {
+            const t = `scale(${((1.08 - 0.08 * e) * (1 - 0.06 * covered)).toFixed(4)})`;
+            if (t !== last[i]!.m) m.style.transform = last[i]!.m = t;
+          }
+          const sh = shades[i];
+          if (sh) {
+            const o = (covered * 0.45).toFixed(3);
+            if (o !== last[i]!.o) sh.style.opacity = last[i]!.o = o;
+          }
+        });
         live.forEach((el) => {
           const rect = el.getBoundingClientRect();
           el.style.setProperty(
@@ -247,6 +282,8 @@ export function useHomeChoreography(rootRef: RefObject<HTMLElement | null>) {
       window.removeEventListener("scroll", schedule);
       window.removeEventListener("resize", onResize);
       root.classList.remove("miu-stack");
+      shades.forEach((sh) => sh?.remove());
+      panelMedia.forEach((m) => m?.style.removeProperty("transform"));
       html.removeAttribute("data-logo-docked");
       heroLogo?.style.removeProperty("transform");
       heroLogo?.style.removeProperty("opacity");

@@ -238,7 +238,7 @@ export function ColorDress() {
           </div>
         </div>
 
-        <div className="color-show" aria-live="polite">
+        <div className="color-show" aria-live="polite" data-panel-media>
           <img
             key={shown.slug}
             src={shown.image}

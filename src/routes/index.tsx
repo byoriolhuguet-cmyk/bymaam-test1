@@ -118,7 +118,7 @@ function HeroStage() {
       onPointerEnter={() => (paused.current = true)}
       onPointerLeave={() => (paused.current = false)}
     >
-      <div className="miu-hero-media">
+      <div className="miu-hero-media" data-panel-media>
         {BAGS.map((p, i) =>
           i === active || i <= reach ? (
             <img
@@ -196,8 +196,9 @@ function Index() {
           height={1375}
           loading="lazy"
           decoding="async"
+          data-panel-media
         />
-        <div className="miu-caption miu-caption--light">
+        <div className="miu-caption miu-caption--light" data-reveal>
           <h2 id="historia" className="miu-title">No es una fábrica. Es Marta.</h2>
           <p className="miu-sub">21 años, de Galicia, cose cada bolso en Barcelona</p>
           <div className="miu-links">
@@ -208,10 +209,10 @@ function Index() {
 
       {/* PANEL 4 · DETALLES (fila de materiales) */}
       <section className="miu-panel miu-look" data-panel aria-labelledby="materiales">
-        <h2 id="materiales" className="miu-title miu-look-title">Los detalles que definen cada pieza</h2>
+        <h2 id="materiales" className="miu-title miu-look-title" data-reveal>Los detalles que definen cada pieza</h2>
         <ul className="miu-row miu-row--4">
-          {MATERIALS.map((m) => (
-            <li key={m.title} className="miu-tile">
+          {MATERIALS.map((m, i) => (
+            <li key={m.title} className="miu-tile" data-reveal style={{ ["--d" as string]: `${i * 90}ms` }}>
               <div className="miu-tile-media miu-tile-media--cover">
                 <img src={m.src} alt={m.alt} width={800} height={1000} loading="lazy" decoding="async" />
               </div>
