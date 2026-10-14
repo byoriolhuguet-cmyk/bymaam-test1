@@ -1300,6 +1300,47 @@ body:has(.menu-overlay[data-open="true"]) { overflow: hidden; }
 /* Rendimiento: secciones lejanas no se pintan hasta acercarse */
 .cv-auto { content-visibility: auto; contain-intrinsic-size: auto 900px; }
 
+/* ———————————————————————— Tu color (ColorDress) y botón Vinted ———————————————————————— */
+
+.color-dress { position: relative; background: var(--color-background); border-top: 1px solid var(--color-border); }
+/* Estilo Miu Miu: en escritorio el panel se queda fijo y la franja siguiente sube por encima */
+@media (min-width: 1024px) and (min-height: 760px) {
+  .color-dress { position: sticky; top: 0; min-height: 100svh; display: flex; align-items: center; }
+  .color-dress > .container-brand { width: 100%; }
+}
+.color-chip {
+  display: inline-flex; align-items: center; gap: 0.55rem; height: 2.6rem; padding: 0 1rem 0 0.6rem;
+  border-radius: 9999px; border: 1px solid var(--color-border); font-size: 0.85rem; color: var(--color-foreground);
+  transition: transform 0.16s var(--ease-out), border-color 0.3s var(--ease-soft);
+}
+.color-chip:active { transform: scale(0.97); }
+.color-chip[aria-pressed="true"] { border-color: currentColor; }
+.color-chip i { width: 1.2rem; height: 1.2rem; border-radius: 50%; background: var(--sw); border: 1px solid var(--color-border); }
+.color-show { display: grid; gap: 2rem; align-items: center; margin-top: 3rem; }
+@media (width >= 768px) { .color-show { grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); } }
+.color-show img { width: 100%; aspect-ratio: 4 / 3; object-fit: contain; }
+.motion-ok .color-show img { animation: fade-up 0.7s var(--ease-out) both; }
+
+.fringe-curtain { position: fixed; inset: 0; z-index: 90; display: flex; pointer-events: none; }
+.fringe-curtain[hidden] { display: none; }
+.fringe-curtain i { flex: 1; background: var(--c); transform: translate3d(0, -101%, 0); }
+
+/* Los colores cambian suavemente cuando la web se viste de un bolso */
+body, .wine-band { transition: background-color 0.5s var(--ease-soft), color 0.5s var(--ease-soft); }
+
+.wine-band { z-index: 1; }
+.orb { position: relative; display: grid; place-items: center; width: clamp(11rem, 20vw, 14rem); aspect-ratio: 1; text-decoration: none; }
+.orb > svg { position: absolute; inset: 0; width: 100%; height: 100%; animation: orb-spin 18s linear infinite; }
+.orb text { font-size: 8.4px; letter-spacing: 2px; text-transform: uppercase; fill: var(--color-cream); }
+.orb span {
+  display: inline-flex; align-items: center; justify-content: center; gap: 0.3rem; width: 56%; aspect-ratio: 1; border-radius: 50%;
+  background: var(--color-cream); color: var(--color-wine); font-family: var(--font-display); font-style: italic; font-size: 1.15rem;
+  transition: transform 0.3s var(--ease-out);
+}
+@media (hover: hover) and (pointer: fine) { .orb:hover span { transform: scale(1.08); } }
+.orb:active span { transform: scale(0.96); }
+@keyframes orb-spin { to { transform: rotate(360deg); } }
+
 /* ———————————————————————— Movimiento reducido ———————————————————————— */
 
 @media (prefers-reduced-motion: reduce) {
@@ -1312,6 +1353,7 @@ body:has(.menu-overlay[data-open="true"]) { overflow: hidden; }
   .product-tile:hover .tile-media img, .material:hover .material-media img, .ig-grid a:hover img { transform: none; }
   .tile-pill { transform: none; }
   .marquee-item, .stretch-line { transform: none; }
+  .orb > svg, .color-show img { animation: none; }
   ::view-transition-group(*), ::view-transition-old(*), ::view-transition-new(*) { animation: none !important; }
 }
 

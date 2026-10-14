@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowUpRight, Instagram } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 
+import { ColorDress, VintedOrb } from "@/components/site/ColorDress";
 import { ScrollShowcase, useHomeChoreography } from "@/components/site/ScrollShowcase";
 import { LitWords, Marquee, SplitHeading } from "@/components/site/Motion";
 import { Newsletter } from "@/components/site/Newsletter";
@@ -362,7 +363,10 @@ function Index() {
         </div>
       </section>
 
-      {/* AVISOS / NEWSLETTER */}
+      {/* TU COLOR: la web adopta la paleta del bolso elegido */}
+      <ColorDress />
+
+      {/* AVISOS / NEWSLETTER (sube por encima de "Tu color" en escritorio) */}
       <section className="wine-band section-y" aria-labelledby="avisos">
         <div className="container-brand relative z-10 max-w-3xl text-center">
           <p className="eyebrow" data-reveal>Ediciones limitadas</p>
@@ -373,6 +377,7 @@ function Index() {
                 Te aviso cuando saco una edición nueva. Suelen durar días, no semanas.
               </p>
               <div className="mt-9 flex justify-center"><Newsletter /></div>
+              <div className="mt-10 flex justify-center"><VintedOrb /></div>
             </>
           ) : (
             <>
@@ -380,7 +385,10 @@ function Index() {
               <p className="mx-auto mt-5 max-w-md text-sm leading-relaxed opacity-80" data-reveal>
                 Cada edición nueva se anuncia primero en Instagram. Síguela para no perderte ninguna.
               </p>
-              <div className="mt-9" data-reveal style={{ ["--d" as string]: "200ms" }}>
+              <div className="mt-10 flex justify-center">
+                <VintedOrb />
+              </div>
+              <div className="mt-10" data-reveal style={{ ["--d" as string]: "200ms" }}>
                 <a href={INSTAGRAM_URL} target="_blank" rel="noopener" className="btn-cream" data-magnetic>
                   <Instagram className="h-[18px] w-[18px]" aria-hidden="true" strokeWidth={1.5} />
                   Seguir {INSTAGRAM_HANDLE}
@@ -392,7 +400,7 @@ function Index() {
       </section>
 
       {/* INSTAGRAM */}
-      <section className="cv-auto overflow-hidden py-6 md:py-10" aria-label="Instagram de By Maam">
+      <section className="cv-auto relative overflow-hidden bg-background py-6 md:py-10" aria-label="Instagram de By Maam">
         <a href={INSTAGRAM_URL} target="_blank" rel="noopener" className="block" aria-label={`Abrir Instagram ${INSTAGRAM_HANDLE}`}>
           <Marquee className="marquee-xl" items={[INSTAGRAM_HANDLE, "bolsos hechos a mano", INSTAGRAM_HANDLE, "edición limitada"]} />
         </a>
