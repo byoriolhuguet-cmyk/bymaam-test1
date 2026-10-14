@@ -1,18 +1,16 @@
 import { Link } from "@tanstack/react-router";
-import { useEffect, useRef, useState, type RefObject } from "react";
+import { useEffect, useState, type RefObject } from "react";
 
-import { ProductTile } from "@/components/site/ProductTile";
-import { SplitHeading } from "@/components/site/Motion";
-import type { Product } from "@/data/products";
+import { formatPrice, productSrcSet, type Product } from "@/data/products";
+import { INSTAGRAM_URL, VINTED_URL } from "@/lib/site";
 
 const REDUCED = "(prefers-reduced-motion: reduce)";
-/** El carril solo se fija al scroll en pantallas medianas o grandes; en móvil es un carril nativo con snap. */
-const PIN = "(min-width: 768px)";
 const FINE = "(hover: hover) and (pointer: fine)";
 
 const clamp = (value: number, min = 0, max = 1) => Math.min(max, Math.max(min, value));
+const easeOut = (t: number) => 1 - Math.pow(1 - t, 3);
 
-/** Vuelve a ejecutar los efectos cuando cambian las preferencias de movimiento o el tamaño de pantalla. */
+/** Vuelve a ejecutar los efectos cuando cambian las preferencias de movimiento o el tipo de puntero. */
 function useMediaKey(queries: string[]) {
   const [key, setKey] = useState("");
   useEffect(() => {
@@ -27,132 +25,96 @@ function useMediaKey(queries: string[]) {
 }
 
 /**
- * Carril horizontal de la colección. Con movimiento permitido y pantalla ≥ 768 px se "fija" y
- * el scroll vertical desplaza las piezas; con movimiento reducido, en móvil o sin JS es un
- * carril con scroll horizontal nativo y snap (totalmente accesible, sin secuestrar el scroll).
+ * Panel "Las piezas que definen la colección" (estilo Miu Miu): fila de fotos a sangre con el
+ * nombre debajo y enlaces subrayados. Es un carril con scroll horizontal nativo y snap: nunca se
+ * fija ni secuestra el scroll, así que funciona igual con movimiento reducido o sin JS.
  */
 export function ScrollShowcase({ products }: { products: Product[] }) {
-  const sectionRef = useRef<HTMLElement>(null);
-  const trackRef = useRef<HTMLDivElement>(null);
-  const [index, setIndex] = useState(0);
-  const media = useMediaKey([REDUCED, PIN]);
-
-  useEffect(() => {
-    const section = sectionRef.current;
-    const track = trackRef.current;
-    if (!section || !track || !media) return;
-    if (window.matchMedia(REDUCED).matches || !window.matchMedia(PIN).matches) return;
-
-    let frame = 0;
-    const measure = () => {
-      const viewport = track.parentElement as HTMLElement;
-      const pad = parseFloat(getComputedStyle(viewport).paddingLeft) * 2;
-      const travel = Math.max(0, track.scrollWidth - (window.innerWidth - pad));
-      section.style.setProperty("--travel", `${travel}px`);
-      section.style.height = `${window.innerHeight + travel}px`;
-    };
-    const update = () => {
-      frame = 0;
-      const range = section.offsetHeight - window.innerHeight;
-      const top = section.getBoundingClientRect().top;
-      const p = range > 0 ? clamp(-top / range) : 0;
-      section.style.setProperty("--p", p.toFixed(4));
-      const i = Math.round(p * (products.length - 1));
-      setIndex((prev) => (prev === i ? prev : i));
-    };
-    const schedule = () => {
-      if (!frame) frame = requestAnimationFrame(update);
-    };
-    const onResize = () => {
-      measure();
-      schedule();
-    };
-
-    section.dataset["pinned"] = "true";
-    measure();
-    update();
-    window.addEventListener("scroll", schedule, { passive: true });
-    window.addEventListener("resize", onResize, { passive: true });
-    return () => {
-      cancelAnimationFrame(frame);
-      window.removeEventListener("scroll", schedule);
-      window.removeEventListener("resize", onResize);
-      delete section.dataset["pinned"];
-      section.style.removeProperty("height");
-      section.style.removeProperty("--travel");
-      section.style.removeProperty("--p");
-      setIndex(0);
-    };
-  }, [products.length, media]);
-
-  const total = String(products.length).padStart(2, "0");
-
   return (
     <section
-      ref={sectionRef}
-      className="rail"
+      className="miu-panel miu-look"
+      data-panel
       aria-labelledby="rail-title"
       id="coleccion-destacada"
     >
-      <div className="rail-stage">
-        <div className="container-brand flex flex-wrap items-end justify-between gap-6">
-          <div>
-            <p className="eyebrow" data-reveal>
-              La colección
-            </p>
-            <SplitHeading
-              id="rail-title"
-              lines={[
-                "Piezas disponibles",
-                <em key="e" className="text-wine">
-                  ahora mismo
-                </em>,
-              ]}
-              className="mt-4 text-4xl leading-[1.02] md:text-6xl"
-            />
-          </div>
-          <div className="flex items-center gap-6">
-            <span
-              className="hidden text-sm tabular-nums text-muted-foreground sm:block"
-              aria-hidden="true"
+      <h2 id="rail-title" className="miu-title miu-look-title">
+        Las piezas que definen la colección
+      </h2>
+      <ul className="miu-row" aria-label="Bolsos disponibles">
+        {products.map((p) => (
+          <li key={p.slug} className="miu-tile">
+            <Link
+              to="/coleccion/$slug"
+              params={{ slug: p.slug }}
+              className="miu-tile-media"
+              data-cursor="Ver"
             >
-              {String(index + 1).padStart(2, "0")} / {total}
-            </span>
-            <Link to="/coleccion" className="btn-ghost btn-sm">
-              Ver toda la colección
+              <img
+                src={p.image}
+                srcSet={productSrcSet(p)}
+                sizes="(min-width: 1024px) 25vw, 70vw"
+                alt={p.alt}
+                width={p.w}
+                height={p.h}
+                loading="lazy"
+                decoding="async"
+              />
+              {!p.available && <span className="tile-sold">Agotado</span>}
             </Link>
-          </div>
-        </div>
-
-        <div className="rail-viewport" tabIndex={-1}>
-          <div ref={trackRef} className="rail-track">
-            {products.map((product, i) => (
-              <div key={product.slug} className="rail-tile">
-                <ProductTile
-                  product={product}
-                  priority={i === 0}
-                  sizes="(min-width: 1024px) 34vw, 82vw"
-                />
-              </div>
-            ))}
-          </div>
-        </div>
-        <div className="rail-progress" aria-hidden="true" />
+            <p className="miu-tile-label">{p.name.replace(/^Bolso /, "")}</p>
+            <p className="miu-tile-note">
+              {p.color} · {formatPrice(p.price)}
+            </p>
+            <div className="miu-links miu-links--tight">
+              <a
+                href={p.vinted || VINTED_URL}
+                target="_blank"
+                rel="noopener"
+                className="miu-link"
+                aria-label={`Comprar en Vinted: ${p.name}`}
+              >
+                Comprar en Vinted
+              </a>
+              <a
+                href={INSTAGRAM_URL}
+                target="_blank"
+                rel="noopener"
+                className="miu-link"
+                aria-label={`Instagram: preguntar por ${p.name}`}
+              >
+                Instagram
+              </a>
+            </div>
+          </li>
+        ))}
+      </ul>
+      <div className="miu-links">
+        <Link to="/coleccion" className="miu-link">
+          Ver toda la colección
+        </Link>
       </div>
     </section>
   );
 }
 
 /**
- * Movimiento de la portada por debajo del hero. Solo se monta en "/", solo con `html.motion-ok`
- * (JS y sin prefers-reduced-motion) y se reinicia (limpiando estilos) si cambian las preferencias.
+ * Coreografía de la portada (solo se monta en "/"). Se reinicia, limpiando estilos, si cambian
+ * las preferencias de movimiento o el tipo de puntero.
  *
+ * Siempre (también con movimiento reducido):
+ *  - Contador "n / 6" de los paneles [data-panel].
+ *  - html[data-logo-docked]: la cabecera muestra su logo cuando el logo gigante de la portada ya no se ve.
+ *
+ * Solo con `html.motion-ok` y sin prefers-reduced-motion:
+ *  - Logo gigante [data-hero-logo] que se encoge y sube hasta la cabecera (estilo Miu Miu).
+ *  - Paneles a pantalla completa que se apilan: cada uno sube por encima del anterior (sticky, sin
+ *    secuestrar el scroll). Un panel más alto que la pantalla se fija por abajo para verse entero.
  *  - [data-stretch]: titular gigante que se ensancha y gana peso con el scroll (--p 0..1).
- *  - .marquee dentro de la portada: se inclina según la velocidad del scroll (--skew).
+ *  - .marquee: se inclina según la velocidad del scroll (--skew).
  *  - Solo con ratón: cursor "Ver" sobre [data-cursor], zoom que sigue al puntero en las fotos
  *    de producto y botones magnéticos [data-magnetic].
  *
- * Un único listener de scroll pasivo, una rAF por frame y solo sobre elementos visibles.
+ * Un único listener de scroll pasivo y una rAF por frame.
  */
 export function useHomeChoreography(rootRef: RefObject<HTMLElement | null>) {
   const media = useMediaKey([REDUCED, FINE]);
@@ -160,43 +122,105 @@ export function useHomeChoreography(rootRef: RefObject<HTMLElement | null>) {
   useEffect(() => {
     const root = rootRef.current;
     if (!root || !media) return;
-    if (
-      !document.documentElement.classList.contains("motion-ok") ||
-      window.matchMedia(REDUCED).matches
-    )
-      return;
-
+    const html = document.documentElement;
+    const motion = html.classList.contains("motion-ok") && !window.matchMedia(REDUCED).matches;
     const fine = window.matchMedia(FINE).matches;
     const cleanups: (() => void)[] = [];
+
+    const heroLogo = root.querySelector<HTMLElement>("[data-hero-logo]");
+    const headerLogo = document.querySelector<HTMLElement>(".site-header .wordmark");
+    const panels = Array.from(root.querySelectorAll<HTMLElement>("[data-panel]"));
+    const after = root.querySelector<HTMLElement>(".miu-after");
+    const counter = root.querySelector<HTMLElement>(".miu-counter");
+    const counterNum = counter?.querySelector<HTMLElement>("[data-panel-current]") ?? null;
     const stretch = Array.from(root.querySelectorAll<HTMLElement>("[data-stretch]"));
     const marquees = Array.from(root.querySelectorAll<HTMLElement>(".marquee"));
     const live = new Set<HTMLElement>();
 
-    // ——— Scroll: titulares elásticos + inclinación de las cintas según la velocidad
+    // ——— Medidas (se recalculan al cambiar el tamaño)
+    const hero = heroLogo?.closest<HTMLElement>("[data-panel]") ?? null;
+    let logoInHero = 0; // centro del logo gigante respecto a la portada (= su centro en pantalla con scroll 0)
+    let logoTravel = 1; // distancia hasta el centro de la cabecera
+    let logoScroll = 1; // scroll en el que termina de encogerse
+    let logoEnd = 1; // escala final (= tamaño del logo de la cabecera)
+    const measure = () => {
+      if (heroLogo && hero) {
+        const prev = heroLogo.style.transform;
+        heroLogo.style.transform = "none";
+        const r = heroLogo.getBoundingClientRect();
+        heroLogo.style.transform = prev;
+        logoInHero = r.top - hero.getBoundingClientRect().top + r.height / 2;
+        const h = headerLogo?.getBoundingClientRect();
+        const headerCenter = h ? h.top + h.height / 2 : 34;
+        logoTravel = Math.max(1, logoInHero - headerCenter);
+        logoScroll = Math.max(logoTravel, window.innerHeight * 0.35);
+        logoEnd = h && r.width ? h.width / r.width : 0.3;
+      }
+      if (motion) {
+        const vh = window.innerHeight;
+        panels.forEach((p) => (p.style.top = `${Math.min(0, vh - p.offsetHeight)}px`));
+      }
+    };
+
+    if (motion) root.classList.add("miu-stack");
+
     let frame = 0;
     let lastY = window.scrollY;
     let skew = 0;
     const update = () => {
       frame = 0;
       const vh = window.innerHeight;
-      live.forEach((el) => {
-        const rect = el.getBoundingClientRect();
-        el.style.setProperty(
-          "--p",
-          clamp((vh - rect.top) / (vh * 0.7 + rect.height * 0.3)).toFixed(4),
-        );
-      });
       const y = window.scrollY;
-      const target = clamp((y - lastY) * 0.12, -7, 7);
+
+      // Logo gigante → cabecera
+      if (heroLogo && hero) {
+        const p = clamp(y / logoScroll);
+        if (motion) {
+          const e = easeOut(p);
+          const scale = 1 + (logoEnd - 1) * e;
+          // Posición natural en pantalla (la portada puede estar fija o subiendo) → centro de la cabecera
+          const natural = hero.getBoundingClientRect().top + logoInHero;
+          const shift = logoInHero - logoTravel * e - natural;
+          heroLogo.style.transform = `translate3d(0, ${shift.toFixed(1)}px, 0) scale(${scale.toFixed(4)})`;
+          heroLogo.style.opacity = p >= 1 ? "0" : "1";
+        }
+        html.toggleAttribute("data-logo-docked", motion ? p >= 1 : y > logoInHero);
+      }
+
+      // Contador de paneles
+      if (counter && counterNum) {
+        let current = 1;
+        panels.forEach((p, i) => {
+          if (p.getBoundingClientRect().top <= vh * 0.5) current = i + 1;
+        });
+        counterNum.textContent = String(current);
+        const afterTop = after ? after.getBoundingClientRect().top : Infinity;
+        counter.toggleAttribute("data-on", y > 40 && afterTop > vh * 0.6);
+      }
+
+      if (motion) {
+        live.forEach((el) => {
+          const rect = el.getBoundingClientRect();
+          el.style.setProperty(
+            "--p",
+            clamp((vh - rect.top) / (vh * 0.7 + rect.height * 0.3)).toFixed(4),
+          );
+        });
+        const target = clamp((y - lastY) * 0.12, -7, 7);
+        skew += (target - skew) * 0.18;
+        if (Math.abs(skew) < 0.02) skew = 0;
+        marquees.forEach((m) => m.style.setProperty("--skew", `${skew.toFixed(2)}deg`));
+        if (skew !== 0) schedule();
+      }
       lastY = y;
-      skew += (target - skew) * 0.18;
-      if (Math.abs(skew) < 0.02) skew = 0;
-      marquees.forEach((m) => m.style.setProperty("--skew", `${skew.toFixed(2)}deg`));
-      if (skew !== 0) schedule();
     };
     function schedule() {
       if (!frame) frame = requestAnimationFrame(update);
     }
+    const onResize = () => {
+      measure();
+      schedule();
+    };
     const watch = new IntersectionObserver(
       (entries) => {
         entries.forEach((e) =>
@@ -208,21 +232,32 @@ export function useHomeChoreography(rootRef: RefObject<HTMLElement | null>) {
       },
       { rootMargin: "20% 0px 20% 0px" },
     );
-    stretch.forEach((el) => watch.observe(el));
+    if (motion) stretch.forEach((el) => watch.observe(el));
+    const sizes = new ResizeObserver(onResize);
+    panels.forEach((p) => sizes.observe(p));
+
+    measure();
+    update();
     window.addEventListener("scroll", schedule, { passive: true });
-    window.addEventListener("resize", schedule, { passive: true });
-    schedule();
+    window.addEventListener("resize", onResize, { passive: true });
     cleanups.push(() => {
       cancelAnimationFrame(frame);
       watch.disconnect();
+      sizes.disconnect();
       window.removeEventListener("scroll", schedule);
-      window.removeEventListener("resize", schedule);
+      window.removeEventListener("resize", onResize);
+      root.classList.remove("miu-stack");
+      html.removeAttribute("data-logo-docked");
+      heroLogo?.style.removeProperty("transform");
+      heroLogo?.style.removeProperty("opacity");
+      panels.forEach((p) => p.style.removeProperty("top"));
+      counter?.removeAttribute("data-on");
       stretch.forEach((el) => el.style.removeProperty("--p"));
       marquees.forEach((m) => m.style.removeProperty("--skew"));
     });
 
-    // ——— Solo con ratón: cursor, zoom de producto y botones magnéticos
-    if (fine) {
+    // ——— Solo con ratón y movimiento: cursor, zoom de producto y botones magnéticos
+    if (motion && fine) {
       const cursor = document.createElement("div");
       cursor.className = "choreo-cursor";
       cursor.setAttribute("aria-hidden", "true");
@@ -256,14 +291,14 @@ export function useHomeChoreography(rootRef: RefObject<HTMLElement | null>) {
         cursor.classList.toggle("is-on", !!host && root.contains(host));
         if (host) label.textContent = host.dataset["cursor"] ?? "";
 
-        const media = target?.closest<HTMLElement>(".tile-media");
-        if (media && root.contains(media)) {
-          const r = media.getBoundingClientRect();
-          media.style.setProperty(
+        const zoom = target?.closest<HTMLElement>(".miu-tile-media");
+        if (zoom && root.contains(zoom)) {
+          const r = zoom.getBoundingClientRect();
+          zoom.style.setProperty(
             "--ox",
             `${(((event.clientX - r.left) / r.width) * 100).toFixed(1)}%`,
           );
-          media.style.setProperty(
+          zoom.style.setProperty(
             "--oy",
             `${(((event.clientY - r.top) / r.height) * 100).toFixed(1)}%`,
           );
@@ -279,18 +314,26 @@ export function useHomeChoreography(rootRef: RefObject<HTMLElement | null>) {
           magnet.style.translate = `${dx.toFixed(1)}px ${dy.toFixed(1)}px`;
         }
       };
+      // Al hacer scroll sin mover el ratón, el cursor se actualiza con lo que queda debajo
+      const onScrollCursor = () => {
+        const under = document.elementFromPoint(tx, ty);
+        const host = under?.closest<HTMLElement>("[data-cursor]");
+        cursor.classList.toggle("is-on", !!host && root.contains(host));
+      };
       const onLeave = () => cursor.classList.remove("is-on");
       root.classList.add("choreo-fine");
       window.addEventListener("pointermove", onMove, { passive: true });
+      window.addEventListener("scroll", onScrollCursor, { passive: true });
       document.addEventListener("pointerleave", onLeave);
       cleanups.push(() => {
         cancelAnimationFrame(cursorFrame);
         window.removeEventListener("pointermove", onMove);
+        window.removeEventListener("scroll", onScrollCursor);
         document.removeEventListener("pointerleave", onLeave);
         root.classList.remove("choreo-fine");
         cursor.remove();
         magnet?.style.removeProperty("translate");
-        root.querySelectorAll<HTMLElement>(".tile-media").forEach((el) => {
+        root.querySelectorAll<HTMLElement>(".miu-tile-media").forEach((el) => {
           el.style.removeProperty("--ox");
           el.style.removeProperty("--oy");
         });

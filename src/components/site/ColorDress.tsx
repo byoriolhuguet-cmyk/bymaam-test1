@@ -197,7 +197,7 @@ export function ColorDress() {
   };
 
   return (
-    <section className="color-dress section-y" aria-labelledby="tu-color">
+    <section className="miu-panel color-dress section-y" data-panel aria-labelledby="tu-color">
       <div className="fringe-curtain" ref={curtainRef} aria-hidden="true" hidden>
         {Array.from({ length: STRANDS }, (_, i) => (
           <i key={i} />

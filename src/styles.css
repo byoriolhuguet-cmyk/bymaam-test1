@@ -620,7 +620,7 @@ html[data-intro="run"] .preloader { animation: preloader-failsafe 0.01s linear 7
 
 /* El contenido empieza bajo la cabecera fija */
 #contenido { padding-top: var(--header-h); }
-#contenido:has(> .page-enter > .hero-home) { padding-top: 0; }
+#contenido:has(> .page-enter > .hero-home), #contenido:has(.miu-hero) { padding-top: 0; }
 
 .wordmark {
   display: inline-flex;
@@ -1302,12 +1302,8 @@ body:has(.menu-overlay[data-open="true"]) { overflow: hidden; }
 
 /* ———————————————————————— Tu color (ColorDress) y botón Vinted ———————————————————————— */
 
-.color-dress { position: relative; background: var(--color-background); border-top: 1px solid var(--color-border); }
-/* Estilo Miu Miu: en escritorio el panel se queda fijo y la franja siguiente sube por encima */
-@media (min-width: 1024px) and (min-height: 760px) {
-  .color-dress { position: sticky; top: 0; min-height: 100svh; display: flex; align-items: center; }
-  .color-dress > .container-brand { width: 100%; }
-}
+.color-dress { background: var(--color-background); display: flex; align-items: center; }
+.color-dress > .container-brand { width: 100%; }
 .color-chip {
   display: inline-flex; align-items: center; gap: 0.55rem; height: 2.6rem; padding: 0 1rem 0 0.6rem;
   border-radius: 9999px; border: 1px solid var(--color-border); font-size: 0.85rem; color: var(--color-foreground);
@@ -1328,7 +1324,6 @@ body:has(.menu-overlay[data-open="true"]) { overflow: hidden; }
 /* Los colores cambian suavemente cuando la web se viste de un bolso */
 body, .wine-band { transition: background-color 0.5s var(--ease-soft), color 0.5s var(--ease-soft); }
 
-.wine-band { z-index: 1; }
 .orb { position: relative; display: grid; place-items: center; width: clamp(11rem, 20vw, 14rem); aspect-ratio: 1; text-decoration: none; }
 .orb > svg { position: absolute; inset: 0; width: 100%; height: 100%; animation: orb-spin 18s linear infinite; }
 .orb text { font-size: 8.4px; letter-spacing: 2px; text-transform: uppercase; fill: var(--color-cream); }
@@ -1340,6 +1335,128 @@ body, .wine-band { transition: background-color 0.5s var(--ease-soft), color 0.5
 @media (hover: hover) and (pointer: fine) { .orb:hover span { transform: scale(1.08); } }
 .orb:active span { transform: scale(0.96); }
 @keyframes orb-spin { to { transform: rotate(360deg); } }
+
+/* ———————————————————————— Portada estilo Miu Miu ———————————————————————— */
+
+/* Paneles a pantalla completa. Con movimiento, useHomeChoreography añade .miu-stack y fija cada
+   panel (top calculado para que los más altos que la pantalla se vean enteros): el siguiente sube encima. */
+.miu-panel { position: relative; min-height: 100svh; background: var(--color-background); }
+.miu-stack [data-panel] { position: sticky; }
+.miu-after { position: relative; background: var(--color-background); }
+
+/* Logo de la cabecera: en la portada aparece cuando el gigante termina de encogerse */
+.site-header .wordmark { transition: color 0.4s ease, opacity 0.25s ease; }
+html:not([data-logo-docked]) body:has(.miu-hero) .site-header:not([data-menu="true"]) .wordmark { opacity: 0; }
+html:not([data-logo-docked]) body:has(.miu-hero) .site-header:not([data-menu="true"]) {
+  background: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border-bottom-color: transparent;
+}
+
+/* Tipografía y enlaces */
+.miu-title { font-family: var(--font-sans); font-weight: 600; font-size: 1rem; line-height: 1.3; letter-spacing: 0.01em; text-wrap: balance; }
+.miu-sub { font-size: 0.8rem; line-height: 1.5; color: var(--color-muted-foreground); }
+.miu-links { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.4rem 1.4rem; margin-top: 0.7rem; }
+.miu-links--tight { margin-top: 0.35rem; gap: 0.2rem 1rem; }
+.miu-link {
+  font-size: 0.8rem;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 4px;
+  transition: text-underline-offset 0.25s var(--ease-out), opacity 0.25s ease;
+}
+@media (hover: hover) and (pointer: fine) { .miu-link:hover { text-underline-offset: 7px; } }
+.miu-caption { position: relative; z-index: 1; display: grid; justify-items: center; gap: 0.25rem; text-align: center; padding-inline: 1.25rem; }
+
+/* Panel 1: portada */
+.miu-hero {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto auto;
+  justify-items: center;
+  align-items: center;
+  gap: 1rem;
+  padding: calc(var(--header-h) * 0.35) clamp(1.25rem, 4vw, 3rem) 1.25rem;
+  background: radial-gradient(ellipse 70% 60% at 50% 48%, var(--color-card), var(--color-paper));
+  overflow: hidden;
+}
+.miu-logo { position: relative; z-index: 71; display: flex; justify-content: center; transform-origin: 50% 50%; will-change: transform; pointer-events: none; }
+.miu-logo .wordmark { font-size: clamp(3.2rem, 13vw, 11.5rem) !important; }
+.miu-hero-stage { display: grid; justify-items: center; gap: 0.6rem; width: 100%; min-height: 0; }
+.miu-hero-media { position: relative; width: min(100%, 880px); aspect-ratio: 4 / 3; max-height: 50svh; }
+.miu-hero-media img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; opacity: 0; transition: opacity 0.9s ease; }
+.miu-hero-media img.is-active { opacity: 1; }
+.miu-hero .miu-sub a { text-decoration: none; }
+.miu-scroll { font-size: 0.7rem; letter-spacing: 0.04em; color: var(--color-muted-foreground); }
+
+/* Panel 3: foto a sangre con texto blanco */
+.miu-photo { display: grid; align-items: end; justify-items: center; overflow: hidden; background: #111; }
+.miu-photo > img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 28%; }
+.miu-photo::after { content: ""; position: absolute; inset: 0; background: linear-gradient(to top, rgb(0 0 0 / 0.55), transparent 45%); pointer-events: none; }
+.miu-caption--light { padding-bottom: max(14svh, 5rem); color: #fff; }
+.miu-caption--light .miu-sub { color: rgb(255 255 255 / 0.82); }
+
+/* Paneles 2 y 4: "los elementos que definen el look" */
+.miu-look { display: flex; flex-direction: column; justify-content: center; gap: clamp(1.5rem, 4vh, 2.5rem); padding-block: calc(var(--header-h) + 1.5rem) 3rem; background: var(--color-card); }
+.miu-look-title { text-align: center; padding-inline: 1.25rem; }
+.miu-row {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 72vw;
+  gap: 2px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  overscroll-behavior-x: contain;
+}
+.miu-row::-webkit-scrollbar { display: none; }
+@media (width >= 768px) { .miu-row { grid-auto-columns: calc((100% - 6px) / 4); } }
+.miu-tile { scroll-snap-align: start; display: grid; justify-items: center; align-content: start; text-align: center; min-width: 0; }
+.miu-tile-media { position: relative; display: block; width: 100%; aspect-ratio: 3 / 4; max-height: 56svh; overflow: hidden; background: var(--color-paper); }
+.miu-tile-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 9%;
+  transform-origin: var(--ox, 50%) var(--oy, 50%);
+  transition: transform 0.9s var(--ease-out);
+}
+.miu-tile-media--cover img { object-fit: cover; padding: 0; }
+@media (hover: hover) and (pointer: fine) {
+  .miu-tile-media:hover img { transform: scale(1.06); }
+  .choreo-fine .miu-tile-media:hover img { transform: scale(1.4); }
+}
+.miu-tile-label { margin-top: 0.9rem; font-size: 0.85rem; font-weight: 600; }
+.miu-tile-note { font-size: 0.78rem; color: var(--color-muted-foreground); padding-inline: 1rem; }
+
+/* Paneles 5 y 6 */
+.miu-panel.wine-band { display: flex; align-items: center; background: var(--color-wine); }
+.miu-panel.wine-band > .container-brand { width: 100%; }
+
+/* Contador "n / 6" */
+.miu-counter {
+  position: fixed;
+  left: 50%;
+  bottom: calc(env(safe-area-inset-bottom, 0px) + 1rem);
+  z-index: 60;
+  translate: -50% 0;
+  padding: 0.3rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  font-variant-numeric: tabular-nums;
+  color: var(--color-foreground);
+  background: color-mix(in oklab, var(--color-card) 82%, transparent);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+.miu-counter[data-on] { opacity: 1; }
 
 /* ———————————————————————— Movimiento reducido ———————————————————————— */
 
@@ -1354,6 +1471,7 @@ body, .wine-band { transition: background-color 0.5s var(--ease-soft), color 0.5
   .tile-pill { transform: none; }
   .marquee-item, .stretch-line { transform: none; }
   .orb > svg, .color-show img { animation: none; }
+  .miu-hero-media img, .miu-tile-media img { transition: none; }
   ::view-transition-group(*), ::view-transition-old(*), ::view-transition-new(*) { animation: none !important; }
 }
 
