@@ -145,7 +145,7 @@ function ColeccionPage() {
                   product={p}
                   headingLevel={2}
                   priority={i === 0}
-                  sizes="(min-width: 1024px) 30vw, (min-width: 640px) 46vw, 92vw"
+                  sizes="(min-width: 1408px) 27rem, (min-width: 1024px) 30vw, (min-width: 640px) 46vw, 92vw"
                 />
               </div>
             ))}

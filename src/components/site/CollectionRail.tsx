@@ -6,28 +6,21 @@ import { SplitHeading } from "@/components/site/Motion";
 import type { Product } from "@/data/products";
 
 /**
- * Carril horizontal de la colección. Con JS, movimiento permitido y pantalla ≥ 768 px se "fija" y el
- * scroll vertical desplaza las piezas; sin JS, en móvil o con movimiento reducido es un
+ * Carril horizontal de la colección. Con JS y movimiento permitido se "fija" y el
+ * scroll vertical desplaza las piezas; sin JS o con movimiento reducido es un
  * carril con scroll horizontal nativo y snap (totalmente accesible).
  */
 export function CollectionRail({ products }: { products: Product[] }) {
   const sectionRef = useRef<HTMLElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
   const [index, setIndex] = useState(0);
-  // En móvil (< 768 px) o con movimiento reducido: carril nativo con snap, sin fijarse al scroll
-  const [pin, setPin] = useState(false);
-  useEffect(() => {
-    const q = window.matchMedia("(min-width: 768px) and (prefers-reduced-motion: no-preference)");
-    const read = () => setPin(q.matches);
-    read();
-    q.addEventListener("change", read);
-    return () => q.removeEventListener("change", read);
-  }, []);
 
   useEffect(() => {
     const section = sectionRef.current;
     const track = trackRef.current;
-    if (!section || !track || !pin) return;
+    if (!section || !track) return;
+    const media = window.matchMedia("(prefers-reduced-motion: reduce)");
+    if (media.matches) return;
 
     let frame = 0;
     const measure = () => {
@@ -58,7 +51,7 @@ export function CollectionRail({ products }: { products: Product[] }) {
     measure();
     update();
     window.addEventListener("scroll", schedule, { passive: true });
-    window.addEventListener("resize", onResize, { passive: true });
+    window.addEventListener("resize", onResize);
     return () => {
       cancelAnimationFrame(frame);
       window.removeEventListener("scroll", schedule);
@@ -67,9 +60,8 @@ export function CollectionRail({ products }: { products: Product[] }) {
       section.style.removeProperty("height");
       section.style.removeProperty("--travel");
       section.style.removeProperty("--p");
-      setIndex(0);
     };
-  }, [products.length, pin]);
+  }, [products.length]);
 
   const total = String(products.length).padStart(2, "0");
 
@@ -97,7 +89,7 @@ export function CollectionRail({ products }: { products: Product[] }) {
           <div ref={trackRef} className="rail-track">
             {products.map((product, i) => (
               <div key={product.slug} className="rail-tile">
-                <ProductTile product={product} sizes="(min-width: 1024px) 34vw, 82vw" />
+                <ProductTile product={product} priority={i === 0} sizes="(min-width: 1360px) 34rem, (min-width: 680px) 40vw, 17rem" />
               </div>
             ))}
           </div>

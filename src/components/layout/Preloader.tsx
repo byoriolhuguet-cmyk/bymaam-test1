@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 
-import { BAGS } from "@/data/products";
+import { BAGS, productSrcSet } from "@/data/products";
 
 const DURATION = 2100;
 
@@ -87,7 +87,7 @@ export function Preloader() {
       <div className="preloader-card">
         {run &&
           BAGS.map((p) => (
-            <img key={p.slug} src={p.image640} alt="" width={640} height={480} decoding="async" style={{ objectPosition: p.pos }} />
+            <img key={p.slug} src={p.image640} srcSet={productSrcSet(p)} sizes="min(62vw, 380px)" alt="" width={640} height={480} decoding="async" style={{ objectPosition: p.pos }} />
           ))}
       </div>
       <span className="preloader-count">

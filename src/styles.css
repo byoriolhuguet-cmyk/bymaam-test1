@@ -83,7 +83,7 @@
   --cream: oklch(0.945 0.025 77);
   --paper: oklch(0.915 0.026 76);
   --sand: oklch(0.747 0.061 75.1);
-  --sand-deep: oklch(0.5 0.06 72);
+  --sand-deep: oklch(0.6 0.06 76);
   --cocoa: oklch(0.301 0.037 64);
   --clay: oklch(0.446 0.05 49.8);
   --wine: oklch(0.35 0.13 20);
@@ -418,7 +418,7 @@
   opacity: 1;
 }
 .motion-ok .lit-words .w {
-  opacity: calc(0.58 + 0.42 * clamp(0, calc(var(--p, 0) * (var(--n) + 2) - var(--i)), 1));
+  opacity: calc(0.16 + 0.84 * clamp(0, calc(var(--p, 0) * (var(--n) + 2) - var(--i)), 1));
   transition: opacity 0.25s linear;
 }
 
@@ -832,7 +832,6 @@ body:has(.menu-overlay[data-open="true"]) { overflow: hidden; }
   z-index: 0;
 }
 .hero-slide img { width: 100%; height: 100%; object-fit: cover; display: block; }
-.hero-slide { background: var(--color-paper); }
 .hero-slide.is-prev { opacity: 1; z-index: 1; }
 .hero-slide.is-active { opacity: 1; z-index: 2; }
 .hero-card[data-cycled="true"] .hero-slide.is-active { animation: wipe-up 1.15s var(--ease-io) both; }
@@ -912,18 +911,7 @@ body:has(.menu-overlay[data-open="true"]) { overflow: hidden; }
 .motion-ok .hero-fade { opacity: 1; }
 .motion-ok .hero-line > span { transform: translate3d(0, 112%, 0); }
 .motion-ok .hero-fade { opacity: 0; transform: translate3d(0, 18px, 0); }
-/* La foto principal se pinta desde el primer frame (LCP rápido en móvil); una cortina la descubre. */
-.hero-card::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: 3;
-  background: var(--color-paper);
-  transform-origin: 50% 0;
-  transform: scaleY(0);
-  pointer-events: none;
-}
-.motion-ok .hero-card::after { transform: scaleY(1); }
+.motion-ok .hero-stage { opacity: 0; clip-path: inset(100% 0 0 0); }
 .motion-ok:not([data-intro="run"]) .hero-line > span {
   animation: rise 1.2s var(--ease-out) both;
   animation-delay: calc(var(--i) * 110ms + 100ms);
@@ -932,16 +920,12 @@ body:has(.menu-overlay[data-open="true"]) { overflow: hidden; }
   animation: fade-up 1s var(--ease-out) both;
   animation-delay: calc(var(--i, 0) * 100ms + 600ms);
 }
-.motion-ok:not([data-intro="run"]) .hero-card::after {
-  animation: curtain-up 1.3s var(--ease-io) 0.2s both;
-}
-.motion-ok:not([data-intro="run"]) .hero-frame::before {
-  animation: frame-tilt 1.6s var(--ease-out) 0.5s both;
+.motion-ok:not([data-intro="run"]) .hero-stage {
+  animation: stage-in 1.5s var(--ease-io) 0.25s both;
 }
 @keyframes rise { from { transform: translate3d(0, 112%, 0); } to { transform: none; } }
 @keyframes fade-up { from { opacity: 0; transform: translate3d(0, 18px, 0); } to { opacity: 1; transform: none; } }
-@keyframes curtain-up { from { transform: scaleY(1); } to { transform: scaleY(0); } }
-@keyframes frame-tilt { from { opacity: 0; transform: rotate(0deg) scale(0.96); } to { opacity: 1; transform: rotate(2.4deg); } }
+@keyframes stage-in { from { opacity: 1; clip-path: inset(100% 0 0 0); } to { opacity: 1; clip-path: inset(0 0 0 0); } }
 
 /* ———————————————————————— Cinta de texto ———————————————————————— */
 

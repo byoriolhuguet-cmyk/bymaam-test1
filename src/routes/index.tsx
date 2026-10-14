@@ -258,7 +258,16 @@ function Index() {
             {MATERIALS.map((m, i) => (
               <article key={m.title} className="material" style={{ ["--d" as string]: `${i * 110}ms` }}>
                 <div className="material-media" data-reveal="clip" style={{ ["--d" as string]: `${i * 110}ms` }}>
-                  <img src={m.src} alt={m.alt} width={800} height={1000} loading="lazy" decoding="async" />
+                  <img
+                    src={m.src}
+                    srcSet={`${m.src.replace(/\.webp$/, "-480.webp")} 480w, ${m.src} 800w`}
+                    sizes="(min-width: 1408px) 20rem, (min-width: 1024px) 23vw, 46vw"
+                    alt={m.alt}
+                    width={800}
+                    height={1000}
+                    loading="lazy"
+                    decoding="async"
+                  />
                 </div>
                 <h3 className="mt-4 font-display text-2xl">{m.title}</h3>
                 <p className="mt-1 text-sm text-muted-foreground">{m.text}</p>
@@ -275,11 +284,11 @@ function Index() {
             <div className="story-parallax" data-parallax="0.07">
             <img
               src="/images/brand/marta-amarelo.webp"
-              srcSet="/images/brand/marta-amarelo-700.webp 700w, /images/brand/marta-amarelo.webp 894w"
+              srcSet="/images/brand/marta-amarelo-700.webp 700w, /images/brand/marta-amarelo.webp 1400w"
               sizes="(min-width: 1024px) 40vw, 92vw"
               alt="Marta Amarelo, fundadora de By Maam"
-              width={894}
-              height={878}
+              width={1400}
+              height={1375}
               loading="lazy"
               decoding="async"
             />
@@ -383,9 +392,9 @@ function Index() {
       <section className="cv-auto overflow-hidden py-14 md:py-20" aria-label="Instagram de By Maam">
         <a href={INSTAGRAM_URL} target="_blank" rel="noopener" className="block">
           <span className="sr-only">Abrir Instagram {INSTAGRAM_HANDLE}</span>
-          <span aria-hidden="true">
+          <div aria-hidden="true">
             <Marquee className="marquee-xl" items={[INSTAGRAM_HANDLE, "bolsos hechos a mano", INSTAGRAM_HANDLE, "edición limitada"]} />
-          </span>
+          </div>
         </a>
         {INSTAGRAM_PHOTOS.length > 0 && (
           <div className="container-brand mt-10">
