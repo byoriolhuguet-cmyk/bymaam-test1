@@ -43,7 +43,7 @@ const ORGANIZATION_LD = {
   name: SITE_NAME,
   alternateName: "By Maam Handmade",
   description:
-    "Bolsos y fundas de piel hechos a mano por Marta Amarelo en Barcelona. Ediciones limitadas con flecos y tachuelas.",
+    "Bolsos y fundas de piel hechos a mano por Marta Amarelo en Galicia. Ediciones limitadas con flecos y tachuelas.",
   url: SITE_URL,
   logo: LOGO_URL,
   image: OG_IMAGE,
@@ -51,7 +51,7 @@ const ORGANIZATION_LD = {
   slogan: "Bolsos hechos a mano",
   founder: { "@type": "Person", name: FOUNDER },
   areaServed: "ES",
-  address: { "@type": "PostalAddress", addressCountry: "ES", addressLocality: "Barcelona", addressRegion: "Cataluña" },
+  address: { "@type": "PostalAddress", addressCountry: "ES", addressRegion: "Galicia" },
   knowsAbout: ["bolsos hechos a mano", "bolsos de piel", "bolsos con flecos", "artesanía en piel"],
   sameAs: [INSTAGRAM_URL, TIKTOK_URL, VINTED_URL],
 };

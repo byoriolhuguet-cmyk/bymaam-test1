@@ -16,13 +16,7 @@ export const Route = createFileRoute("/coleccion/$slug")({
   },
   head: ({ loaderData }) => {
     const p = loaderData?.product;
-    if (!p)
-      return seo({
-        title: "Pieza no encontrada | By Maam",
-        description: "Esta pieza no existe.",
-        path: "/coleccion",
-        noindex: true,
-      });
+    if (!p) return seo({ title: "Pieza no encontrada | By Maam", description: "Esta pieza no existe.", path: "/coleccion", noindex: true });
     const url = `${SITE_URL}${productPath(p.slug)}`;
     const description = `${p.name} ${p.color.toLowerCase()}: ${p.short} ${p.family === "Bolsos" ? "Bolso" : "Funda"} hecho a mano, edición limitada. ${formatPrice(p.price)}.`;
     return seo({
@@ -70,14 +64,8 @@ export const Route = createFileRoute("/coleccion/$slug")({
       <div className="max-w-md text-center">
         <p className="eyebrow">Error 404</p>
         <h1 className="mt-6 text-4xl">Esta pieza ya no está</h1>
-        <p className="mt-4 text-sm text-muted-foreground">
-          Puede que se haya vendido. Echa un vistazo al resto de la colección.
-        </p>
-        <div className="mt-8">
-          <Link to="/coleccion" className="btn-solid">
-            Ver la colección
-          </Link>
-        </div>
+        <p className="mt-4 text-sm text-muted-foreground">Puede que se haya vendido. Echa un vistazo al resto de la colección.</p>
+        <div className="mt-8"><Link to="/coleccion" className="btn-solid">Ver la colección</Link></div>
       </div>
     </div>
   ),
@@ -88,135 +76,102 @@ function ProductPage() {
   const { product: p } = Route.useLoaderData();
   const related = [...PRODUCTS.filter((x) => x.slug !== p.slug)]
     .sort((a, b) => Number(b.family === p.family) - Number(a.family === p.family))
-    .slice(0, 4);
+    .slice(0, 3);
 
   const specs: [string, string][] = [
-    ["Tipo", p.family === "Bolsos" ? "Bolso" : "Funda para ordenador"],
+    ["Tipo", p.family === "Bolsos" ? "Bolso" : "Funda"],
     ["Color", p.color],
     ["Material", p.leather],
     ["Flecos", p.fringe],
     ["Herrajes", p.studs],
     ...(p.strap ? ([["Correa", "Incluida"]] as [string, string][]) : []),
-    ["Hecho en", "Barcelona, a mano"],
+    ["Hecho en", "Galicia, a mano"],
     ["Serie", "Edición limitada"],
   ];
 
   return (
     <>
-      <article className="pdp" aria-labelledby="pieza-titulo">
-        <div className="pdp-media">
-          <img
-            src={p.image}
-            srcSet={productSrcSet(p)}
-            sizes="(min-width: 1024px) 60vw, 100vw"
-            alt={p.alt}
-            width={p.w}
-            height={p.h}
-            fetchPriority="high"
-            decoding="async"
-          />
-        </div>
+      <article className="container-brand pb-16 pt-8 md:pt-12" aria-labelledby="pieza-titulo">
+        <nav aria-label="Migas de pan" className="mb-8 text-xs tracking-wide text-muted-foreground">
+          <ol className="flex flex-wrap items-center gap-2">
+            <li><Link to="/" className="link-draw">Inicio</Link></li>
+            <li aria-hidden="true">/</li>
+            <li><Link to="/coleccion" className="link-draw">Colección</Link></li>
+            <li aria-hidden="true">/</li>
+            <li aria-current="page" className="text-foreground">{p.name}</li>
+          </ol>
+        </nav>
 
-        <div className="pdp-info" data-product-slug={p.slug}>
-          <nav aria-label="Migas de pan" className="pdp-crumbs">
-            <ol>
-              <li>
-                <Link to="/">Inicio</Link>
-              </li>
-              <li aria-hidden="true">/</li>
-              <li>
-                <Link to="/coleccion">Colección</Link>
-              </li>
-              <li aria-hidden="true">/</li>
-              <li aria-current="page">{p.name}</li>
-            </ol>
-          </nav>
-
-          <h1 id="pieza-titulo" className="pdp-title" data-reveal>
-            {p.name}
-          </h1>
-          <p className="pdp-price" data-reveal style={{ ["--d" as string]: "80ms" }}>
-            {formatPrice(p.price)}
-          </p>
-          <p className="pdp-color" data-reveal style={{ ["--d" as string]: "140ms" }}>
-            <span
-              className="swatch"
-              style={{ "--sw": p.swatch } as CSSProperties}
-              aria-hidden="true"
+        <div className="grid gap-10 lg:grid-cols-[1.35fr_1fr] lg:gap-16">
+          <div className="pdp-media">
+            <img
+              src={p.image}
+              srcSet={productSrcSet(p)}
+              sizes="(min-width: 1024px) 56vw, 92vw"
+              alt={p.alt}
+              width={p.w}
+              height={p.h}
+              fetchPriority="high"
+              decoding="async"
+              style={{ objectPosition: p.pos }}
             />
-            {p.color}
-          </p>
-
-          {!p.available && (
-            <p className="mt-4 text-sm text-wine">
-              Esta pieza está agotada. Escríbeme y te hago una igual.
-            </p>
-          )}
-
-          <div className="pdp-actions" data-reveal style={{ ["--d" as string]: "200ms" }}>
-            <a
-              href={p.vinted || VINTED_URL}
-              target="_blank"
-              rel="noopener"
-              className="btn-solid w-full"
-            >
-              Comprar en Vinted{" "}
-              <ArrowUpRight className="h-4 w-4" aria-hidden="true" strokeWidth={1.5} />
-            </a>
-            <a href={INSTAGRAM_URL} target="_blank" rel="noopener" className="btn-ghost w-full">
-              <Instagram className="h-[18px] w-[18px]" aria-hidden="true" strokeWidth={1.5} />
-              Preguntar por Instagram
-            </a>
           </div>
 
-          <p className="pdp-desc">{p.description}</p>
+          <div className="lg:sticky lg:top-24 lg:self-start" data-product-slug={p.slug}>
+            <p className="eyebrow" data-reveal>{p.family === "Bolsos" ? "Bolso hecho a mano" : "Funda hecha a mano"}</p>
+            <h1 id="pieza-titulo" className="mt-3 text-5xl leading-[0.98] md:text-6xl" data-reveal style={{ ["--d" as string]: "80ms" }}>
+              {p.name}
+            </h1>
+            <p className="mt-4 flex items-center gap-3 text-lg" data-reveal style={{ ["--d" as string]: "160ms" }}>
+              <span className="swatch" style={{ "--sw": p.swatch } as CSSProperties} aria-hidden="true" />
+              {p.color}
+              <span className="text-muted-foreground">·</span>
+              <span className="tabular-nums">{formatPrice(p.price)}</span>
+            </p>
+            <p className="mt-6 leading-relaxed text-muted-foreground" data-reveal style={{ ["--d" as string]: "240ms" }}>
+              {p.description}
+            </p>
 
-          <details className="pdp-acc" open>
-            <summary>Características</summary>
-            <dl aria-label="Características">
+            {!p.available && <p className="mt-4 text-sm text-wine">Esta pieza está agotada. Escríbeme y te hago una igual.</p>}
+
+            <div className="mt-8 flex flex-col gap-3 sm:flex-row" data-reveal style={{ ["--d" as string]: "320ms" }}>
+              <a href={p.vinted || VINTED_URL} target="_blank" rel="noopener" className="btn-solid flex-1">
+                Comprar en Vinted <ArrowUpRight className="h-4 w-4" aria-hidden="true" strokeWidth={1.5} />
+              </a>
+              <a href={INSTAGRAM_URL} target="_blank" rel="noopener" className="btn-ghost flex-1">
+                <Instagram className="h-[18px] w-[18px]" aria-hidden="true" strokeWidth={1.5} />
+                Preguntar por Instagram
+              </a>
+            </div>
+            <p className="mt-4 text-sm text-muted-foreground">
+              ¿Lo quieres en otro color? <Link to="/pedidos" className="link-draw text-foreground">Encarga un modelo personalizado</Link>.
+            </p>
+
+            <dl className="mt-10" aria-label="Características">
               {specs.map(([k, v]) => (
                 <div key={k} className="spec-row">
                   <dt>{k}</dt>
                   <dd>{v}</dd>
                 </div>
               ))}
+              <div className="spec-row border-b border-border" />
             </dl>
-          </details>
-          <details className="pdp-acc">
-            <summary>Envío y devoluciones</summary>
-            <p>
-              Envío con número de seguimiento. Tienes 14 días para devolverla si no te convence.{" "}
-              <Link to="/devoluciones" className="miu-link">
-                Ver la política de devoluciones
-              </Link>
-            </p>
-          </details>
-          <details className="pdp-acc">
-            <summary>¿La quieres en otro color?</summary>
-            <p>
-              Marta puede hacerla en otra combinación de piel, flecos y tachuelas.{" "}
-              <Link to="/pedidos" className="miu-link">
-                Encargar un modelo personalizado
-              </Link>
-            </p>
-          </details>
 
-          <div className="mt-8">
-            <ShareButtons title={`${p.name} · By Maam`} path={productPath(p.slug)} />
+            <div className="mt-8"><ShareButtons title={`${p.name} · By Maam`} path={productPath(p.slug)} /></div>
           </div>
         </div>
       </article>
 
-      <section className="pb-24 pt-16 md:pb-32" aria-labelledby="mas-piezas">
-        <h2 id="mas-piezas" className="miu-title miu-look-title mb-8" data-reveal>
-          Más piezas hechas a mano
-        </h2>
-        <div className="miu-grid">
-          {related.map((r, i) => (
-            <div key={r.slug} data-reveal style={{ ["--d" as string]: `${i * 80}ms` }}>
-              <ProductTile product={r} sizes="(min-width: 1024px) 25vw, 50vw" />
-            </div>
-          ))}
+      <section className="border-t border-border bg-card section-y" aria-labelledby="mas-piezas">
+        <div className="container-brand">
+          <h2 id="mas-piezas" className="text-3xl md:text-5xl" data-reveal>Más piezas hechas a mano</h2>
+          <div className="mt-12 grid gap-x-6 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
+            {related.map((r, i) => (
+              <div key={r.slug} data-reveal style={{ ["--d" as string]: `${i * 100}ms` }}>
+                <ProductTile product={r} sizes="(min-width: 1024px) 30vw, 92vw" />
+              </div>
+            ))}
+          </div>
         </div>
       </section>
     </>

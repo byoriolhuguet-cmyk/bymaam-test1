@@ -3,7 +3,7 @@ import { Instagram, Mail, Music2, ShoppingBag } from "lucide-react";
 
 import { CONTACT_EMAIL, INSTAGRAM_HANDLE, INSTAGRAM_URL, LAST_UPDATED, NAV_LINKS, TIKTOK_URL, VINTED_URL } from "@/lib/site";
 
-const SEALS = ["Hecho a mano en España", "Piel, flecos y tachuelas", "Envío con seguimiento", "Devoluciones aceptadas"];
+const SEALS = ["Hecho a mano en España", "Piel 100% real", "Envío con seguimiento", "Devoluciones aceptadas"];
 
 const LEGAL = [
   { to: "/privacidad", label: "Política de privacidad" },

@@ -71,8 +71,9 @@ function FaqPage() {
         secondary={{ href: VINTED_URL, label: "Ver la colección", external: true }}
       />
 
-      <section className="section-y">
+      <section className="section-y" aria-labelledby="faq-preguntas">
         <div className="container-brand max-w-3xl">
+          <h2 id="faq-preguntas" className="sr-only">Preguntas y respuestas</h2>
           <Accordion type="single" collapsible className="w-full">
             {FAQS.map((f, i) => (
               <AccordionItem key={f.q} value={`item-${i}`} className="border-border">

@@ -197,7 +197,7 @@ export function ColorDress() {
   };
 
   return (
-    <section className="miu-panel color-dress section-y" data-panel aria-labelledby="tu-color">
+    <section className="color-dress section-y" aria-labelledby="tu-color">
       <div className="fringe-curtain" ref={curtainRef} aria-hidden="true" hidden>
         {Array.from({ length: STRANDS }, (_, i) => (
           <i key={i} />
@@ -238,7 +238,7 @@ export function ColorDress() {
           </div>
         </div>
 
-        <div className="color-show" aria-live="polite" data-panel-media>
+        <div className="color-show" aria-live="polite">
           <img
             key={shown.slug}
             src={shown.image}
@@ -260,7 +260,6 @@ export function ColorDress() {
               target="_blank"
               rel="noopener"
               className="btn-solid mt-8"
-              data-magnetic
             >
               Ver en Vinted · {formatPrice(shown.price)}{" "}
               <ArrowUpRight className="h-4 w-4" aria-hidden="true" strokeWidth={1.5} />
@@ -269,33 +268,5 @@ export function ColorDress() {
         </div>
       </div>
     </section>
-  );
-}
-
-/** Botón circular "Comprar en Vinted" con el texto girando alrededor. */
-export function VintedOrb() {
-  return (
-    <a
-      className="orb"
-      href={VINTED_URL}
-      target="_blank"
-      rel="noopener"
-      data-magnetic
-      aria-label="Comprar en Vinted"
-    >
-      <svg viewBox="0 0 100 100" aria-hidden="true">
-        <defs>
-          <path id="orb-circle" d="M50,50 m-40,0 a40,40 0 1,1 80,0 a40,40 0 1,1 -80,0" />
-        </defs>
-        <text>
-          <textPath href="#orb-circle" textLength="248" lengthAdjust="spacing">
-            Comprar en Vinted · Edición limitada ·
-          </textPath>
-        </text>
-      </svg>
-      <span>
-        Vinted <ArrowUpRight className="h-4 w-4" aria-hidden="true" strokeWidth={1.5} />
-      </span>
-    </a>
   );
 }

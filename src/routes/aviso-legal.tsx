@@ -28,7 +28,7 @@ function AvisoLegal() {
         <h2>Titular del sitio</h2>
         <p>
           Marta Amarelo, que opera bajo la marca <strong>By Maam</strong>, con actividad artesanal
-          en Barcelona (España). Email de contacto:{" "}
+          en Galicia (España). Email de contacto:{" "}
           <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>. Dirección web: {SITE_URL}.
         </p>
         <p className="text-xs">

@@ -27,7 +27,7 @@ function Privacidad() {
       <Prose>
         <h2>Responsable</h2>
         <p>
-          Marta Amarelo (By Maam), marca personal con actividad en Barcelona (España). Contacto:{" "}
+          Marta Amarelo (By Maam), marca personal con actividad en Galicia (España). Contacto:{" "}
           <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>.
         </p>
         <p className="text-xs">

@@ -108,9 +108,13 @@ function ColeccionPage() {
         secondary={{ href: INSTAGRAM_URL, label: "Preguntar por Instagram", external: true }}
       />
 
-      <section className="pb-24 md:pb-32" aria-label="Piezas de la colección">
+      <section className="section-y pt-12 md:pt-16" aria-label="Piezas de la colección">
         <div className="container-brand">
-          <div className="miu-filters" role="group" aria-label="Filtros">
+          <div
+            className="mb-12 flex flex-col gap-5 border-y border-border py-5 lg:flex-row lg:items-center lg:justify-between"
+            role="group"
+            aria-label="Filtros"
+          >
             <Filter label="Tipo" options={families} value={family} onChange={setFamily} />
             <Filter label="Color" options={colors} value={color} onChange={setColor} />
           </div>
@@ -133,22 +137,20 @@ function ColeccionPage() {
               </button>
             </p>
           )}
-        </div>
 
-        <div className="miu-grid" aria-live="polite">
-          {shown.map((p, i) => (
-            <div key={p.slug} data-reveal style={{ ["--d" as string]: `${(i % 4) * 80}ms` }}>
-              <ProductTile
-                product={p}
-                headingLevel={2}
-                priority={i < 2}
-                sizes="(min-width: 1024px) 25vw, (min-width: 640px) 33vw, 50vw"
-              />
-            </div>
-          ))}
-        </div>
+          <div className="grid gap-x-6 gap-y-14 sm:grid-cols-2 lg:grid-cols-3" aria-live="polite">
+            {shown.map((p, i) => (
+              <div key={p.slug} data-reveal style={{ ["--d" as string]: `${(i % 3) * 90}ms` }}>
+                <ProductTile
+                  product={p}
+                  headingLevel={2}
+                  priority={i === 0}
+                  sizes="(min-width: 1024px) 30vw, (min-width: 640px) 46vw, 92vw"
+                />
+              </div>
+            ))}
+          </div>
 
-        <div className="container-brand">
           {shown.length === 0 && (
             <p className="py-16 text-center text-muted-foreground">
               No hay piezas con esa combinación ahora mismo. Escríbeme por Instagram y lo hago para
@@ -169,9 +171,7 @@ function ColeccionPage() {
             style={{ ["--d" as string]: "150ms" }}
           >
             <p>
-              Los bolsos de By Maam se diseñan, se cortan y se cosen a mano en Barcelona. Cada pieza
-              combina piel, flecos largos y tachuelas doradas, bronce o plateadas, y se hace en
-              series muy cortas: si un color se agota, normalmente no vuelve igual.
+              Los bolsos de By Maam se diseñan, se cortan y se cosen a mano en Galicia. Cada pieza combina piel, flecos largos y tachuelas doradas, bronce o plateadas, y se hace en series muy cortas: si un color se agota, normalmente no vuelve igual.
             </p>
             <p>
               Si quieres otro color o una combinación distinta, puedes encargar un modelo
@@ -197,7 +197,7 @@ function Filter({
 }) {
   return (
     <div className="flex flex-wrap items-center gap-2">
-      <span className="miu-filter-label">{label}</span>
+      <span className="eyebrow mr-2">{label}</span>
       {options.map((o) => (
         <button
           key={o}

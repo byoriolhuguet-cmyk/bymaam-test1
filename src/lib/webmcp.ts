@@ -191,8 +191,7 @@ const buildTools = (navigate: Navigate): Tool[] => [
           formulario: absoluteUrl("/contacto"),
         },
         preguntasFrecuentes: absoluteUrl("/faq"),
-        notas:
-          "Piezas de edición limitada hechas a mano por Marta Amarelo en Barcelona. Envío con seguimiento. Devoluciones en 14 días.",
+        notas: "Piezas de edición limitada hechas a mano por Marta Amarelo en Galicia. Envío con seguimiento. Devoluciones en 14 días.",
       }),
   },
 ];

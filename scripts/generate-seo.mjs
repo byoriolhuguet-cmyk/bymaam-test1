@@ -102,7 +102,7 @@ writeFileSync(
   "public/llms.txt",
   `# ${site.name}
 
-> ${site.tagline} de piel con flecos y tachuelas, diseñados y cosidos a mano por ${site.founder} en Barcelona (España). Ediciones limitadas, correa incluida en los bolsos. Se compran en Vinted o por Instagram.
+> ${site.tagline} de piel con flecos y tachuelas, diseñados y cosidos a mano por ${site.founder} en Galicia (España). Ediciones limitadas, correa incluida en los bolsos. Se compran en Vinted o por Instagram.
 
 By Maam es una marca artesanal de bolsos y fundas de piel hechos a mano. Cada pieza lleva de 4 a 5 horas de trabajo. Las series son muy cortas.
 
@@ -151,7 +151,7 @@ writeFileSync(
   "public/llms-full.txt",
   `# ${site.name}: bolsos hechos a mano
 
-${site.name} (${site.instagramHandle}) es la marca de ${site.founder}: bolsos y fundas de piel hechos a mano en Barcelona, con flecos y tachuelas. Última actualización: ${site.lastUpdated}.
+${site.name} (${site.instagramHandle}) es la marca de ${site.founder}: bolsos y fundas de piel hechos a mano en Galicia, con flecos y tachuelas. Última actualización: ${site.lastUpdated}.
 
 ## Colección
 
