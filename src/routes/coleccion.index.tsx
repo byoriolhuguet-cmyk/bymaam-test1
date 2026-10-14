@@ -133,7 +133,6 @@ function ColeccionPage() {
               </button>
             </p>
           )}
-
         </div>
 
         <div className="miu-grid" aria-live="polite">

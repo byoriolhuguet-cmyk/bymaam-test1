@@ -16,7 +16,13 @@ export const Route = createFileRoute("/coleccion/$slug")({
   },
   head: ({ loaderData }) => {
     const p = loaderData?.product;
-    if (!p) return seo({ title: "Pieza no encontrada | By Maam", description: "Esta pieza no existe.", path: "/coleccion", noindex: true });
+    if (!p)
+      return seo({
+        title: "Pieza no encontrada | By Maam",
+        description: "Esta pieza no existe.",
+        path: "/coleccion",
+        noindex: true,
+      });
     const url = `${SITE_URL}${productPath(p.slug)}`;
     const description = `${p.name} ${p.color.toLowerCase()}: ${p.short} ${p.family === "Bolsos" ? "Bolso" : "Funda"} hecho a mano, edición limitada. ${formatPrice(p.price)}.`;
     return seo({
@@ -64,8 +70,14 @@ export const Route = createFileRoute("/coleccion/$slug")({
       <div className="max-w-md text-center">
         <p className="eyebrow">Error 404</p>
         <h1 className="mt-6 text-4xl">Esta pieza ya no está</h1>
-        <p className="mt-4 text-sm text-muted-foreground">Puede que se haya vendido. Echa un vistazo al resto de la colección.</p>
-        <div className="mt-8"><Link to="/coleccion" className="btn-solid">Ver la colección</Link></div>
+        <p className="mt-4 text-sm text-muted-foreground">
+          Puede que se haya vendido. Echa un vistazo al resto de la colección.
+        </p>
+        <div className="mt-8">
+          <Link to="/coleccion" className="btn-solid">
+            Ver la colección
+          </Link>
+        </div>
       </div>
     </div>
   ),
@@ -108,9 +120,13 @@ function ProductPage() {
         <div className="pdp-info" data-product-slug={p.slug}>
           <nav aria-label="Migas de pan" className="pdp-crumbs">
             <ol>
-              <li><Link to="/">Inicio</Link></li>
+              <li>
+                <Link to="/">Inicio</Link>
+              </li>
               <li aria-hidden="true">/</li>
-              <li><Link to="/coleccion">Colección</Link></li>
+              <li>
+                <Link to="/coleccion">Colección</Link>
+              </li>
               <li aria-hidden="true">/</li>
               <li aria-current="page">{p.name}</li>
             </ol>
@@ -123,15 +139,29 @@ function ProductPage() {
             {formatPrice(p.price)}
           </p>
           <p className="pdp-color" data-reveal style={{ ["--d" as string]: "140ms" }}>
-            <span className="swatch" style={{ "--sw": p.swatch } as CSSProperties} aria-hidden="true" />
+            <span
+              className="swatch"
+              style={{ "--sw": p.swatch } as CSSProperties}
+              aria-hidden="true"
+            />
             {p.color}
           </p>
 
-          {!p.available && <p className="mt-4 text-sm text-wine">Esta pieza está agotada. Escríbeme y te hago una igual.</p>}
+          {!p.available && (
+            <p className="mt-4 text-sm text-wine">
+              Esta pieza está agotada. Escríbeme y te hago una igual.
+            </p>
+          )}
 
           <div className="pdp-actions" data-reveal style={{ ["--d" as string]: "200ms" }}>
-            <a href={p.vinted || VINTED_URL} target="_blank" rel="noopener" className="btn-solid w-full">
-              Comprar en Vinted <ArrowUpRight className="h-4 w-4" aria-hidden="true" strokeWidth={1.5} />
+            <a
+              href={p.vinted || VINTED_URL}
+              target="_blank"
+              rel="noopener"
+              className="btn-solid w-full"
+            >
+              Comprar en Vinted{" "}
+              <ArrowUpRight className="h-4 w-4" aria-hidden="true" strokeWidth={1.5} />
             </a>
             <a href={INSTAGRAM_URL} target="_blank" rel="noopener" className="btn-ghost w-full">
               <Instagram className="h-[18px] w-[18px]" aria-hidden="true" strokeWidth={1.5} />
@@ -156,18 +186,24 @@ function ProductPage() {
             <summary>Envío y devoluciones</summary>
             <p>
               Envío con número de seguimiento. Tienes 14 días para devolverla si no te convence.{" "}
-              <Link to="/devoluciones" className="miu-link">Ver la política de devoluciones</Link>
+              <Link to="/devoluciones" className="miu-link">
+                Ver la política de devoluciones
+              </Link>
             </p>
           </details>
           <details className="pdp-acc">
             <summary>¿La quieres en otro color?</summary>
             <p>
               Marta puede hacerla en otra combinación de piel, flecos y tachuelas.{" "}
-              <Link to="/pedidos" className="miu-link">Encargar un modelo personalizado</Link>
+              <Link to="/pedidos" className="miu-link">
+                Encargar un modelo personalizado
+              </Link>
             </p>
           </details>
 
-          <div className="mt-8"><ShareButtons title={`${p.name} · By Maam`} path={productPath(p.slug)} /></div>
+          <div className="mt-8">
+            <ShareButtons title={`${p.name} · By Maam`} path={productPath(p.slug)} />
+          </div>
         </div>
       </article>
 
