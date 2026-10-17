@@ -20,4 +20,4 @@ Allow: /
 User-agent: Google-Extended
 Allow: /
 
-Sitemap: https://bymaam.netlify.app/sitemap.xml
+Sitemap: https://bymaam.com/sitemap.xml
