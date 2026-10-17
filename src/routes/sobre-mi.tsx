@@ -45,8 +45,10 @@ function SobrePage() {
             {/* Foto real de Marta aportada por la marca */}
             <img
               src="/images/brand/marta-amarelo.webp"
-              width={894}
-              height={878}
+              srcSet="/images/brand/marta-amarelo-700.webp 700w, /images/brand/marta-amarelo.webp 1400w"
+              sizes="(min-width: 768px) 46vw, 92vw"
+              width={1400}
+              height={1375}
               alt="Marta Amarelo, fundadora de By Maam"
               className="w-full border border-border object-cover"
               loading="lazy"

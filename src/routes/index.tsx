@@ -4,8 +4,9 @@ import { useEffect, useRef, useState } from "react";
 
 import { CollectionRail } from "@/components/site/CollectionRail";
 import { LitWords, Marquee, SplitHeading } from "@/components/site/Motion";
+import { ColorDress } from "@/components/site/ColorDress";
 import { Newsletter } from "@/components/site/Newsletter";
-import { BAGS, PRODUCTS, formatPrice } from "@/data/products";
+import { BAGS, PRODUCTS, formatPrice, productSrcSet } from "@/data/products";
 import { INSTAGRAM_PHOTOS } from "@/data/instagram";
 import { seo } from "@/lib/seo";
 import { INSTAGRAM_HANDLE, INSTAGRAM_URL, NEWSLETTER_ENDPOINT, SITE_URL, VINTED_URL } from "@/lib/site";
@@ -50,7 +51,7 @@ export const Route = createFileRoute("/")({
           rel: "preload",
           as: "image",
           href: first.image,
-          imageSrcSet: `${first.image640} 640w, ${first.image} ${first.w}w`,
+          imageSrcSet: productSrcSet(first),
           imageSizes: "(min-width: 1024px) 46vw, 92vw",
           fetchPriority: "high",
         },
@@ -91,6 +92,12 @@ function HeroStage() {
   const [active, setActive] = useState(0);
   const [prev, setPrev] = useState<number | null>(null);
   const [cycled, setCycled] = useState(false);
+  // Solo se descargan la diapositiva visible y la siguiente, y la siguiente cuando la primera ya está pintada
+  const [reach, setReach] = useState(0);
+  useEffect(() => {
+    const id = window.setTimeout(() => setReach((r) => Math.max(r, active + 1)), active === 0 ? 2500 : 0);
+    return () => window.clearTimeout(id);
+  }, [active]);
   const paused = useRef(false);
   const count = BAGS.length;
 
@@ -137,18 +144,20 @@ function HeroStage() {
       <div className="hero-card" data-cycled={cycled}>
         {BAGS.map((p, i) => (
           <div key={p.slug} className={`hero-slide ${i === active ? "is-active" : i === prev ? "is-prev" : ""}`} aria-hidden={i !== active}>
+            {(i === active || i === prev || i <= reach) && (
             <img
               src={p.image}
-              srcSet={`${p.image640} 640w, ${p.image} ${p.w}w`}
+              srcSet={productSrcSet(p)}
               sizes="(min-width: 1024px) 46vw, 92vw"
               alt={p.alt}
               width={p.w}
               height={p.h}
               loading={i === 0 ? "eager" : "lazy"}
-              fetchPriority={i === 0 ? "high" : "auto"}
+              fetchPriority={i === 0 ? "high" : "low"}
               decoding="async"
               style={{ objectPosition: p.pos }}
             />
+            )}
           </div>
         ))}
       </div>
@@ -249,7 +258,16 @@ function Index() {
             {MATERIALS.map((m, i) => (
               <article key={m.title} className="material" style={{ ["--d" as string]: `${i * 110}ms` }}>
                 <div className="material-media" data-reveal="clip" style={{ ["--d" as string]: `${i * 110}ms` }}>
-                  <img src={m.src} alt={m.alt} width={800} height={1000} loading="lazy" decoding="async" />
+                  <img
+                    src={m.src}
+                    srcSet={`${m.src.replace(/\.webp$/, "-480.webp")} 480w, ${m.src} 800w`}
+                    sizes="(min-width: 1408px) 20rem, (min-width: 1024px) 23vw, 46vw"
+                    alt={m.alt}
+                    width={800}
+                    height={1000}
+                    loading="lazy"
+                    decoding="async"
+                  />
                 </div>
                 <h3 className="mt-4 font-display text-2xl">{m.title}</h3>
                 <p className="mt-1 text-sm text-muted-foreground">{m.text}</p>
@@ -269,8 +287,8 @@ function Index() {
               srcSet="/images/brand/marta-amarelo-700.webp 700w, /images/brand/marta-amarelo.webp 1400w"
               sizes="(min-width: 1024px) 40vw, 92vw"
               alt="Marta Amarelo, fundadora de By Maam"
-              width={894}
-              height={878}
+              width={1400}
+              height={1375}
               loading="lazy"
               decoding="async"
             />
@@ -317,7 +335,7 @@ function Index() {
       </section>
 
       {/* RESEÑAS */}
-      <section className="border-y border-border bg-card section-y" aria-labelledby="resenas">
+      <section className="cv-auto border-y border-border bg-card section-y" aria-labelledby="resenas">
         <div className="container-brand">
           <p className="eyebrow" data-reveal>Lo que dicen</p>
           <SplitHeading id="resenas" lines={["Quien lo lleva,", <em key="e" className="text-wine">repite</em>]} className="mt-4 text-4xl leading-[1.02] md:text-6xl" />
@@ -337,6 +355,9 @@ function Index() {
           </div>
         </div>
       </section>
+
+      {/* TU COLOR: la web adopta la paleta del bolso elegido */}
+      <ColorDress />
 
       {/* AVISOS / NEWSLETTER */}
       <section className="wine-band section-y" aria-labelledby="avisos">
@@ -368,9 +389,12 @@ function Index() {
       </section>
 
       {/* INSTAGRAM */}
-      <section className="overflow-hidden py-14 md:py-20" aria-label="Instagram de By Maam">
-        <a href={INSTAGRAM_URL} target="_blank" rel="noopener" className="block" aria-label={`Abrir Instagram ${INSTAGRAM_HANDLE}`}>
-          <Marquee className="marquee-xl" items={[INSTAGRAM_HANDLE, "bolsos hechos a mano", INSTAGRAM_HANDLE, "edición limitada"]} />
+      <section className="cv-auto overflow-hidden py-14 md:py-20" aria-label="Instagram de By Maam">
+        <a href={INSTAGRAM_URL} target="_blank" rel="noopener" className="block">
+          <span className="sr-only">Abrir Instagram {INSTAGRAM_HANDLE}</span>
+          <div aria-hidden="true">
+            <Marquee className="marquee-xl" items={[INSTAGRAM_HANDLE, "bolsos hechos a mano", INSTAGRAM_HANDLE, "edición limitada"]} />
+          </div>
         </a>
         {INSTAGRAM_PHOTOS.length > 0 && (
           <div className="container-brand mt-10">

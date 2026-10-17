@@ -1,7 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import type { CSSProperties, MouseEvent } from "react";
 
-import { formatPrice, type Product } from "@/data/products";
+import { formatPrice, productSrcSet, type Product } from "@/data/products";
 
 /** La foto del producto viaja a la ficha con una View Transition (elemento compartido). */
 const markShared = (event: MouseEvent<HTMLAnchorElement>) => {
@@ -34,7 +34,7 @@ export function ProductTile({
       <div className="tile-media">
         <img
           src={product.image}
-          srcSet={`${product.image640} 640w, ${product.image} ${product.w}w`}
+          srcSet={productSrcSet(product)}
           sizes={sizes}
           alt={product.alt}
           width={product.w}

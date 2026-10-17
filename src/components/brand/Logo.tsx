@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils";
 export function Wordmark({ className, size = 28 }: { className?: string; size?: number }) {
   return (
     <span className={cn("wordmark", className)} style={{ fontSize: size }} aria-label="By Maam, handmade">
-      <em aria-hidden="true">by</em>
+      <em aria-hidden="true">by</em>{" "}
       <span aria-hidden="true">maam</span>
     </span>
   );

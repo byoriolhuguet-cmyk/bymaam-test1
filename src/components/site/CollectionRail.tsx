@@ -89,7 +89,7 @@ export function CollectionRail({ products }: { products: Product[] }) {
           <div ref={trackRef} className="rail-track">
             {products.map((product, i) => (
               <div key={product.slug} className="rail-tile">
-                <ProductTile product={product} priority={i === 0} sizes="(min-width: 1024px) 34vw, 82vw" />
+                <ProductTile product={product} priority={i === 0} sizes="(min-width: 1360px) 34rem, (min-width: 680px) 40vw, 17rem" />
               </div>
             ))}
           </div>

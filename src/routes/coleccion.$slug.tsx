@@ -4,7 +4,7 @@ import type { CSSProperties } from "react";
 
 import { ProductTile } from "@/components/site/ProductTile";
 import { ShareButtons } from "@/components/site/ShareButtons";
-import { PRODUCTS, formatPrice, getProduct, productPath } from "@/data/products";
+import { PRODUCTS, formatPrice, getProduct, productPath, productSrcSet } from "@/data/products";
 import { breadcrumbLd, seo } from "@/lib/seo";
 import { INSTAGRAM_URL, SITE_URL, VINTED_URL } from "@/lib/site";
 
@@ -106,7 +106,7 @@ function ProductPage() {
           <div className="pdp-media">
             <img
               src={p.image}
-              srcSet={`${p.image640} 640w, ${p.image} ${p.w}w`}
+              srcSet={productSrcSet(p)}
               sizes="(min-width: 1024px) 56vw, 92vw"
               alt={p.alt}
               width={p.w}
@@ -168,7 +168,7 @@ function ProductPage() {
           <div className="mt-12 grid gap-x-6 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
             {related.map((r, i) => (
               <div key={r.slug} data-reveal style={{ ["--d" as string]: `${i * 100}ms` }}>
-                <ProductTile product={r} sizes="(min-width: 1024px) 30vw, 92vw" />
+                <ProductTile product={r} sizes="(min-width: 1408px) 27rem, (min-width: 1024px) 30vw, (min-width: 640px) 46vw, 92vw" />
               </div>
             ))}
           </div>
