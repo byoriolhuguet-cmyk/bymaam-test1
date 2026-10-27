@@ -21,13 +21,17 @@ function Privacidad() {
         eyebrow="Legal"
         title="Política de privacidad"
         lead="Recojo los datos mínimos para contestarte y enviarte tu bolso. Nada más."
-        primary={{ href: `mailto:${CONTACT_EMAIL}`, label: "Escribir sobre mis datos", external: true }}
+        primary={{
+          href: `mailto:${CONTACT_EMAIL}`,
+          label: "Escribir sobre mis datos",
+          external: true,
+        }}
       />
 
       <Prose>
         <h2>Responsable</h2>
         <p>
-          Marta Amarelo (By Maam), marca personal con actividad en Galicia (España). Contacto:{" "}
+          Marta Amarelo (By Maam), marca personal con actividad en Barcelona (España). Contacto:{" "}
           <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>.
         </p>
         <p className="text-xs">
@@ -38,15 +42,15 @@ function Privacidad() {
         <h2>Qué datos recojo</h2>
         <ul>
           <li>
-            <strong>Formulario de contacto y de pedidos:</strong> nombre, email, teléfono
-            (opcional) y el contenido del mensaje.
+            <strong>Formulario de contacto y de pedidos:</strong> nombre, email, teléfono (opcional)
+            y el contenido del mensaje.
           </li>
           <li>
             <strong>Newsletter:</strong> tu email.
           </li>
           <li>
-            <strong>Navegación:</strong> datos estadísticos anónimos, solo si aceptas las cookies
-            de analítica.
+            <strong>Navegación:</strong> datos estadísticos anónimos, solo si aceptas las cookies de
+            analítica.
           </li>
         </ul>
 
@@ -73,16 +77,19 @@ function Privacidad() {
         <h2>Con quién los comparto</h2>
         <p>
           Solo con los proveedores necesarios para que la web funcione: el servicio de formularios,
-          la plataforma de email marketing, el hosting y, en su caso, la analítica. No vendo ni
-          cedo datos a terceros.
+          la plataforma de email marketing, el hosting y, en su caso, la analítica. No vendo ni cedo
+          datos a terceros.
         </p>
 
         <h2>Tus derechos</h2>
         <p>
           Puedes pedirme acceso, rectificación, supresión, limitación, portabilidad u oposición
           escribiendo a <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>. Contesto en menos
-          de 30 días. También puedes reclamar ante la Agencia Española de Protección de Datos
-          (<a href="https://www.aepd.es" target="_blank" rel="noopener">aepd.es</a>).
+          de 30 días. También puedes reclamar ante la Agencia Española de Protección de Datos (
+          <a href="https://www.aepd.es" target="_blank" rel="noopener">
+            aepd.es
+          </a>
+          ).
         </p>
 
         <p className="pt-6 text-xs uppercase tracking-[0.18em] text-sand-deep">

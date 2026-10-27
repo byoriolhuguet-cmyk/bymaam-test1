@@ -33,6 +33,12 @@ const pages = [
   { path: "/", priority: "1.0", freq: "weekly" },
   { path: "/coleccion", priority: "0.9", freq: "weekly" },
   ...products.map((p) => ({ path: `/coleccion/${p.slug}`, priority: "0.8", freq: "weekly", image: p })),
+  { path: "/bolsos-con-flecos", priority: "0.8", freq: "weekly" },
+  { path: "/bolsos-con-tachuelas", priority: "0.7", freq: "weekly" },
+  { path: "/fundas-portatil", priority: "0.7", freq: "weekly" },
+  { path: "/guias", priority: "0.5", freq: "monthly" },
+  { path: "/guias/como-cuidar-un-bolso-con-flecos", priority: "0.5", freq: "monthly" },
+  { path: "/guias/como-combinar-un-bolso-con-flecos", priority: "0.5", freq: "monthly" },
   { path: "/sobre-mi", priority: "0.6", freq: "monthly" },
   { path: "/pedidos", priority: "0.6", freq: "monthly" },
   { path: "/faq", priority: "0.6", freq: "monthly" },
@@ -102,12 +108,21 @@ writeFileSync(
   "public/llms.txt",
   `# ${site.name}
 
-> ${site.tagline} de piel con flecos y tachuelas, diseñados y cosidos a mano por ${site.founder} en Galicia (España). Ediciones limitadas, correa incluida en los bolsos. Se compran en Vinted o por Instagram.
+> ${site.tagline} de piel sintética con flecos y tachuelas, diseñados y cosidos a mano por ${site.founder} en Barcelona (España). Ediciones limitadas, correa incluida en los bolsos. Se compran en Vinted o por Instagram.
 
-By Maam es una marca artesanal de bolsos y fundas de piel hechos a mano. Cada pieza lleva de 4 a 5 horas de trabajo. Las series son muy cortas.
+By Maam es una marca artesanal de bolsos y fundas para portátil de piel sintética, hechos a mano. Cada pieza lleva de 4 a 5 horas de trabajo. Las series son muy cortas.
 
 ## Colección
 ${list}
+
+## Por tipo de pieza
+- [Bolsos con flecos](${url("/bolsos-con-flecos")})
+- [Bolsos con tachuelas](${url("/bolsos-con-tachuelas")})
+- [Fundas para portátil](${url("/fundas-portatil")})
+
+## Guías
+- [Cómo cuidar un bolso con flecos](${url("/guias/como-cuidar-un-bolso-con-flecos")})
+- [Cómo combinar un bolso con flecos](${url("/guias/como-combinar-un-bolso-con-flecos")})
 
 ## Cómo comprar
 - [Perfil en Vinted (compra protegida)](${site.vintedUrl})
@@ -151,7 +166,7 @@ writeFileSync(
   "public/llms-full.txt",
   `# ${site.name}: bolsos hechos a mano
 
-${site.name} (${site.instagramHandle}) es la marca de ${site.founder}: bolsos y fundas de piel hechos a mano en Galicia, con flecos y tachuelas. Última actualización: ${site.lastUpdated}.
+${site.name} (${site.instagramHandle}) es la marca de ${site.founder}: bolsos y fundas para portátil de piel sintética, hechos a mano en Barcelona, con flecos y tachuelas. Última actualización: ${site.lastUpdated}.
 
 ## Colección
 

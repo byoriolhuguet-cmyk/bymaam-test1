@@ -119,7 +119,7 @@ export function useMotionEngine(pathname: string) {
 }
 
 /**
- * Script inline que se ejecuta ANTES de pintar: decide si hay movimiento y si
- * toca pantalla de carga (solo en la portada y solo una vez por sesión).
+ * Script inline que se ejecuta ANTES de pintar: decide si hay movimiento. Sin pantalla de carga:
+ * la portada se ve al instante (data-intro="skip" deja que la entrada del hero arranque sola).
  */
-export const MOTION_BOOT_SCRIPT = `(function(d){try{var r=window.matchMedia('(prefers-reduced-motion: reduce)').matches;if(!r)d.classList.add('motion-ok');var seen=false;try{seen=!!sessionStorage.getItem('bymaam-intro')}catch(e){}var home=location.pathname==='/'||location.pathname==='/index.html';d.setAttribute('data-intro',(!r&&home&&!seen)?'run':'skip')}catch(e){d.setAttribute('data-intro','skip')}})(document.documentElement)`;
+export const MOTION_BOOT_SCRIPT = `(function(d){try{if(!window.matchMedia('(prefers-reduced-motion: reduce)').matches)d.classList.add('motion-ok')}catch(e){}d.setAttribute('data-intro','skip')})(document.documentElement)`;

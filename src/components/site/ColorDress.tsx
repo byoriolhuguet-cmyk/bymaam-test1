@@ -147,8 +147,8 @@ function fringeWipe(curtain: HTMLDivElement | null, color: string, midway: () =>
   curtain.hidden = false;
   const ins = strands.map((s, i) =>
     s.animate([{ transform: "translate3d(0,-101%,0)" }, { transform: "translate3d(0,0,0)" }], {
-      duration: 480,
-      delay: (1 - dist[i]!) * 150 + Math.random() * 60,
+      duration: 320,
+      delay: (1 - dist[i]!) * 100 + Math.random() * 40,
       easing: "cubic-bezier(0.77, 0, 0.175, 1)",
       fill: "forwards",
     }),
@@ -158,8 +158,8 @@ function fringeWipe(curtain: HTMLDivElement | null, color: string, midway: () =>
       midway();
       const outs = strands.map((s, i) =>
         s.animate([{ transform: "translate3d(0,0,0)" }, { transform: "translate3d(0,101%,0)" }], {
-          duration: 620,
-          delay: dist[i]! * 170 + Math.random() * 70,
+          duration: 380,
+          delay: dist[i]! * 120 + Math.random() * 40,
           easing: "cubic-bezier(0.23, 1, 0.32, 1)",
           fill: "forwards",
         }),
@@ -206,11 +206,8 @@ export function ColorDress() {
       <div className="container-brand">
         <div className="flex flex-wrap items-end justify-between gap-6">
           <div>
-            <p className="eyebrow" data-reveal>
-              Tu color
-            </p>
-            <h2 id="tu-color" className="mt-4 text-4xl leading-[1.02] md:text-6xl" data-reveal>
-              La web se viste <em className="text-wine">de tu bolso</em>
+            <h2 id="tu-color" className="text-4xl leading-[1.02] md:text-6xl" data-reveal>
+              La web se viste de tu bolso
             </h2>
           </div>
           <div className="flex flex-wrap gap-2" role="group" aria-label="Elegir el color de la web">

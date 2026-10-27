@@ -20,7 +20,6 @@ import { CookieBanner } from "@/components/layout/CookieBanner";
 import { ExitIntentPopup } from "@/components/layout/ExitIntentPopup";
 import { MotionExperience } from "@/components/layout/MotionExperience";
 import { Button } from "@/components/ui/button";
-import { Preloader } from "@/components/layout/Preloader";
 import { MOTION_BOOT_SCRIPT } from "@/lib/motion";
 import { registerWebMcpTools } from "@/lib/webmcp";
 import {
@@ -43,7 +42,7 @@ const ORGANIZATION_LD = {
   name: SITE_NAME,
   alternateName: "By Maam Handmade",
   description:
-    "Bolsos y fundas de piel hechos a mano por Marta Amarelo en Galicia. Ediciones limitadas con flecos y tachuelas.",
+    "Bolsos y fundas para portátil de piel sintética, hechos a mano por Marta Amarelo en Barcelona. Ediciones limitadas con flecos y tachuelas.",
   url: SITE_URL,
   logo: LOGO_URL,
   image: OG_IMAGE,
@@ -51,8 +50,19 @@ const ORGANIZATION_LD = {
   slogan: "Bolsos hechos a mano",
   founder: { "@type": "Person", name: FOUNDER },
   areaServed: "ES",
-  address: { "@type": "PostalAddress", addressCountry: "ES", addressRegion: "Galicia" },
-  knowsAbout: ["bolsos hechos a mano", "bolsos de piel", "bolsos con flecos", "artesanía en piel"],
+  address: {
+    "@type": "PostalAddress",
+    addressCountry: "ES",
+    addressLocality: "Barcelona",
+    addressRegion: "Cataluña",
+  },
+  knowsAbout: [
+    "bolsos hechos a mano",
+    "bolsos con flecos",
+    "bolsos con tachuelas",
+    "bolsos de piel sintética",
+    "fundas para portátil",
+  ],
   sameAs: [INSTAGRAM_URL, TIKTOK_URL, VINTED_URL],
 };
 
@@ -64,11 +74,6 @@ const WEBSITE_LD = {
   name: SITE_NAME,
   inLanguage: "es-ES",
   publisher: { "@id": `${SITE_URL}/#organization` },
-  potentialAction: {
-    "@type": "SearchAction",
-    target: { "@type": "EntryPoint", urlTemplate: `${SITE_URL}/coleccion?q={search_term_string}` },
-    "query-input": "required name=search_term_string",
-  },
 };
 
 function NotFoundComponent() {
@@ -140,8 +145,18 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { rel: "icon", type: "image/png", href: "/favicon.png" },
       { rel: "apple-touch-icon", href: "/apple-touch-icon.png" },
       { rel: "manifest", href: "/site.webmanifest" },
-      { rel: "alternate", type: "application/json", href: "/products.json", title: "Catálogo By Maam (JSON)" },
-      { rel: "alternate", type: "text/plain", href: "/llms.txt", title: "Resumen para asistentes de IA" },
+      {
+        rel: "alternate",
+        type: "application/json",
+        href: "/products.json",
+        title: "Catálogo By Maam (JSON)",
+      },
+      {
+        rel: "alternate",
+        type: "text/plain",
+        href: "/llms.txt",
+        title: "Resumen para asistentes de IA",
+      },
     ],
     scripts: [
       { type: "application/ld+json", children: JSON.stringify(ORGANIZATION_LD) },
@@ -179,7 +194,11 @@ function RootComponent() {
     const recover = (event: Event) => {
       const reason = (event as PromiseRejectionEvent).reason;
       const text = String(reason?.message ?? reason ?? "");
-      if (event.type !== "vite:preloadError" && !/module script failed|dynamically imported module|Importing a module/i.test(text)) return;
+      if (
+        event.type !== "vite:preloadError" &&
+        !/module script failed|dynamically imported module|Importing a module/i.test(text)
+      )
+        return;
       event.preventDefault();
       if (sessionStorage.getItem("bymaam-reloaded")) return;
       sessionStorage.setItem("bymaam-reloaded", "1");
@@ -200,7 +219,10 @@ function RootComponent() {
   useEffect(
     () =>
       registerWebMcpTools((to, search) =>
-        router.navigate({ to, search: search ? Object.fromEntries(Object.entries(search).filter(([, v]) => v)) : {} } as never),
+        router.navigate({
+          to,
+          search: search ? Object.fromEntries(Object.entries(search).filter(([, v]) => v)) : {},
+        } as never),
       ),
     [router],
   );
@@ -212,10 +234,16 @@ function RootComponent() {
         pégalo en GA4_ID (src/lib/site.ts) y carga el script gtag aquí,
         solo si el usuario aceptó cookies en el banner.
       */}
-      <a href="#contenido" className="skip-link">Saltar al contenido</a>
-      <Preloader />
+      <a href="#contenido" className="skip-link">
+        Saltar al contenido
+      </a>
       <Header />
-      <div className={`page-progress ${navigating ? "page-progress-active" : ""}`} role="progressbar" aria-label="Cargando página" aria-hidden={!navigating} />
+      <div
+        className={`page-progress ${navigating ? "page-progress-active" : ""}`}
+        role="progressbar"
+        aria-label="Cargando página"
+        aria-hidden={!navigating}
+      />
       <main id="contenido">
         <div key={pathname} className="page-enter">
           <Outlet />

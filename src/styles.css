@@ -76,9 +76,14 @@
     0 24px 48px -20px color-mix(in oklab, var(--cocoa) 30%, transparent);
 
   /* Curvas de movimiento: salida suave y entrada-salida editorial */
+  /* Movimiento: interacciones < 300 ms, ease-out fuerte para entradas, ease-in-out para lo que se desplaza */
   --ease-soft: cubic-bezier(0.22, 1, 0.36, 1);
-  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
-  --ease-io: cubic-bezier(0.76, 0, 0.24, 1);
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-io: cubic-bezier(0.77, 0, 0.175, 1);
+  --dur-press: 120ms;
+  --dur-hover: 200ms;
+  --dur-ui: 280ms;
+  --dur-hero: 500ms;
 
   --cream: oklch(0.945 0.025 77);
   --paper: oklch(0.915 0.026 76);
@@ -239,7 +244,7 @@
   border: 1px solid var(--color-primary);
   overflow: hidden;
   isolation: isolate;
-  transition: color 0.4s var(--ease-soft), border-color 0.4s var(--ease-soft), transform 0.4s var(--ease-soft);
+  transition: color var(--dur-hover) ease, border-color var(--dur-hover) ease, transform var(--dur-press) var(--ease-out);
 
   &::before {
     content: "";
@@ -249,7 +254,7 @@
     background: var(--color-wine);
     transform: translateY(101%);
     border-radius: 50% 50% 0 0 / 100% 100% 0 0;
-    transition: transform 0.55s var(--ease-soft), border-radius 0.55s var(--ease-soft);
+    transition: transform var(--dur-ui) var(--ease-out), border-radius var(--dur-ui) var(--ease-out);
   }
 
   &:hover {
@@ -260,6 +265,8 @@
     transform: translateY(0);
     border-radius: 0;
   }
+
+  &:active { transform: scale(0.97); }
 }
 
 @utility btn-ghost {
@@ -278,7 +285,7 @@
   border: 1px solid color-mix(in oklab, var(--color-cocoa) 28%, transparent);
   overflow: hidden;
   isolation: isolate;
-  transition: color 0.4s var(--ease-soft), border-color 0.4s var(--ease-soft);
+  transition: color var(--dur-hover) ease, border-color var(--dur-hover) ease, transform var(--dur-press) var(--ease-out);
 
   &::before {
     content: "";
@@ -288,7 +295,7 @@
     background: var(--color-cocoa);
     transform: translateY(101%);
     border-radius: 50% 50% 0 0 / 100% 100% 0 0;
-    transition: transform 0.55s var(--ease-soft), border-radius 0.55s var(--ease-soft);
+    transition: transform var(--dur-ui) var(--ease-out), border-radius var(--dur-ui) var(--ease-out);
   }
 
   &:hover {
@@ -300,6 +307,8 @@
     transform: translateY(0);
     border-radius: 0;
   }
+
+  &:active { transform: scale(0.97); }
 }
 
 @utility btn-sm {
@@ -349,12 +358,12 @@
   height: 1px;
   background: currentColor;
   transform-origin: right;
-  transition: transform 0.6s var(--ease-soft);
+  transition: transform var(--dur-hover) var(--ease-out);
 }
 .link-draw:hover::after {
   transform: scaleX(0);
   transform-origin: right;
-  animation: draw-line 0.7s var(--ease-soft) 0.15s forwards;
+  animation: draw-line var(--dur-ui) var(--ease-out) forwards;
 }
 @keyframes draw-line {
   from { transform: scaleX(0); transform-origin: left; }
@@ -385,8 +394,8 @@
 
 .motion-ok [data-reveal] {
   opacity: 0;
-  transform: translate3d(0, 32px, 0);
-  transition: opacity 0.9s var(--ease-out), transform 1.2s var(--ease-out);
+  transform: translate3d(0, 12px, 0);
+  transition: opacity var(--dur-hero) var(--ease-out), transform var(--dur-hero) var(--ease-out);
   transition-delay: var(--d, 0ms);
 }
 .motion-ok [data-reveal].is-in { opacity: 1; transform: none; }
@@ -397,8 +406,8 @@
 .motion-ok [data-reveal="clip"] { opacity: 1; transform: none; }
 .motion-ok [data-reveal="clip"] img {
   clip-path: inset(0 0 100% 0);
-  transform: scale(1.18);
-  transition: clip-path 1.3s var(--ease-out), transform 1.8s var(--ease-out);
+  transform: scale(1.04);
+  transition: clip-path 0.6s var(--ease-out), transform 0.8s var(--ease-out);
   transition-delay: var(--d, 0ms);
 }
 .motion-ok [data-reveal="clip"].is-in img { clip-path: inset(0 0 0 0); transform: scale(1); }
@@ -408,8 +417,8 @@
 .split-line > span { display: block; }
 .motion-ok [data-split] .split-line > span {
   transform: translate3d(0, 110%, 0);
-  transition: transform 1.2s var(--ease-out);
-  transition-delay: calc(var(--i, 0) * 90ms + var(--d, 0ms));
+  transition: transform 0.6s var(--ease-out);
+  transition-delay: calc(var(--i, 0) * 50ms + var(--d, 0ms));
 }
 .motion-ok [data-split].is-in .split-line > span { transform: none; }
 
@@ -425,120 +434,25 @@
 /* Paralaje y progreso de scroll controlados por el motor (una sola rAF) */
 .motion-ok [data-parallax] { transform: translate3d(0, var(--py, 0px), 0); will-change: transform; }
 
-/* ———————————————————————— Pantalla de carga ———————————————————————— */
-
-.preloader {
-  display: none;
-  position: fixed;
-  inset: 0;
-  z-index: 120;
-  background: var(--wine);
-  color: var(--cream);
-  overflow: hidden;
-  transition: transform 1s var(--ease-io);
-}
-html[data-intro="run"] { overflow: hidden; }
-html[data-intro="run"] .preloader,
-html[data-intro="out"] .preloader { display: block; }
-html[data-intro="done"] .preloader,
-html[data-intro="skip"] .preloader { display: none; }
-html[data-intro="out"] .preloader { transform: translate3d(0, -100%, 0); }
-html[data-intro="out"] .preloader .preloader-card { transform: scale(1.06); opacity: 0; }
-
-/* Si por lo que sea el script no termina, la pantalla se retira sola */
-html[data-intro="run"] .preloader { animation: preloader-failsafe 0.01s linear 7s forwards; }
-@keyframes preloader-failsafe { to { visibility: hidden; pointer-events: none; } }
-
-.preloader-mark {
-  position: absolute;
-  top: clamp(1.25rem, 3vw, 2.5rem);
-  left: clamp(1.25rem, 3vw, 2.5rem);
-  display: flex;
-  flex-direction: column;
-  line-height: 0.82;
-  font-family: var(--font-display);
-  font-weight: 800;
-  font-variation-settings: "SOFT" 100;
-  letter-spacing: -0.04em;
-}
-.preloader-mark small {
-  font-size: 1rem;
-  font-weight: 500;
-  font-style: italic;
-  margin-left: 0.15em;
-}
-.preloader-mark span { font-size: 2.4rem; }
-.preloader-note {
-  position: absolute;
-  top: clamp(1.4rem, 3vw, 2.6rem);
-  right: clamp(1.25rem, 3vw, 2.5rem);
-  font-size: 0.7rem;
-  letter-spacing: 0.26em;
-  text-transform: uppercase;
-  opacity: 0.8;
-}
-.preloader-card {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  width: min(62vw, 380px);
-  aspect-ratio: 4 / 3;
-  translate: -50% -52%;
-  overflow: hidden;
-  background: var(--paper);
-  transition: transform 0.9s var(--ease-io), opacity 0.7s ease;
-}
-.preloader-card img {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  opacity: 0;
-}
-.preloader-card img.is-on { opacity: 1; }
-.preloader-count {
-  position: absolute;
-  right: clamp(1.25rem, 3vw, 2.5rem);
-  bottom: clamp(0.5rem, 2vw, 1.5rem);
-  font-family: var(--font-display);
-  font-weight: 300;
-  font-variation-settings: "SOFT" 100;
-  font-size: clamp(6rem, 22vw, 18rem);
-  line-height: 0.85;
-  letter-spacing: -0.06em;
-  font-variant-numeric: tabular-nums;
-}
-.preloader-bar {
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  height: 3px;
-  width: 100%;
-  background: var(--cream);
-  transform-origin: left;
-  transform: scaleX(var(--load, 0));
-}
-
 /* ———————————————————————— Transiciones entre páginas ————————————————————————
  * View Transitions API (Chrome, Edge, Safari 18+). En navegadores sin soporte
  * se usa la animación de entrada `page-arrive`.
  */
 
 @keyframes page-arrive {
-  from { opacity: 0; transform: translateY(14px); }
+  from { opacity: 0; transform: translateY(8px); }
   to { opacity: 1; transform: translateY(0); }
 }
-.page-enter { animation: page-arrive 600ms var(--ease-out) both; }
+.page-enter { animation: page-arrive 250ms var(--ease-out) both; }
 
 @supports (view-transition-name: none) {
   .page-enter { animation: none; }
 
   ::view-transition-old(root) {
-    animation: vt-old 0.7s var(--ease-io) both;
+    animation: vt-old 0.25s var(--ease-out) both;
   }
   ::view-transition-new(root) {
-    animation: vt-new 0.9s var(--ease-io) both;
+    animation: vt-new 0.3s var(--ease-out) both;
     z-index: 2;
   }
   @keyframes vt-old {
@@ -552,7 +466,7 @@ html[data-intro="run"] .preloader { animation: preloader-failsafe 0.01s linear 7
 
   /* Elemento compartido: la foto del producto viaja de la tarjeta a la ficha */
   ::view-transition-group(product-hero) {
-    animation-duration: 0.9s;
+    animation-duration: 0.35s;
     animation-timing-function: var(--ease-io);
   }
   ::view-transition-old(product-hero),
@@ -606,7 +520,7 @@ html[data-intro="run"] .preloader { animation: preloader-failsafe 0.01s linear 7
   inset: 0 0 auto;
   z-index: 70;
   height: var(--header-h);
-  transition: transform 0.6s var(--ease-out), background-color 0.4s ease, border-color 0.4s ease;
+  transition: transform var(--dur-ui) var(--ease-out), background-color var(--dur-hover) ease, border-color var(--dur-hover) ease;
   border-bottom: 1px solid transparent;
 }
 .site-header[data-scrolled="true"] {
@@ -658,7 +572,7 @@ html[data-intro="run"] .preloader { animation: preloader-failsafe 0.01s linear 7
   background: currentColor;
   transform: scaleX(0);
   transform-origin: left;
-  transition: transform 0.55s var(--ease-soft);
+  transition: transform var(--dur-hover) var(--ease-out);
 }
 .nav-link:hover::after,
 .nav-link[aria-current="page"]::after { transform: scaleX(1); }
@@ -687,7 +601,7 @@ html[data-intro="run"] .preloader { animation: preloader-failsafe 0.01s linear 7
   right: 0;
   height: 1.5px;
   background: currentColor;
-  transition: transform 0.6s var(--ease-soft), top 0.6s var(--ease-soft);
+  transition: transform var(--dur-ui) var(--ease-out), top var(--dur-ui) var(--ease-out);
 }
 .menu-burger i::before { top: 0; }
 .menu-burger i::after { top: 8px; }
@@ -706,13 +620,13 @@ html[data-intro="run"] .preloader { animation: preloader-failsafe 0.01s linear 7
   color: var(--color-cream);
   clip-path: inset(0 0 100% 0);
   visibility: hidden;
-  transition: clip-path 0.9s var(--ease-io), visibility 0s linear 0.9s;
+  transition: clip-path 0.35s var(--ease-out), visibility 0s linear 0.35s;
   overflow-y: auto;
 }
 .menu-overlay[data-open="true"] {
   clip-path: inset(0 0 0 0);
   visibility: visible;
-  transition: clip-path 0.9s var(--ease-io), visibility 0s;
+  transition: clip-path 0.35s var(--ease-out), visibility 0s;
 }
 .menu-links { display: grid; gap: 0.1rem; }
 .menu-link {
@@ -730,7 +644,7 @@ html[data-intro="run"] .preloader { animation: preloader-failsafe 0.01s linear 7
   align-items: baseline;
   gap: 1rem;
   transform: translate3d(0, 105%, 0);
-  transition: transform 0.9s var(--ease-out), color 0.3s ease, font-style 0.3s;
+  transition: transform 0.25s var(--ease-out), color var(--dur-hover) ease;
 }
 .menu-link small {
   font-family: var(--font-sans);
@@ -740,7 +654,7 @@ html[data-intro="run"] .preloader { animation: preloader-failsafe 0.01s linear 7
 }
 .menu-overlay[data-open="true"] .menu-link > span {
   transform: none;
-  transition-delay: calc(0.25s + var(--i) * 70ms);
+  transition-delay: calc(0.1s + var(--i) * 30ms);
 }
 .menu-link:hover > span,
 .menu-link[aria-current="page"] > span { font-style: italic; color: var(--color-sand); }
@@ -753,7 +667,7 @@ html[data-intro="run"] .preloader { animation: preloader-failsafe 0.01s linear 7
   padding-top: 2rem;
   font-size: 0.85rem;
   opacity: 0;
-  transition: opacity 0.8s ease 0.7s;
+  transition: opacity 0.25s ease 0.2s;
 }
 .menu-overlay[data-open="true"] .menu-foot { opacity: 1; }
 body:has(.menu-overlay[data-open="true"]) { overflow: hidden; }
@@ -834,10 +748,10 @@ body:has(.menu-overlay[data-open="true"]) { overflow: hidden; }
 .hero-slide img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .hero-slide.is-prev { opacity: 1; z-index: 1; }
 .hero-slide.is-active { opacity: 1; z-index: 2; }
-.hero-card[data-cycled="true"] .hero-slide.is-active { animation: wipe-up 1.15s var(--ease-io) both; }
-.hero-card[data-cycled="true"] .hero-slide.is-active img { animation: settle 1.6s var(--ease-out) both; }
+.hero-card[data-cycled="true"] .hero-slide.is-active { animation: wipe-up 0.6s var(--ease-io) both; }
+.hero-card[data-cycled="true"] .hero-slide.is-active img { animation: settle 0.8s var(--ease-out) both; }
 @keyframes wipe-up { from { clip-path: inset(100% 0 0 0); } to { clip-path: inset(0 0 0 0); } }
-@keyframes settle { from { transform: scale(1.12); } to { transform: scale(1); } }
+@keyframes settle { from { transform: scale(1.04); } to { transform: scale(1); } }
 
 .hero-meta {
   position: relative;
@@ -862,49 +776,11 @@ body:has(.menu-overlay[data-open="true"]) { overflow: hidden; }
   height: 7px;
   border-radius: 50%;
   background: color-mix(in oklab, var(--color-cocoa) 25%, transparent);
-  transition: transform 0.5s var(--ease-soft), background 0.3s;
+  transition: transform var(--dur-hover) var(--ease-out), background var(--dur-hover) ease;
 }
 .hero-dot[aria-current="true"]::after { background: var(--color-wine); transform: scale(1.6); }
 
-.hero-badge {
-  position: absolute;
-  z-index: 3;
-  right: 1rem;
-  top: -2rem;
-  width: clamp(5.5rem, 10vw, 8rem);
-  aspect-ratio: 1;
-  border-radius: 50%;
-  background: var(--color-cream);
-  color: var(--color-wine);
-  display: grid;
-  place-items: center;
-  text-align: center;
-  font-family: var(--font-display);
-  font-style: italic;
-  font-size: clamp(0.8rem, 1.4vw, 1.05rem);
-  line-height: 1.05;
-  box-shadow: var(--shadow-soft);
-  animation: badge-spin 28s linear infinite;
-}
-.hero-badge span { animation: badge-spin 28s linear infinite reverse; display: block; }
-@keyframes badge-spin { to { transform: rotate(360deg); } }
 
-.hero-scroll {
-  position: absolute;
-  left: 50%;
-  bottom: 1.25rem;
-  translate: -50% 0;
-  display: none;
-  align-items: center;
-  gap: 0.75rem;
-  font-size: 0.68rem;
-  letter-spacing: 0.24em;
-  text-transform: uppercase;
-  color: var(--color-clay);
-}
-.hero-scroll i { display: block; width: 1px; height: 38px; background: currentColor; transform-origin: top; animation: scroll-cue 2.2s var(--ease-io) infinite; }
-@keyframes scroll-cue { 0% { transform: scaleY(0); } 50% { transform: scaleY(1); } 100% { transform: scaleY(1); opacity: 0; } }
-@media (width >= 1024px) { .hero-scroll { display: flex; flex-direction: column; } }
 
 /* Entrada de la portada: se dispara cuando termina la pantalla de carga */
 .motion-ok .hero-line > span,
@@ -913,18 +789,18 @@ body:has(.menu-overlay[data-open="true"]) { overflow: hidden; }
 .motion-ok .hero-fade { opacity: 0; transform: translate3d(0, 18px, 0); }
 .motion-ok .hero-stage { opacity: 0; clip-path: inset(100% 0 0 0); }
 .motion-ok:not([data-intro="run"]) .hero-line > span {
-  animation: rise 1.2s var(--ease-out) both;
-  animation-delay: calc(var(--i) * 110ms + 100ms);
+  animation: rise 0.6s var(--ease-out) both;
+  animation-delay: calc(var(--i) * 60ms + 50ms);
 }
 .motion-ok:not([data-intro="run"]) .hero-fade {
-  animation: fade-up 1s var(--ease-out) both;
-  animation-delay: calc(var(--i, 0) * 100ms + 600ms);
+  animation: fade-up 0.4s var(--ease-out) both;
+  animation-delay: calc(var(--i, 0) * 60ms + 250ms);
 }
 .motion-ok:not([data-intro="run"]) .hero-stage {
-  animation: stage-in 1.5s var(--ease-io) 0.25s both;
+  animation: stage-in var(--dur-hero) var(--ease-out) 0.1s both;
 }
 @keyframes rise { from { transform: translate3d(0, 112%, 0); } to { transform: none; } }
-@keyframes fade-up { from { opacity: 0; transform: translate3d(0, 18px, 0); } to { opacity: 1; transform: none; } }
+@keyframes fade-up { from { opacity: 0; transform: translate3d(0, 8px, 0); } to { opacity: 1; transform: none; } }
 @keyframes stage-in { from { opacity: 1; clip-path: inset(100% 0 0 0); } to { opacity: 1; clip-path: inset(0 0 0 0); } }
 
 /* ———————————————————————— Cinta de texto ———————————————————————— */
@@ -1039,10 +915,12 @@ body:has(.menu-overlay[data-open="true"]) { overflow: hidden; }
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 1.2s var(--ease-out);
+  transition: transform var(--dur-hero) var(--ease-out);
 }
-.product-tile:hover .tile-media img,
-.product-tile:focus-visible .tile-media img { transform: scale(1.055); }
+@media (hover: hover) and (pointer: fine) {
+  .product-tile:hover .tile-media img { transform: scale(1.03); }
+}
+.product-tile:focus-visible .tile-media img { transform: scale(1.03); }
 .tile-pill {
   position: absolute;
   left: 0.9rem;
@@ -1057,7 +935,7 @@ body:has(.menu-overlay[data-open="true"]) { overflow: hidden; }
   font-size: 0.75rem;
   letter-spacing: 0.04em;
   transform: translate3d(0, 260%, 0);
-  transition: transform 0.7s var(--ease-out);
+  transition: transform 0.22s var(--ease-out);
 }
 .product-tile:hover .tile-pill,
 .product-tile:focus-visible .tile-pill { transform: none; }
@@ -1088,8 +966,8 @@ body:has(.menu-overlay[data-open="true"]) { overflow: hidden; }
 .material-grid { display: grid; gap: 1rem; grid-template-columns: repeat(2, minmax(0, 1fr)); }
 @media (width >= 1024px) { .material-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); } .material-grid > :nth-child(even) { margin-top: 3.5rem; } }
 .material-media { aspect-ratio: 4 / 5; overflow: hidden; background: var(--color-paper); }
-.material-media img { width: 100%; height: 100%; object-fit: cover; transition: transform 1.4s var(--ease-out); }
-.material:hover .material-media img { transform: scale(1.06); }
+.material-media img { width: 100%; height: 100%; object-fit: cover; transition: transform var(--dur-hero) var(--ease-out); }
+@media (hover: hover) and (pointer: fine) { .material:hover .material-media img { transform: scale(1.03); } }
 
 /* ———————————————————————— Marta ———————————————————————— */
 
@@ -1146,9 +1024,10 @@ body:has(.menu-overlay[data-open="true"]) { overflow: hidden; }
   background: var(--color-cream);
   color: var(--color-wine);
   border: 1px solid var(--color-cream);
-  transition: background 0.4s var(--ease-soft), color 0.4s var(--ease-soft), transform 0.4s var(--ease-soft);
+  transition: background var(--dur-hover) ease, color var(--dur-hover) ease, transform var(--dur-press) var(--ease-out);
 }
 .btn-cream:hover { background: transparent; color: var(--color-cream); }
+.btn-cream:active { transform: scale(0.97); }
 
 /* ———————————————————————— Ficha de producto ———————————————————————— */
 
@@ -1196,7 +1075,7 @@ body:has(.menu-overlay[data-open="true"]) { overflow: hidden; }
 .ig-grid { display: grid; gap: 0.75rem; grid-template-columns: repeat(2, minmax(0, 1fr)); }
 @media (width >= 768px) { .ig-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
 .ig-grid a { position: relative; display: block; overflow: hidden; aspect-ratio: 1; }
-.ig-grid img { width: 100%; height: 100%; object-fit: cover; transition: transform 1.2s var(--ease-out); }
+.ig-grid img { width: 100%; height: 100%; object-fit: cover; transition: transform var(--dur-hero) var(--ease-out); }
 .ig-grid a:hover img { transform: scale(1.06); }
 
 /* Acciones flotantes */
@@ -1207,7 +1086,7 @@ body:has(.menu-overlay[data-open="true"]) { overflow: hidden; }
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  transition: transform 0.5s var(--ease-soft), background 0.3s, opacity 0.4s;
+  transition: transform var(--dur-hover) var(--ease-out), background var(--dur-hover) ease, opacity var(--dur-hover) ease;
 }
 
 /* ———————————————————————— Tu color (ColorDress) ———————————————————————— */
@@ -1224,7 +1103,7 @@ body:has(.menu-overlay[data-open="true"]) { overflow: hidden; }
 .color-show { display: grid; gap: 2rem; align-items: center; margin-top: 3rem; }
 @media (width >= 768px) { .color-show { grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); } }
 .color-show img { width: 100%; aspect-ratio: 4 / 3; object-fit: contain; }
-.motion-ok .color-show img { animation: fade-up 0.7s var(--ease-out) both; }
+.motion-ok .color-show img { animation: fade-up 0.4s var(--ease-out) both; }
 
 .fringe-curtain { position: fixed; inset: 0; z-index: 90; display: flex; pointer-events: none; }
 .fringe-curtain[hidden] { display: none; }
@@ -1236,13 +1115,47 @@ body, .wine-band { transition: background-color 0.5s var(--ease-soft), color 0.5
 /* Rendimiento: secciones lejanas no se pintan hasta acercarse */
 .cv-auto { content-visibility: auto; contain-intrinsic-size: auto 900px; }
 
+/* ———————————————————————— Superficies del navegador y zonas táctiles ———————————————————————— */
+
+html { scrollbar-color: color-mix(in oklab, var(--color-cocoa) 35%, transparent) transparent; }
+input, textarea, select { caret-color: var(--color-wine); }
+
+/* Enlaces de texto pequeños: zona táctil de 44 px en pantallas táctiles sin cambiar el aspecto */
+@media (pointer: coarse), (width < 768px) {
+  .tap { display: inline-flex; align-items: center; min-height: 44px; }
+  .hero-dot { width: 44px; height: 44px; }
+  .hero-dots { gap: 0; }
+}
+
+/* Instagram: un enlace grande y quieto en lugar de una cinta en bucle */
+.ig-handle {
+  display: inline-block;
+  font-family: var(--font-display);
+  font-variation-settings: "SOFT" 100;
+  font-size: clamp(2.2rem, 7vw, 5.5rem);
+  line-height: 1.05;
+  letter-spacing: -0.04em;
+  color: var(--color-wine);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.18em;
+  text-decoration-color: color-mix(in oklab, currentColor 30%, transparent);
+  transition: text-decoration-color var(--dur-hover) ease;
+}
+@media (hover: hover) and (pointer: fine) { .ig-handle:hover { text-decoration-color: currentColor; } }
+
+/* Guías: pieza enlazada con foto pequeña */
+.guide-product { display: flex; align-items: center; gap: 1rem; padding: 0.75rem; border: 1px solid var(--color-border); background: var(--color-card); transition: border-color var(--dur-hover) ease; }
+@media (hover: hover) and (pointer: fine) { .guide-product:hover { border-color: var(--color-cocoa); } }
+.guide-product-media { flex: none; width: 5.5rem; aspect-ratio: 1; overflow: hidden; background: var(--color-paper); }
+.guide-product-media img { width: 100%; height: 100%; object-fit: cover; }
+
 /* ———————————————————————— Movimiento reducido ———————————————————————— */
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .page-enter { animation: none; }
   .marquee-track { animation: none; }
-  .hero-badge, .hero-badge span, .hero-scroll i { animation: none; }
   .page-progress::after, .loading-spinner { animation: none; }
   .btn-solid::before, .btn-ghost::before { transition: none; }
   .product-tile:hover .tile-media img, .material:hover .material-media img, .ig-grid a:hover img { transform: none; }

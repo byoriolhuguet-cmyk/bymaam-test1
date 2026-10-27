@@ -20,7 +20,7 @@
     <image:image>
       <image:loc>https://bymaam.com/images/products/bolso-brunello.webp</image:loc>
       <image:title>Bolso Brunello Marrón chocolate</image:title>
-      <image:caption>Bolso Brunello de piel marrón chocolate con flecos y tachuelas doradas, hecho a mano</image:caption>
+      <image:caption>Bolso Brunello de piel sintética marrón chocolate con flecos y tachuelas doradas, hecho a mano</image:caption>
     </image:image>
   </url>
   <url>
@@ -64,7 +64,7 @@
     <image:image>
       <image:loc>https://bymaam.com/images/products/bolso-nox.webp</image:loc>
       <image:title>Bolso Nox Negro</image:title>
-      <image:caption>Bolso Nox negro de piel con flecos y tachuelas plateadas, hecho a mano</image:caption>
+      <image:caption>Bolso Nox negro de piel sintética con flecos y tachuelas plateadas, hecho a mano</image:caption>
     </image:image>
   </url>
   <url>
@@ -86,7 +86,7 @@
     <image:image>
       <image:loc>https://bymaam.com/images/products/funda-lumen.webp</image:loc>
       <image:title>Funda Lumen Blanco</image:title>
-      <image:caption>Funda Lumen blanca de piel con flecos grises y tachuelas plateadas, hecha a mano</image:caption>
+      <image:caption>Funda para portátil Lumen blanca de piel sintética con flecos grises y tachuelas plateadas, hecha a mano</image:caption>
     </image:image>
   </url>
   <url>
@@ -97,7 +97,7 @@
     <image:image>
       <image:loc>https://bymaam.com/images/products/funda-nero.webp</image:loc>
       <image:title>Funda Nero Negro</image:title>
-      <image:caption>Funda Nero negra de piel con flecos negros y tachuelas plateadas, hecha a mano</image:caption>
+      <image:caption>Funda para portátil Nero negra de piel sintética con flecos negros y tachuelas plateadas, hecha a mano</image:caption>
     </image:image>
   </url>
   <url>
@@ -108,8 +108,44 @@
     <image:image>
       <image:loc>https://bymaam.com/images/products/funda-eclipse.webp</image:loc>
       <image:title>Funda Eclipse Negro</image:title>
-      <image:caption>Funda Eclipse negra de piel con flecos negros y tachuelas doradas, hecha a mano</image:caption>
+      <image:caption>Funda para portátil Eclipse negra de piel sintética con flecos negros y tachuelas doradas, hecha a mano</image:caption>
     </image:image>
+  </url>
+  <url>
+    <loc>https://bymaam.com/bolsos-con-flecos</loc>
+    <lastmod>2026-10-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://bymaam.com/bolsos-con-tachuelas</loc>
+    <lastmod>2026-10-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://bymaam.com/fundas-portatil</loc>
+    <lastmod>2026-10-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://bymaam.com/guias</loc>
+    <lastmod>2026-10-13</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://bymaam.com/guias/como-cuidar-un-bolso-con-flecos</loc>
+    <lastmod>2026-10-13</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://bymaam.com/guias/como-combinar-un-bolso-con-flecos</loc>
+    <lastmod>2026-10-13</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
   </url>
   <url>
     <loc>https://bymaam.com/sobre-mi</loc>

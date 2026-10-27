@@ -1,15 +1,16 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { Link, createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
 
 import { PageHeader } from "@/components/site/PageHeader";
+import { HUBS } from "@/data/guides";
 import { ProductTile } from "@/components/site/ProductTile";
 import { PRODUCTS, formatPrice } from "@/data/products";
 import { breadcrumbLd, seo } from "@/lib/seo";
 import { INSTAGRAM_URL, SITE_URL, VINTED_URL } from "@/lib/site";
 
-const TITLE = "Bolsos hechos a mano y fundas de piel con flecos | By Maam";
+const TITLE = "Bolsos hechos a mano con flecos y fundas para portátil | By Maam";
 const DESC =
-  "Colección de bolsos hechos a mano y fundas de piel con flecos y tachuelas, de Marta Amarelo. Ediciones limitadas, correa incluida. Cómpralos en Vinted.";
+  "Bolsos hechos a mano y fundas para portátil de piel sintética, con flecos y tachuelas. Hechos por Marta Amarelo en Barcelona. Ediciones limitadas, correa incluida.";
 
 /** Filtros en la URL (?tipo=Bolsos&color=Negro&q=flecos): enlazables y usables por agentes. */
 type ColeccionSearch = {
@@ -110,6 +111,19 @@ function ColeccionPage() {
 
       <section className="section-y pt-12 md:pt-16" aria-label="Piezas de la colección">
         <div className="container-brand">
+          <nav
+            aria-label="Explorar por tipo"
+            className="mb-8 flex flex-wrap gap-x-6 gap-y-2 text-sm"
+          >
+            {HUBS.map((h) => (
+              <Link key={h.path} to={h.path} className="link-draw tap">
+                {h.name}
+              </Link>
+            ))}
+            <Link to="/guias" className="link-draw tap">
+              Guías de cuidado y estilo
+            </Link>
+          </nav>
           <div
             className="mb-12 flex flex-col gap-5 border-y border-border py-5 lg:flex-row lg:items-center lg:justify-between"
             role="group"
@@ -163,7 +177,7 @@ function ColeccionPage() {
       <section className="border-t border-border bg-card section-y" aria-labelledby="sobre-bolsos">
         <div className="container-brand grid gap-10 lg:grid-cols-2">
           <h2 id="sobre-bolsos" className="text-3xl leading-tight md:text-5xl" data-reveal>
-            Bolsos de piel hechos a mano, uno a uno
+            Bolsos hechos a mano, uno a uno
           </h2>
           <div
             className="space-y-5 leading-relaxed text-muted-foreground"
@@ -171,7 +185,9 @@ function ColeccionPage() {
             style={{ ["--d" as string]: "150ms" }}
           >
             <p>
-              Los bolsos de By Maam se diseñan, se cortan y se cosen a mano en Galicia. Cada pieza combina piel, flecos largos y tachuelas doradas, bronce o plateadas, y se hace en series muy cortas: si un color se agota, normalmente no vuelve igual.
+              Los bolsos de By Maam se diseñan, se cortan y se cosen a mano en Barcelona. Cada pieza
+              combina piel sintética, flecos largos y tachuelas doradas, bronce o plateadas, y se
+              hace en series muy cortas: si un color se agota, normalmente no vuelve igual.
             </p>
             <p>
               Si quieres otro color o una combinación distinta, puedes encargar un modelo

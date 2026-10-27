@@ -1,9 +1,30 @@
 import { Link } from "@tanstack/react-router";
 import { Instagram, Mail, Music2, ShoppingBag } from "lucide-react";
 
-import { CONTACT_EMAIL, INSTAGRAM_HANDLE, INSTAGRAM_URL, LAST_UPDATED, NAV_LINKS, TIKTOK_URL, VINTED_URL } from "@/lib/site";
+import {
+  CONTACT_EMAIL,
+  INSTAGRAM_HANDLE,
+  INSTAGRAM_URL,
+  LAST_UPDATED,
+  NAV_LINKS,
+  TIKTOK_URL,
+  VINTED_URL,
+} from "@/lib/site";
 
-const SEALS = ["Hecho a mano en España", "Piel 100% real", "Envío con seguimiento", "Devoluciones aceptadas"];
+/** Hubs y guías: la telaraña de enlaces también sale del pie, a un clic desde cualquier página. */
+const EXPLORE = [
+  { to: "/bolsos-con-flecos", label: "Bolsos con flecos" },
+  { to: "/bolsos-con-tachuelas", label: "Bolsos con tachuelas" },
+  { to: "/fundas-portatil", label: "Fundas para portátil" },
+  { to: "/guias", label: "Guías" },
+] as const;
+
+const SEALS = [
+  "Hecho a mano en Barcelona",
+  "Correa incluida",
+  "Envío con seguimiento",
+  "Devoluciones aceptadas",
+];
 
 const LEGAL = [
   { to: "/privacidad", label: "Política de privacidad" },
@@ -17,7 +38,11 @@ const social =
 
 export function Footer() {
   return (
-    <footer id="pie" className="overflow-hidden border-t border-border bg-card" aria-label="Pie de página">
+    <footer
+      id="pie"
+      className="overflow-hidden border-t border-border bg-card"
+      aria-label="Pie de página"
+    >
       <div className="container-brand grid gap-12 pb-12 pt-16 md:grid-cols-[1.4fr_1fr_1fr_1fr]">
         <div>
           <p className="font-display text-3xl leading-tight md:text-4xl">
@@ -26,16 +51,35 @@ export function Footer() {
             <em className="text-wine">pieza a pieza.</em>
           </p>
           <p className="mt-5 max-w-xs text-sm leading-relaxed text-muted-foreground">
-            Bolsos diseñados y cosidos a mano por Marta Amarelo. Ediciones limitadas, hechas de una en una.
+            Bolsos diseñados y cosidos a mano por Marta Amarelo. Ediciones limitadas, hechas de una
+            en una.
           </p>
           <div className="mt-6 flex items-center gap-3">
-            <a href={INSTAGRAM_URL} target="_blank" rel="noopener" aria-label="Instagram de By Maam" className={social}>
+            <a
+              href={INSTAGRAM_URL}
+              target="_blank"
+              rel="noopener"
+              aria-label="Instagram de By Maam"
+              className={social}
+            >
               <Instagram className="h-[18px] w-[18px]" aria-hidden="true" strokeWidth={1.5} />
             </a>
-            <a href={TIKTOK_URL} target="_blank" rel="noopener" aria-label="TikTok de By Maam" className={social}>
+            <a
+              href={TIKTOK_URL}
+              target="_blank"
+              rel="noopener"
+              aria-label="TikTok de By Maam"
+              className={social}
+            >
               <Music2 className="h-[18px] w-[18px]" aria-hidden="true" strokeWidth={1.5} />
             </a>
-            <a href={VINTED_URL} target="_blank" rel="noopener" aria-label="Perfil de By Maam en Vinted" className={social}>
+            <a
+              href={VINTED_URL}
+              target="_blank"
+              rel="noopener"
+              aria-label="Perfil de By Maam en Vinted"
+              className={social}
+            >
               <ShoppingBag className="h-[18px] w-[18px]" aria-hidden="true" strokeWidth={1.5} />
             </a>
           </div>
@@ -46,7 +90,16 @@ export function Footer() {
           <ul className="mt-5 space-y-3 text-sm">
             {NAV_LINKS.map((l) => (
               <li key={l.to}>
-                <Link to={l.to} className="link-draw text-foreground">{l.label}</Link>
+                <Link to={l.to} className="link-draw tap text-foreground">
+                  {l.label}
+                </Link>
+              </li>
+            ))}
+            {EXPLORE.map((l) => (
+              <li key={l.to}>
+                <Link to={l.to} className="link-draw tap text-foreground">
+                  {l.label}
+                </Link>
               </li>
             ))}
           </ul>
@@ -56,13 +109,16 @@ export function Footer() {
           <h2 className="eyebrow">Contacto</h2>
           <ul className="mt-5 space-y-3 text-sm">
             <li>
-              <a href={`mailto:${CONTACT_EMAIL}`} className="link-draw inline-flex items-center gap-2">
+              <a
+                href={`mailto:${CONTACT_EMAIL}`}
+                className="link-draw tap inline-flex items-center gap-2"
+              >
                 <Mail className="h-4 w-4" aria-hidden="true" strokeWidth={1.5} />
                 {CONTACT_EMAIL}
               </a>
             </li>
             <li>
-              <a href={INSTAGRAM_URL} target="_blank" rel="noopener" className="link-draw">
+              <a href={INSTAGRAM_URL} target="_blank" rel="noopener" className="link-draw tap">
                 Instagram {INSTAGRAM_HANDLE}
               </a>
             </li>
@@ -74,7 +130,9 @@ export function Footer() {
           <ul className="mt-5 space-y-3 text-sm">
             {LEGAL.map((l) => (
               <li key={l.to}>
-                <Link to={l.to} className="link-draw text-foreground">{l.label}</Link>
+                <Link to={l.to} className="link-draw tap text-foreground">
+                  {l.label}
+                </Link>
               </li>
             ))}
           </ul>

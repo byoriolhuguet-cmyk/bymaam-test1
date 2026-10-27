@@ -45,15 +45,21 @@ export function ProductTile({
           style={{ objectPosition: product.pos }}
         />
         {!product.available && <span className="tile-sold">Agotado</span>}
-        <span className="tile-pill" aria-hidden="true">Ver pieza →</span>
+        <span className="tile-pill" aria-hidden="true">
+          Ver pieza →
+        </span>
       </div>
       <div className="mt-4 flex items-baseline justify-between gap-4">
         <Heading className="font-display text-xl md:text-2xl">{product.name}</Heading>
         <span className="text-sm tabular-nums">{formatPrice(product.price)}</span>
       </div>
       <p className="mt-1 flex items-center gap-2 text-sm text-muted-foreground">
-        <span className="swatch" style={{ "--sw": product.swatch } as CSSProperties} aria-hidden="true" />
-        {product.color} · {product.strap ? "Incluye correa" : "Funda de piel"}
+        <span
+          className="swatch"
+          style={{ "--sw": product.swatch } as CSSProperties}
+          aria-hidden="true"
+        />
+        {product.color} · {product.strap ? "Incluye correa" : "Funda para portátil"}
       </p>
     </Link>
   );

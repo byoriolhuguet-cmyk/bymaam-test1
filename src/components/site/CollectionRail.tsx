@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 
 import { ProductTile } from "@/components/site/ProductTile";
 import { SplitHeading } from "@/components/site/Motion";
@@ -13,7 +13,6 @@ import type { Product } from "@/data/products";
 export function CollectionRail({ products }: { products: Product[] }) {
   const sectionRef = useRef<HTMLElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
-  const [index, setIndex] = useState(0);
 
   useEffect(() => {
     const section = sectionRef.current;
@@ -36,8 +35,6 @@ export function CollectionRail({ products }: { products: Product[] }) {
       const top = section.getBoundingClientRect().top;
       const p = range > 0 ? Math.min(1, Math.max(0, -top / range)) : 0;
       section.style.setProperty("--p", p.toFixed(4));
-      const i = Math.round(p * (products.length - 1));
-      setIndex((prev) => (prev === i ? prev : i));
     };
     const schedule = () => {
       if (!frame) frame = requestAnimationFrame(update);
@@ -63,25 +60,26 @@ export function CollectionRail({ products }: { products: Product[] }) {
     };
   }, [products.length]);
 
-  const total = String(products.length).padStart(2, "0");
-
   return (
-    <section ref={sectionRef} className="rail" aria-labelledby="rail-title" id="coleccion-destacada">
+    <section
+      ref={sectionRef}
+      className="rail"
+      aria-labelledby="rail-title"
+      id="coleccion-destacada"
+    >
       <div className="rail-stage">
         <div className="container-brand flex flex-wrap items-end justify-between gap-6">
           <div>
-            <p className="eyebrow" data-reveal>La colección</p>
             <SplitHeading
               id="rail-title"
-              lines={["Piezas disponibles", <em key="e" className="text-wine">ahora mismo</em>]}
-              className="mt-4 text-4xl leading-[1.02] md:text-6xl"
+              lines={["Piezas disponibles ahora"]}
+              className="text-4xl leading-[1.02] md:text-6xl"
             />
           </div>
           <div className="flex items-center gap-6">
-            <span className="hidden text-sm tabular-nums text-muted-foreground sm:block" aria-hidden="true">
-              {String(index + 1).padStart(2, "0")} / {total}
-            </span>
-            <Link to="/coleccion" className="btn-ghost btn-sm">Ver toda la colección</Link>
+            <Link to="/coleccion" className="btn-ghost btn-sm">
+              Ver toda la colección
+            </Link>
           </div>
         </div>
 
@@ -89,7 +87,10 @@ export function CollectionRail({ products }: { products: Product[] }) {
           <div ref={trackRef} className="rail-track">
             {products.map((product, i) => (
               <div key={product.slug} className="rail-tile">
-                <ProductTile product={product} priority={i === 0} sizes="(min-width: 1360px) 34rem, (min-width: 680px) 40vw, 17rem" />
+                <ProductTile
+                  product={product}
+                  sizes="(min-width: 1360px) 34rem, (min-width: 680px) 40vw, 17rem"
+                />
               </div>
             ))}
           </div>

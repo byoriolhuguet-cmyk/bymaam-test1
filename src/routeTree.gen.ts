@@ -11,16 +11,21 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AvisoLegalRouteImport } from './routes/aviso-legal'
+import { Route as BolsosConFlecosRouteImport } from './routes/bolsos-con-flecos'
+import { Route as BolsosConTachuelasRouteImport } from './routes/bolsos-con-tachuelas'
 import { Route as ColeccionRouteImport } from './routes/coleccion'
 import { Route as ContactoRouteImport } from './routes/contacto'
 import { Route as CookiesRouteImport } from './routes/cookies'
 import { Route as DevolucionesRouteImport } from './routes/devoluciones'
 import { Route as FaqRouteImport } from './routes/faq'
+import { Route as FundasPortatilRouteImport } from './routes/fundas-portatil'
 import { Route as PedidosRouteImport } from './routes/pedidos'
 import { Route as PrivacidadRouteImport } from './routes/privacidad'
 import { Route as SobreMiRouteImport } from './routes/sobre-mi'
 import { Route as ColeccionIndexRouteImport } from './routes/coleccion.index'
 import { Route as ColeccionSlugRouteImport } from './routes/coleccion.$slug'
+import { Route as GuiasIndexRouteImport } from './routes/guias.index'
+import { Route as GuiasSlugRouteImport } from './routes/guias.$slug'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -30,6 +35,16 @@ const IndexRoute = IndexRouteImport.update({
 const AvisoLegalRoute = AvisoLegalRouteImport.update({
   id: '/aviso-legal',
   path: '/aviso-legal',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BolsosConFlecosRoute = BolsosConFlecosRouteImport.update({
+  id: '/bolsos-con-flecos',
+  path: '/bolsos-con-flecos',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BolsosConTachuelasRoute = BolsosConTachuelasRouteImport.update({
+  id: '/bolsos-con-tachuelas',
+  path: '/bolsos-con-tachuelas',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ColeccionRoute = ColeccionRouteImport.update({
@@ -57,6 +72,11 @@ const FaqRoute = FaqRouteImport.update({
   path: '/faq',
   getParentRoute: () => rootRouteImport,
 } as any)
+const FundasPortatilRoute = FundasPortatilRouteImport.update({
+  id: '/fundas-portatil',
+  path: '/fundas-portatil',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PedidosRoute = PedidosRouteImport.update({
   id: '/pedidos',
   path: '/pedidos',
@@ -82,104 +102,149 @@ const ColeccionSlugRoute = ColeccionSlugRouteImport.update({
   path: '/$slug',
   getParentRoute: () => ColeccionRoute,
 } as any)
+const GuiasIndexRoute = GuiasIndexRouteImport.update({
+  id: '/guias/',
+  path: '/guias/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GuiasSlugRoute = GuiasSlugRouteImport.update({
+  id: '/guias/$slug',
+  path: '/guias/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/aviso-legal': typeof AvisoLegalRoute
+  '/bolsos-con-flecos': typeof BolsosConFlecosRoute
+  '/bolsos-con-tachuelas': typeof BolsosConTachuelasRoute
   '/coleccion': typeof ColeccionRouteWithChildren
   '/contacto': typeof ContactoRoute
   '/cookies': typeof CookiesRoute
   '/devoluciones': typeof DevolucionesRoute
   '/faq': typeof FaqRoute
+  '/fundas-portatil': typeof FundasPortatilRoute
   '/pedidos': typeof PedidosRoute
   '/privacidad': typeof PrivacidadRoute
   '/sobre-mi': typeof SobreMiRoute
   '/coleccion/$slug': typeof ColeccionSlugRoute
+  '/guias/$slug': typeof GuiasSlugRoute
   '/coleccion/': typeof ColeccionIndexRoute
+  '/guias/': typeof GuiasIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/aviso-legal': typeof AvisoLegalRoute
+  '/bolsos-con-flecos': typeof BolsosConFlecosRoute
+  '/bolsos-con-tachuelas': typeof BolsosConTachuelasRoute
   '/contacto': typeof ContactoRoute
   '/cookies': typeof CookiesRoute
   '/devoluciones': typeof DevolucionesRoute
   '/faq': typeof FaqRoute
+  '/fundas-portatil': typeof FundasPortatilRoute
   '/pedidos': typeof PedidosRoute
   '/privacidad': typeof PrivacidadRoute
   '/sobre-mi': typeof SobreMiRoute
   '/coleccion/$slug': typeof ColeccionSlugRoute
+  '/guias/$slug': typeof GuiasSlugRoute
   '/coleccion': typeof ColeccionIndexRoute
+  '/guias': typeof GuiasIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/aviso-legal': typeof AvisoLegalRoute
+  '/bolsos-con-flecos': typeof BolsosConFlecosRoute
+  '/bolsos-con-tachuelas': typeof BolsosConTachuelasRoute
   '/coleccion': typeof ColeccionRouteWithChildren
   '/contacto': typeof ContactoRoute
   '/cookies': typeof CookiesRoute
   '/devoluciones': typeof DevolucionesRoute
   '/faq': typeof FaqRoute
+  '/fundas-portatil': typeof FundasPortatilRoute
   '/pedidos': typeof PedidosRoute
   '/privacidad': typeof PrivacidadRoute
   '/sobre-mi': typeof SobreMiRoute
   '/coleccion/$slug': typeof ColeccionSlugRoute
+  '/guias/$slug': typeof GuiasSlugRoute
   '/coleccion/': typeof ColeccionIndexRoute
+  '/guias/': typeof GuiasIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
     | '/aviso-legal'
+    | '/bolsos-con-flecos'
+    | '/bolsos-con-tachuelas'
     | '/coleccion'
     | '/contacto'
     | '/cookies'
     | '/devoluciones'
     | '/faq'
+    | '/fundas-portatil'
     | '/pedidos'
     | '/privacidad'
     | '/sobre-mi'
     | '/coleccion/$slug'
+    | '/guias/$slug'
     | '/coleccion/'
+    | '/guias/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/aviso-legal'
+    | '/bolsos-con-flecos'
+    | '/bolsos-con-tachuelas'
     | '/contacto'
     | '/cookies'
     | '/devoluciones'
     | '/faq'
+    | '/fundas-portatil'
     | '/pedidos'
     | '/privacidad'
     | '/sobre-mi'
     | '/coleccion/$slug'
+    | '/guias/$slug'
     | '/coleccion'
+    | '/guias'
   id:
     | '__root__'
     | '/'
     | '/aviso-legal'
+    | '/bolsos-con-flecos'
+    | '/bolsos-con-tachuelas'
     | '/coleccion'
     | '/contacto'
     | '/cookies'
     | '/devoluciones'
     | '/faq'
+    | '/fundas-portatil'
     | '/pedidos'
     | '/privacidad'
     | '/sobre-mi'
     | '/coleccion/$slug'
+    | '/guias/$slug'
     | '/coleccion/'
+    | '/guias/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AvisoLegalRoute: typeof AvisoLegalRoute
+  BolsosConFlecosRoute: typeof BolsosConFlecosRoute
+  BolsosConTachuelasRoute: typeof BolsosConTachuelasRoute
   ColeccionRoute: typeof ColeccionRouteWithChildren
   ContactoRoute: typeof ContactoRoute
   CookiesRoute: typeof CookiesRoute
   DevolucionesRoute: typeof DevolucionesRoute
   FaqRoute: typeof FaqRoute
+  FundasPortatilRoute: typeof FundasPortatilRoute
   PedidosRoute: typeof PedidosRoute
   PrivacidadRoute: typeof PrivacidadRoute
   SobreMiRoute: typeof SobreMiRoute
+  GuiasSlugRoute: typeof GuiasSlugRoute
+  GuiasIndexRoute: typeof GuiasIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -196,6 +261,20 @@ declare module '@tanstack/react-router' {
       path: '/aviso-legal'
       fullPath: '/aviso-legal'
       preLoaderRoute: typeof AvisoLegalRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/bolsos-con-flecos': {
+      id: '/bolsos-con-flecos'
+      path: '/bolsos-con-flecos'
+      fullPath: '/bolsos-con-flecos'
+      preLoaderRoute: typeof BolsosConFlecosRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/bolsos-con-tachuelas': {
+      id: '/bolsos-con-tachuelas'
+      path: '/bolsos-con-tachuelas'
+      fullPath: '/bolsos-con-tachuelas'
+      preLoaderRoute: typeof BolsosConTachuelasRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/coleccion': {
@@ -233,6 +312,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof FaqRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/fundas-portatil': {
+      id: '/fundas-portatil'
+      path: '/fundas-portatil'
+      fullPath: '/fundas-portatil'
+      preLoaderRoute: typeof FundasPortatilRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/pedidos': {
       id: '/pedidos'
       path: '/pedidos'
@@ -268,6 +354,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ColeccionSlugRouteImport
       parentRoute: typeof ColeccionRoute
     }
+    '/guias/': {
+      id: '/guias/'
+      path: '/guias'
+      fullPath: '/guias/'
+      preLoaderRoute: typeof GuiasIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/guias/$slug': {
+      id: '/guias/$slug'
+      path: '/guias/$slug'
+      fullPath: '/guias/$slug'
+      preLoaderRoute: typeof GuiasSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -288,14 +388,19 @@ const ColeccionRouteWithChildren = ColeccionRoute._addFileChildren(
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AvisoLegalRoute: AvisoLegalRoute,
+  BolsosConFlecosRoute: BolsosConFlecosRoute,
+  BolsosConTachuelasRoute: BolsosConTachuelasRoute,
   ColeccionRoute: ColeccionRouteWithChildren,
   ContactoRoute: ContactoRoute,
   CookiesRoute: CookiesRoute,
   DevolucionesRoute: DevolucionesRoute,
   FaqRoute: FaqRoute,
+  FundasPortatilRoute: FundasPortatilRoute,
   PedidosRoute: PedidosRoute,
   PrivacidadRoute: PrivacidadRoute,
   SobreMiRoute: SobreMiRoute,
+  GuiasSlugRoute: GuiasSlugRoute,
+  GuiasIndexRoute: GuiasIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

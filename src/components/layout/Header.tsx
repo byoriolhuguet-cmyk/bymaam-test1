@@ -3,7 +3,14 @@ import { useEffect, useRef, useState } from "react";
 import { Instagram, ShoppingBag } from "lucide-react";
 
 import { Wordmark } from "@/components/brand/Logo";
-import { CONTACT_EMAIL, INSTAGRAM_HANDLE, INSTAGRAM_URL, NAV_LINKS, TIKTOK_URL, VINTED_URL } from "@/lib/site";
+import {
+  CONTACT_EMAIL,
+  INSTAGRAM_HANDLE,
+  INSTAGRAM_URL,
+  NAV_LINKS,
+  TIKTOK_URL,
+  VINTED_URL,
+} from "@/lib/site";
 
 /**
  * Cabecera fija: se oculta al bajar y reaparece al subir. Menú a pantalla completa
@@ -62,7 +69,10 @@ export function Header() {
     };
     document.addEventListener("keydown", onKey);
     document.addEventListener("focusin", onFocusIn);
-    const t = window.setTimeout(() => overlayRef.current?.querySelector<HTMLElement>("a")?.focus(), 450);
+    const t = window.setTimeout(
+      () => overlayRef.current?.querySelector<HTMLElement>("a")?.focus(),
+      450,
+    );
     return () => {
       window.clearTimeout(t);
       document.removeEventListener("keydown", onKey);
@@ -94,9 +104,15 @@ export function Header() {
               <span>{open ? "Cerrar" : "Menú"}</span>
             </button>
             <nav className="hidden items-center gap-6 lg:flex" aria-label="Navegación principal">
-              <Link to="/coleccion" className="nav-link">Colección</Link>
-              <Link to="/sobre-mi" className="nav-link">Sobre mí</Link>
-              <Link to="/pedidos" className="nav-link">Pedidos</Link>
+              <Link to="/coleccion" className="nav-link">
+                Colección
+              </Link>
+              <Link to="/sobre-mi" className="nav-link">
+                Sobre mí
+              </Link>
+              <Link to="/pedidos" className="nav-link">
+                Pedidos
+              </Link>
             </nav>
           </div>
 
@@ -129,26 +145,48 @@ export function Header() {
         </div>
       </header>
 
-      <div id="menu-principal" ref={overlayRef} className="menu-overlay" data-open={open} role="dialog" aria-modal="true" aria-label="Menú">
+      <div
+        id="menu-principal"
+        ref={overlayRef}
+        className="menu-overlay"
+        data-open={open}
+        role="dialog"
+        aria-modal="true"
+        aria-label="Menú"
+      >
         <nav aria-label="Menú a pantalla completa" className="menu-links">
           {NAV_LINKS.map((l, i) => (
             <Link key={l.to} to={l.to} className="menu-link" onClick={() => setOpen(false)}>
-              <span style={{ ["--i" as string]: i }}>
-                <small>{String(i + 1).padStart(2, "0")}</small>
-                {l.label}
-              </span>
+              <span style={{ ["--i" as string]: i }}>{l.label}</span>
             </Link>
           ))}
         </nav>
         <div className="menu-foot">
           <p className="max-w-xs leading-relaxed opacity-80">
-            Bolsos de piel hechos a mano por Marta Amarelo, en Galicia. Ediciones limitadas.
+            Bolsos de piel sintética hechos a mano por Marta Amarelo en Barcelona. Ediciones
+            limitadas.
           </p>
           <ul className="flex flex-wrap gap-x-6 gap-y-2">
-            <li><a className="link-draw" href={INSTAGRAM_URL} target="_blank" rel="noopener">Instagram {INSTAGRAM_HANDLE}</a></li>
-            <li><a className="link-draw" href={TIKTOK_URL} target="_blank" rel="noopener">TikTok</a></li>
-            <li><a className="link-draw" href={VINTED_URL} target="_blank" rel="noopener">Vinted</a></li>
-            <li><a className="link-draw" href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a></li>
+            <li>
+              <a className="link-draw" href={INSTAGRAM_URL} target="_blank" rel="noopener">
+                Instagram {INSTAGRAM_HANDLE}
+              </a>
+            </li>
+            <li>
+              <a className="link-draw" href={TIKTOK_URL} target="_blank" rel="noopener">
+                TikTok
+              </a>
+            </li>
+            <li>
+              <a className="link-draw" href={VINTED_URL} target="_blank" rel="noopener">
+                Vinted
+              </a>
+            </li>
+            <li>
+              <a className="link-draw" href={`mailto:${CONTACT_EMAIL}`}>
+                {CONTACT_EMAIL}
+              </a>
+            </li>
           </ul>
         </div>
       </div>

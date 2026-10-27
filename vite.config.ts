@@ -17,6 +17,12 @@ const PAGES = [
   "/aviso-legal",
   "/cookies",
   "/devoluciones",
+  "/bolsos-con-flecos",
+  "/bolsos-con-tachuelas",
+  "/fundas-portatil",
+  "/guias",
+  "/guias/como-cuidar-un-bolso-con-flecos",
+  "/guias/como-combinar-un-bolso-con-flecos",
 ].map((path) => ({ path, prerender: { enabled: true, outputPath: path === "/" ? "/index.html" : `${path}/index.html` } }));
 
 export default defineConfig({
