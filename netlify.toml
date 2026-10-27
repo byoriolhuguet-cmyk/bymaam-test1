@@ -7,6 +7,19 @@
 [build.environment]
   NODE_VERSION = "22"
 
+# Dominio oficial: bymaam.com. El subdominio de Netlify redirige con 301 para no duplicar contenido.
+[[redirects]]
+  from = "https://bymaam.netlify.app/*"
+  to = "https://bymaam.com/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "https://www.bymaam.com/*"
+  to = "https://bymaam.com/:splat"
+  status = 301
+  force = true
+
 [[redirects]]
   from = "/index.html"
   to = "/"

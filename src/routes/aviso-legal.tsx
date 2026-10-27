@@ -7,7 +7,7 @@ import { CONTACT_EMAIL, LAST_UPDATED, SITE_URL } from "@/lib/site";
 
 const TITLE = "Aviso legal | By Maam";
 const DESC =
-  "Titular, condiciones de uso, propiedad intelectual y responsabilidad del sitio web de By Maam, bolsos de piel hechos a mano.";
+  "Titular, condiciones de uso, propiedad intelectual y responsabilidad del sitio web de By Maam, bolsos hechos a mano.";
 
 export const Route = createFileRoute("/aviso-legal")({
   head: () => seo({ title: TITLE, description: DESC, path: "/aviso-legal" }),
@@ -21,14 +21,18 @@ function AvisoLegal() {
         eyebrow="Legal"
         title="Aviso legal"
         lead="Quién está detrás de esta web y en qué condiciones puedes usarla."
-        primary={{ href: `mailto:${CONTACT_EMAIL}`, label: "Contactar con la titular", external: true }}
+        primary={{
+          href: `mailto:${CONTACT_EMAIL}`,
+          label: "Contactar con la titular",
+          external: true,
+        }}
       />
 
       <Prose>
         <h2>Titular del sitio</h2>
         <p>
           Marta Amarelo, que opera bajo la marca <strong>By Maam</strong>, con actividad artesanal
-          en Galicia (España). Email de contacto:{" "}
+          en Barcelona (España). Email de contacto:{" "}
           <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>. Dirección web: {SITE_URL}.
         </p>
         <p className="text-xs">

@@ -5,9 +5,14 @@ import { INSTAGRAM_URL } from "@/lib/site";
 
 export function FloatingActions() {
   const [showTop, setShowTop] = useState(false);
+  // El botón de Instagram aparece al empezar a bajar: arriba no tapa la foto principal
+  const [showChat, setShowChat] = useState(false);
 
   useEffect(() => {
-    const onScroll = () => setShowTop(window.scrollY > 700);
+    const onScroll = () => {
+      setShowTop(window.scrollY > 700);
+      setShowChat(window.scrollY > 320);
+    };
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
@@ -29,7 +34,8 @@ export function FloatingActions() {
         target="_blank"
         rel="noopener"
         aria-label="Escribir a By Maam por Instagram"
-        className="fab bottom-5 right-5 h-14 w-14 bg-wine text-cream shadow-[var(--shadow-lift)] hover:-translate-y-1 hover:bg-cocoa"
+        tabIndex={showChat ? 0 : -1}
+        className={`fab bottom-5 right-5 h-14 w-14 bg-wine text-cream shadow-[var(--shadow-lift)] hover:bg-cocoa ${showChat ? "" : "pointer-events-none translate-y-3 opacity-0"}`}
       >
         <Instagram className="h-6 w-6" aria-hidden="true" strokeWidth={1.5} />
       </a>

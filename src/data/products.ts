@@ -36,6 +36,12 @@ export const PRODUCTS = raw as Product[];
 export const formatPrice = (value: number) =>
   `${value.toFixed(2).replace(".", ",")} €`;
 
+const variant = (p: Product, w: number) => p.image.replace(/\.webp$/, `-${w}.webp`);
+
+/** srcset de la foto: 480 (tarjetas en escritorio), 640, 800 (móviles de alta densidad) y original. */
+export const productSrcSet = (p: Product) =>
+  `${variant(p, 480)} 480w, ${p.image640} 640w, ${variant(p, 800)} 800w, ${p.image} ${p.w}w`;
+
 export const productPath = (slug: string) => `/coleccion/${slug}`;
 
 export const getProduct = (slug: string) => PRODUCTS.find((p) => p.slug === slug);
