@@ -11,6 +11,8 @@
     "lint": "eslint .",
     "format": "prettier --write .",
     "seo": "node scripts/generate-seo.mjs",
+    "blog:check": "node scripts/build-blog.mjs --check",
+    "blog:build": "node scripts/build-blog.mjs",
     "prebuild": "node scripts/generate-seo.mjs",
     "typecheck": "tsc --noEmit"
   },

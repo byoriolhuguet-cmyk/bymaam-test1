@@ -5,11 +5,14 @@
  *   public/llms.txt         (resumen para asistentes de IA, estándar llms.txt)
  *   public/llms-full.txt    (contenido completo en Markdown)
  *   public/products.json    (catálogo estructurado para agentes)
+ *   + datos del blog y public/feed.xml (scripts/build-blog.mjs)
  * Se ejecuta solo en `npm run build` (prebuild). También: `npm run seo`.
  */
 import { existsSync, readFileSync, writeFileSync, mkdirSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
+
+import { buildBlog } from "./build-blog.mjs";
 
 // Siempre trabaja desde la raíz del proyecto, da igual desde dónde se lance.
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..");
@@ -29,10 +32,20 @@ const esc = (s) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, 
 
 mkdirSync("public", { recursive: true });
 
+const posts = buildBlog();
+
 const pages = [
   { path: "/", priority: "1.0", freq: "weekly" },
   { path: "/coleccion", priority: "0.9", freq: "weekly" },
   ...products.map((p) => ({ path: `/coleccion/${p.slug}`, priority: "0.8", freq: "weekly", image: p })),
+  { path: "/bolsos-con-flecos", priority: "0.8", freq: "weekly" },
+  { path: "/bolsos-con-tachuelas", priority: "0.7", freq: "weekly" },
+  { path: "/fundas-portatil", priority: "0.7", freq: "weekly" },
+  { path: "/guias", priority: "0.5", freq: "monthly" },
+  { path: "/guias/como-cuidar-un-bolso-con-flecos", priority: "0.5", freq: "monthly" },
+  { path: "/guias/como-combinar-un-bolso-con-flecos", priority: "0.5", freq: "monthly" },
+  { path: "/blog", priority: "0.7", freq: "daily", lastmod: posts[0]?.updated },
+  ...posts.map((p) => ({ path: p.path, priority: "0.6", freq: "monthly", lastmod: p.updated })),
   { path: "/sobre-mi", priority: "0.6", freq: "monthly" },
   { path: "/pedidos", priority: "0.6", freq: "monthly" },
   { path: "/faq", priority: "0.6", freq: "monthly" },
@@ -49,7 +62,7 @@ ${pages
   .map(
     (p) => `  <url>
     <loc>${url(p.path === "/" ? "/" : p.path)}</loc>
-    <lastmod>${site.lastUpdatedIso}</lastmod>
+    <lastmod>${p.lastmod || site.lastUpdatedIso}</lastmod>
     <changefreq>${p.freq}</changefreq>
     <priority>${p.priority}</priority>${
       p.image
@@ -92,6 +105,27 @@ Allow: /
 User-agent: Google-Extended
 Allow: /
 
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: Claude-User
+Allow: /
+
+User-agent: Perplexity-User
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+User-agent: meta-externalagent
+Allow: /
+
+User-agent: DuckAssistBot
+Allow: /
+
+User-agent: MistralAI-User
+Allow: /
+
 Sitemap: ${url("/sitemap.xml")}
 `,
 );
@@ -102,12 +136,28 @@ writeFileSync(
   "public/llms.txt",
   `# ${site.name}
 
-> ${site.tagline} de piel con flecos y tachuelas, diseñados y cosidos a mano por ${site.founder} en Galicia (España). Ediciones limitadas, correa incluida en los bolsos. Se compran en Vinted o por Instagram.
+> ${site.tagline} de piel sintética con flecos y tachuelas, diseñados y cosidos a mano por ${site.founder} en Barcelona (España). Ediciones limitadas, correa incluida en los bolsos. Se compran en Vinted o por Instagram.
 
-By Maam es una marca artesanal de bolsos y fundas de piel hechos a mano. Cada pieza lleva de 4 a 5 horas de trabajo. Las series son muy cortas.
+By Maam es una marca artesanal de bolsos y fundas para portátil de piel sintética, hechos a mano. Cada pieza lleva de 4 a 5 horas de trabajo. Las series son muy cortas.
 
 ## Colección
 ${list}
+
+## Por tipo de pieza
+- [Bolsos con flecos](${url("/bolsos-con-flecos")})
+- [Bolsos con tachuelas](${url("/bolsos-con-tachuelas")})
+- [Fundas para portátil](${url("/fundas-portatil")})
+
+## Guías
+- [Cómo cuidar un bolso con flecos](${url("/guias/como-cuidar-un-bolso-con-flecos")})
+- [Cómo combinar un bolso con flecos](${url("/guias/como-combinar-un-bolso-con-flecos")})
+
+## Blog
+Actualidad de moda cada lunes y guías de compra de bolsos hechos a mano cada jueves: [blog](${url("/blog")}) · [RSS](${url("/feed.xml")}).
+${posts
+  .slice(0, 30)
+  .map((p) => `- [${p.title}](${url(p.path)}) (${p.date}): ${p.description}`)
+  .join("\n")}
 
 ## Cómo comprar
 - [Perfil en Vinted (compra protegida)](${site.vintedUrl})
@@ -124,6 +174,13 @@ ${list}
 - [Catálogo en JSON](${url("/products.json")})
 - [Resumen completo en Markdown](${url("/llms-full.txt")})
 - [Sitemap](${url("/sitemap.xml")})
+- [RSS del blog](${url("/feed.xml")})
+
+## Para agentes de IA
+- Colección filtrable por URL: \`${url("/coleccion")}?tipo=Bolsos|Fundas&color=<color>&q=<texto>\` (por ejemplo [bolsos negros](${url("/coleccion")}?tipo=Bolsos&color=Negro)).
+- WebMCP (navigator.modelContext): herramientas \`buscar_piezas\`, \`ver_pieza\`, \`como_comprar_y_contactar\` (solo lectura), \`ir_a_pagina\` y \`filtrar_coleccion\` (navegan la web).
+- El formulario de [contacto](${url("/contacto")}) se expone como herramienta declarativa \`escribir_a_marta\`; el envío lo confirma la persona.
+- La compra se hace siempre en Vinted (enlace de cada pieza) o por Instagram; la web no tiene carrito ni pagos.
 `,
 );
 
@@ -145,7 +202,7 @@ writeFileSync(
   "public/llms-full.txt",
   `# ${site.name}: bolsos hechos a mano
 
-${site.name} (${site.instagramHandle}) es la marca de ${site.founder}: bolsos y fundas de piel hechos a mano en Galicia, con flecos y tachuelas. Última actualización: ${site.lastUpdated}.
+${site.name} (${site.instagramHandle}) es la marca de ${site.founder}: bolsos y fundas para portátil de piel sintética, hechos a mano en Barcelona, con flecos y tachuelas. Última actualización: ${site.lastUpdated}.
 
 ## Colección
 
@@ -163,6 +220,16 @@ Se puede encargar otro color o un diseño propio en ${url("/pedidos")}. Respuest
 - Email: ${site.email}
 - Instagram: ${site.instagramUrl}
 - TikTok: ${site.tiktokUrl}
+
+## Blog
+${posts
+  .map(
+    (p) => `### ${p.title}
+- URL: ${url(p.path)}
+- Fecha: ${p.date}
+- Respuesta rápida: ${p.tldr}${p.faq.length ? "\n" + p.faq.map((f) => `- P: ${f.q} R: ${f.a}`).join("\n") : ""}`,
+  )
+  .join("\n\n")}
 `,
 );
 

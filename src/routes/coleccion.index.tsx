@@ -1,17 +1,38 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { useMemo, useState } from "react";
+import { Link, createFileRoute, useNavigate } from "@tanstack/react-router";
+import { useEffect, useMemo, useState } from "react";
 
 import { PageHeader } from "@/components/site/PageHeader";
+import { HUBS } from "@/data/guides";
 import { ProductTile } from "@/components/site/ProductTile";
 import { PRODUCTS, formatPrice } from "@/data/products";
 import { breadcrumbLd, seo } from "@/lib/seo";
 import { INSTAGRAM_URL, SITE_URL, VINTED_URL } from "@/lib/site";
 
-const TITLE = "Bolsos hechos a mano y fundas de piel con flecos | By Maam";
+const TITLE = "Bolsos hechos a mano con flecos y fundas para portátil | By Maam";
 const DESC =
-  "Colección de bolsos hechos a mano y fundas de piel con flecos y tachuelas, de Marta Amarelo. Ediciones limitadas, correa incluida. Cómpralos en Vinted.";
+  "Bolsos hechos a mano y fundas para portátil de piel sintética, con flecos y tachuelas. Hechos por Marta Amarelo en Barcelona. Ediciones limitadas, correa incluida.";
+
+/** Filtros en la URL (?tipo=Bolsos&color=Negro&q=flecos): enlazables y usables por agentes. */
+type ColeccionSearch = {
+  tipo?: string | undefined;
+  color?: string | undefined;
+  q?: string | undefined;
+};
+
+const str = (v: unknown) => (typeof v === "string" && v.trim() ? v.trim() : undefined);
+
+const norm = (s: string) =>
+  s
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "");
 
 export const Route = createFileRoute("/coleccion/")({
+  validateSearch: (search: Record<string, unknown>): ColeccionSearch => ({
+    tipo: str(search["tipo"]),
+    color: str(search["color"]),
+    q: str(search["q"]),
+  }),
   head: () =>
     seo({
       title: TITLE,
@@ -48,11 +69,32 @@ export const Route = createFileRoute("/coleccion/")({
 function ColeccionPage() {
   const families = useMemo(() => ["Todos", ...new Set(PRODUCTS.map((p) => p.family))], []);
   const colors = useMemo(() => ["Todos", ...new Set(PRODUCTS.map((p) => p.color))], []);
-  const [family, setFamily] = useState("Todos");
-  const [color, setColor] = useState("Todos");
+  // El HTML estático se genera sin filtros: se aplican tras hidratar para no romper la hidratación.
+  const [hydrated, setHydrated] = useState(false);
+  useEffect(() => setHydrated(true), []);
+  const urlSearch = Route.useSearch();
+  const search: ColeccionSearch = hydrated ? urlSearch : {};
+  const navigate = useNavigate({ from: "/coleccion/" });
+  const pick = (options: string[], value?: string) =>
+    options.find((o) => value && norm(o) === norm(value)) ?? "Todos";
+  const family = pick(families, search.tipo);
+  const color = pick(colors, search.color);
+  const q = search.q ? norm(search.q) : "";
+
+  const setFilter = (key: "tipo" | "color", value: string) =>
+    navigate({
+      search: (prev) => ({ ...prev, [key]: value === "Todos" ? undefined : value }),
+      replace: true,
+      resetScroll: false,
+    });
+  const setFamily = (v: string) => setFilter("tipo", v);
+  const setColor = (v: string) => setFilter("color", v);
 
   const shown = PRODUCTS.filter(
-    (p) => (family === "Todos" || p.family === family) && (color === "Todos" || p.color === color),
+    (p) =>
+      (family === "Todos" || p.family === family) &&
+      (color === "Todos" || p.color === color) &&
+      (!q || norm(`${p.name} ${p.color} ${p.short} ${p.studs} ${p.fringe}`).includes(q)),
   );
   const bagPrice = PRODUCTS.find((p) => p.family === "Bolsos")?.price ?? 0;
   const casePrice = PRODUCTS.find((p) => p.family === "Fundas")?.price ?? 0;
@@ -69,22 +111,64 @@ function ColeccionPage() {
 
       <section className="section-y pt-12 md:pt-16" aria-label="Piezas de la colección">
         <div className="container-brand">
-          <div className="mb-12 flex flex-col gap-5 border-y border-border py-5 lg:flex-row lg:items-center lg:justify-between" role="group" aria-label="Filtros">
+          <nav
+            aria-label="Explorar por tipo"
+            className="mb-8 flex flex-wrap gap-x-6 gap-y-2 text-sm"
+          >
+            {HUBS.map((h) => (
+              <Link key={h.path} to={h.path} className="link-draw tap">
+                {h.name}
+              </Link>
+            ))}
+            <Link to="/guias" className="link-draw tap">
+              Guías de cuidado y estilo
+            </Link>
+          </nav>
+          <div
+            className="mb-12 flex flex-col gap-5 border-y border-border py-5 lg:flex-row lg:items-center lg:justify-between"
+            role="group"
+            aria-label="Filtros"
+          >
             <Filter label="Tipo" options={families} value={family} onChange={setFamily} />
             <Filter label="Color" options={colors} value={color} onChange={setColor} />
           </div>
 
+          {search.q && (
+            <p className="-mt-6 mb-10 flex flex-wrap items-center gap-3 text-sm text-muted-foreground">
+              Resultados para «{search.q}»
+              <button
+                type="button"
+                className="filter-chip"
+                onClick={() =>
+                  navigate({
+                    search: (prev) => ({ ...prev, q: undefined }),
+                    replace: true,
+                    resetScroll: false,
+                  })
+                }
+              >
+                Quitar búsqueda ✕
+              </button>
+            </p>
+          )}
+
           <div className="grid gap-x-6 gap-y-14 sm:grid-cols-2 lg:grid-cols-3" aria-live="polite">
             {shown.map((p, i) => (
               <div key={p.slug} data-reveal style={{ ["--d" as string]: `${(i % 3) * 90}ms` }}>
-                <ProductTile product={p} headingLevel={2} priority={i < 3} sizes="(min-width: 1024px) 30vw, (min-width: 640px) 46vw, 92vw" />
+                <ProductTile
+                  product={p}
+                  headingLevel={2}
+                  priority={i === 0}
+                  sizes="(min-width: 1408px) 27rem, (min-width: 1024px) 30vw, (min-width: 640px) 46vw, 92vw"
+                />
               </div>
             ))}
           </div>
 
           {shown.length === 0 && (
             <p className="py-16 text-center text-muted-foreground">
-              No hay piezas con esa combinación ahora mismo. Escríbeme por Instagram y lo hago para ti.
+              No hay piezas con esa combinación ahora mismo. Escríbeme por Instagram y lo hago para
+              ti.
             </p>
           )}
         </div>
@@ -93,14 +177,21 @@ function ColeccionPage() {
       <section className="border-t border-border bg-card section-y" aria-labelledby="sobre-bolsos">
         <div className="container-brand grid gap-10 lg:grid-cols-2">
           <h2 id="sobre-bolsos" className="text-3xl leading-tight md:text-5xl" data-reveal>
-            Bolsos de piel hechos a mano, uno a uno
+            Bolsos hechos a mano, uno a uno
           </h2>
-          <div className="space-y-5 leading-relaxed text-muted-foreground" data-reveal style={{ ["--d" as string]: "150ms" }}>
+          <div
+            className="space-y-5 leading-relaxed text-muted-foreground"
+            data-reveal
+            style={{ ["--d" as string]: "150ms" }}
+          >
             <p>
-              Los bolsos de By Maam se diseñan, se cortan y se cosen a mano en Galicia. Cada pieza combina piel, flecos largos y tachuelas doradas, bronce o plateadas, y se hace en series muy cortas: si un color se agota, normalmente no vuelve igual.
+              Los bolsos de By Maam se diseñan, se cortan y se cosen a mano en Barcelona. Cada pieza
+              combina piel sintética, flecos largos y tachuelas doradas, bronce o plateadas, y se
+              hace en series muy cortas: si un color se agota, normalmente no vuelve igual.
             </p>
             <p>
-              Si quieres otro color o una combinación distinta, puedes encargar un modelo personalizado. Marta responde en menos de 48 horas.
+              Si quieres otro color o una combinación distinta, puedes encargar un modelo
+              personalizado. Marta responde en menos de 48 horas.
             </p>
           </div>
         </div>
@@ -124,7 +215,13 @@ function Filter({
     <div className="flex flex-wrap items-center gap-2">
       <span className="eyebrow mr-2">{label}</span>
       {options.map((o) => (
-        <button key={o} type="button" className="filter-chip" aria-pressed={value === o} onClick={() => onChange(o)}>
+        <button
+          key={o}
+          type="button"
+          className="filter-chip"
+          aria-pressed={value === o}
+          onClick={() => onChange(o)}
+        >
           {o}
         </button>
       ))}

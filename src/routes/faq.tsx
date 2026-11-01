@@ -8,7 +8,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { CONTACT_EMAIL, LAST_UPDATED, VINTED_URL, WHATSAPP_URL } from "@/lib/site";
+import { CONTACT_EMAIL, LAST_UPDATED, WHATSAPP_URL } from "@/lib/site";
 
 const TITLE = "Preguntas frecuentes | By Maam";
 const DESC =
@@ -21,7 +21,7 @@ const FAQS = [
   },
   {
     q: "¿Cuánto tarda en llegar mi pedido?",
-    a: "Desde que haces el pedido, el encargo se hace en unos 5 días y después el envío tarda 3–4 días. Siempre te aviso con el número de seguimiento.",
+    a: "Desde que haces el pedido, el encargo se hace en unos 5 días y después el envío tarda 3-4 días. Siempre te aviso con el número de seguimiento.",
   },
   {
     q: "¿Puedo devolver un bolso?",
@@ -68,11 +68,14 @@ function FaqPage() {
         title="Todo lo que suelen preguntarme"
         lead="Y si no está aquí, escríbeme: contesto yo, no un bot."
         primary={{ href: WHATSAPP_URL, label: "Preguntar por Instagram", external: true }}
-        secondary={{ href: VINTED_URL, label: "Ver la colección", external: true }}
+        secondary={{ href: "/coleccion", label: "Ver la colección" }}
       />
 
-      <section className="section-y">
+      <section className="section-y" aria-labelledby="faq-preguntas">
         <div className="container-brand max-w-3xl">
+          <h2 id="faq-preguntas" className="sr-only">
+            Preguntas y respuestas
+          </h2>
           <Accordion type="single" collapsible className="w-full">
             {FAQS.map((f, i) => (
               <AccordionItem key={f.q} value={`item-${i}`} className="border-border">
@@ -85,7 +88,9 @@ function FaqPage() {
               </AccordionItem>
             ))}
           </Accordion>
-          <p className="mt-10 text-xs text-muted-foreground">Última actualización: {LAST_UPDATED}</p>
+          <p className="mt-10 text-xs text-muted-foreground">
+            Última actualización: {LAST_UPDATED}
+          </p>
         </div>
       </section>
     </>

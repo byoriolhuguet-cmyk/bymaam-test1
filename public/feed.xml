@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Blog de By Maam</title>
+    <link>https://bymaam.com/blog</link>
+    <description>Actualidad de moda cada lunes y guías de compra de bolsos hechos a mano cada jueves.</description>
+    <language>es-ES</language>
+    <atom:link href="https://bymaam.com/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Bolsos hechos a mano en Barcelona: cómo elegir uno que dure</title>
+      <link>https://bymaam.com/blog/bolsos-hechos-a-mano-en-barcelona</link>
+      <guid isPermaLink="true">https://bymaam.com/blog/bolsos-hechos-a-mano-en-barcelona</guid>
+      <pubDate>Sun, 01 Nov 2026 07:00:00 GMT</pubDate>
+      <category>Guía de compra</category>
+      <description>Para elegir un bolso hecho a mano en Barcelona, fíjate en cinco cosas: costuras rectas y rematadas, un material que aguante el uso diario, herrajes bien fijados, una correa incluida y cómoda, y una forma de compra con envío seguido y devolución. En By Maam cada bolso de piel sintética con flecos se cose a mano en Barcelona, lleva correa y cuesta 38,50 €.</description>
+    </item>
+  </channel>
+</rss>

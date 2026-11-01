@@ -2,6 +2,7 @@
 // tsConfigPaths, nitro, inyección VITE_*, alias @ y logger de errores. NO los añadas a mano.
 import { defineConfig } from "@lovable.dev/vite-tanstack-config";
 
+import blog from "./src/generated/blog/index.json";
 import products from "./src/data/products.json";
 
 // Páginas que se generan como HTML estático en el build (SEO + agentes sin JS).
@@ -17,7 +18,18 @@ const PAGES = [
   "/aviso-legal",
   "/cookies",
   "/devoluciones",
-].map((path) => ({ path, prerender: { enabled: true, outputPath: path === "/" ? "/index.html" : `${path}/index.html` } }));
+  "/bolsos-con-flecos",
+  "/bolsos-con-tachuelas",
+  "/fundas-portatil",
+  "/guias",
+  "/guias/como-cuidar-un-bolso-con-flecos",
+  "/guias/como-combinar-un-bolso-con-flecos",
+  "/blog",
+  ...blog.map((p: { path: string }) => p.path),
+].map((path) => ({
+  path,
+  prerender: { enabled: true, outputPath: path === "/" ? "/index.html" : `${path}/index.html` },
+}));
 
 export default defineConfig({
   tanstackStart: {

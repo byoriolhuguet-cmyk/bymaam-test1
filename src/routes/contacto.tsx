@@ -16,6 +16,13 @@ const TITLE = "Contacto | By Maam";
 const DESC =
   "Escribe a Marta Amarelo: dudas sobre un bolso o colaboraciones. Instagram, email y TikTok de By Maam.";
 
+/** WebMCP declarativo: los agentes del navegador pueden rellenar este formulario como herramienta (el envío lo confirma la persona). */
+const WEBMCP_FORM = {
+  toolname: "escribir_a_marta",
+  tooldescription:
+    "Envía un mensaje a Marta Amarelo (By Maam): dudas sobre una pieza, colaboraciones u otros temas. Campos: nombre, email, asunto y mensaje.",
+} as Record<string, string>;
+
 export const Route = createFileRoute("/contacto")({
   head: () => seo({ title: TITLE, description: DESC, path: "/contacto" }),
   component: ContactoPage,
@@ -77,13 +84,20 @@ function ContactoPage() {
                 <h2 className="mt-6 text-3xl">Gracias, te respondo en menos de 48 h.</h2>
               </div>
             ) : (
-              <form onSubmit={onSubmit} className="space-y-6" noValidate>
+              <form
+                onSubmit={onSubmit}
+                className="space-y-6"
+                noValidate
+                {...WEBMCP_FORM}
+              >
                 <div>
                   <label className={labelCls} htmlFor="c-nombre">
                     Nombre
                   </label>
                   <input
                     id="c-nombre"
+                    name="nombre"
+                    autoComplete="name"
                     className={`${inputCls} mt-2`}
                     value={form.nombre}
                     onChange={(e) => setForm({ ...form, nombre: e.target.value })}
@@ -96,7 +110,10 @@ function ContactoPage() {
                   </label>
                   <input
                     id="c-email"
+                    name="email"
                     type="email"
+                    autoComplete="email"
+                    inputMode="email"
                     className={`${inputCls} mt-2`}
                     value={form.email}
                     onChange={(e) => setForm({ ...form, email: e.target.value })}
@@ -109,6 +126,7 @@ function ContactoPage() {
                   </label>
                   <select
                     id="c-asunto"
+                    name="asunto"
                     className={`${inputCls} mt-2`}
                     value={form.asunto}
                     onChange={(e) => setForm({ ...form, asunto: e.target.value })}
@@ -125,6 +143,7 @@ function ContactoPage() {
                   </label>
                   <textarea
                     id="c-mensaje"
+                    name="mensaje"
                     rows={6}
                     className={`${inputCls} mt-2 resize-y`}
                     value={form.mensaje}

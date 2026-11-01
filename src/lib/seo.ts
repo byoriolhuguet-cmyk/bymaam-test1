@@ -20,7 +20,7 @@ export function seo({
   description,
   path,
   image = OG_IMAGE,
-  imageAlt = "By Maam, bolsos de piel hechos a mano",
+  imageAlt = "By Maam, bolsos hechos a mano con flecos y tachuelas",
   type = "website",
   noindex = false,
   jsonLd,

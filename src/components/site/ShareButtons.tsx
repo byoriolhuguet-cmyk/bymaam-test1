@@ -14,7 +14,7 @@ export function ShareButtons({ title, path }: { title: string; path: string }) {
 
   return (
     <div className="flex flex-wrap items-center gap-2">
-      <span className="mr-2 text-[0.7rem] uppercase tracking-[0.2em] text-sand-deep">Compartir</span>
+      <span className="mr-2 text-[0.7rem] uppercase tracking-[0.2em] text-muted-foreground">Compartir</span>
       <a
         className={base}
         target="_blank"

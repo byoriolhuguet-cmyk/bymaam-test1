@@ -1,8 +1,8 @@
 /**
  * Datos globales de By Maam.
  * Fuente única: src/data/site.json (la leen también los scripts de SEO).
- * TODO (Marta): al comprar el dominio, cambia "siteUrl" en src/data/site.json
- * por https://tudominio.com y vuelve a hacer el deploy.
+ * Dominio: https://bymaam.com ("siteUrl" en src/data/site.json). Si cambia, edítalo ahí
+ * y vuelve a hacer el deploy: canonical, sitemap, robots.txt y llms.txt se regeneran solos.
  */
 import site from "@/data/site.json";
 

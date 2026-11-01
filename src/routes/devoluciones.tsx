@@ -7,7 +7,7 @@ import { CONTACT_EMAIL, LAST_UPDATED, WHATSAPP_URL } from "@/lib/site";
 
 const TITLE = "Política de devoluciones | By Maam";
 const DESC =
-  "Plazos, condiciones y pasos para devolver o cambiar un bolso de piel de By Maam. Explicado claro, sin letra pequeña.";
+  "Plazos, condiciones y pasos para devolver o cambiar un bolso de By Maam. Explicado claro, sin letra pequeña.";
 
 export const Route = createFileRoute("/devoluciones")({
   head: () => seo({ title: TITLE, description: DESC, path: "/devoluciones" }),
