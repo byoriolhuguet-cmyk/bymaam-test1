@@ -24,6 +24,10 @@ By Maam es una marca artesanal de bolsos y fundas para portátil de piel sintét
 - [Cómo cuidar un bolso con flecos](https://bymaam.com/guias/como-cuidar-un-bolso-con-flecos)
 - [Cómo combinar un bolso con flecos](https://bymaam.com/guias/como-combinar-un-bolso-con-flecos)
 
+## Blog
+Actualidad de moda cada lunes y guías de compra de bolsos hechos a mano cada jueves: [blog](https://bymaam.com/blog) · [RSS](https://bymaam.com/feed.xml).
+- [Bolsos hechos a mano en Barcelona: cómo elegir uno que dure](https://bymaam.com/blog/bolsos-hechos-a-mano-en-barcelona) (2026-11-01): Qué mirar antes de comprar un bolso hecho a mano en Barcelona: costuras, material, herrajes, correa, precio y envío. Con los modelos de By Maam.
+
 ## Cómo comprar
 - [Perfil en Vinted (compra protegida)](https://www.vinted.es/member/3179779854)
 - [Instagram @bymaam_ (reservas y consultas)](https://www.instagram.com/bymaam_?utm_source=qr)
@@ -39,6 +43,7 @@ By Maam es una marca artesanal de bolsos y fundas para portátil de piel sintét
 - [Catálogo en JSON](https://bymaam.com/products.json)
 - [Resumen completo en Markdown](https://bymaam.com/llms-full.txt)
 - [Sitemap](https://bymaam.com/sitemap.xml)
+- [RSS del blog](https://bymaam.com/feed.xml)
 
 ## Para agentes de IA
 - Colección filtrable por URL: `https://bymaam.com/coleccion?tipo=Bolsos|Fundas&color=<color>&q=<texto>` (por ejemplo [bolsos negros](https://bymaam.com/coleccion?tipo=Bolsos&color=Negro)).

@@ -157,6 +157,12 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         href: "/llms.txt",
         title: "Resumen para asistentes de IA",
       },
+      {
+        rel: "alternate",
+        type: "application/rss+xml",
+        href: "/feed.xml",
+        title: "Blog de By Maam (RSS)",
+      },
     ],
     scripts: [
       { type: "application/ld+json", children: JSON.stringify(ORGANIZATION_LD) },

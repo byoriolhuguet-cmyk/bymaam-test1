@@ -17,6 +17,7 @@ const EXPLORE = [
   { to: "/bolsos-con-tachuelas", label: "Bolsos con tachuelas" },
   { to: "/fundas-portatil", label: "Fundas para portátil" },
   { to: "/guias", label: "Guías" },
+  { to: "/blog", label: "Blog" },
 ] as const;
 
 const SEALS = [

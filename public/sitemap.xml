@@ -148,6 +148,18 @@
     <priority>0.5</priority>
   </url>
   <url>
+    <loc>https://bymaam.com/blog</loc>
+    <lastmod>2026-11-01</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://bymaam.com/blog/bolsos-hechos-a-mano-en-barcelona</loc>
+    <lastmod>2026-11-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
     <loc>https://bymaam.com/sobre-mi</loc>
     <lastmod>2026-10-13</lastmod>
     <changefreq>monthly</changefreq>

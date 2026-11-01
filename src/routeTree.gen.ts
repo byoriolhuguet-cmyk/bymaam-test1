@@ -22,6 +22,8 @@ import { Route as FundasPortatilRouteImport } from './routes/fundas-portatil'
 import { Route as PedidosRouteImport } from './routes/pedidos'
 import { Route as PrivacidadRouteImport } from './routes/privacidad'
 import { Route as SobreMiRouteImport } from './routes/sobre-mi'
+import { Route as BlogIndexRouteImport } from './routes/blog.index'
+import { Route as BlogSlugRouteImport } from './routes/blog.$slug'
 import { Route as ColeccionIndexRouteImport } from './routes/coleccion.index'
 import { Route as ColeccionSlugRouteImport } from './routes/coleccion.$slug'
 import { Route as GuiasIndexRouteImport } from './routes/guias.index'
@@ -92,6 +94,16 @@ const SobreMiRoute = SobreMiRouteImport.update({
   path: '/sobre-mi',
   getParentRoute: () => rootRouteImport,
 } as any)
+const BlogIndexRoute = BlogIndexRouteImport.update({
+  id: '/blog/',
+  path: '/blog/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BlogSlugRoute = BlogSlugRouteImport.update({
+  id: '/blog/$slug',
+  path: '/blog/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ColeccionIndexRoute = ColeccionIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -127,8 +139,10 @@ export interface FileRoutesByFullPath {
   '/pedidos': typeof PedidosRoute
   '/privacidad': typeof PrivacidadRoute
   '/sobre-mi': typeof SobreMiRoute
+  '/blog/$slug': typeof BlogSlugRoute
   '/coleccion/$slug': typeof ColeccionSlugRoute
   '/guias/$slug': typeof GuiasSlugRoute
+  '/blog/': typeof BlogIndexRoute
   '/coleccion/': typeof ColeccionIndexRoute
   '/guias/': typeof GuiasIndexRoute
 }
@@ -145,8 +159,10 @@ export interface FileRoutesByTo {
   '/pedidos': typeof PedidosRoute
   '/privacidad': typeof PrivacidadRoute
   '/sobre-mi': typeof SobreMiRoute
+  '/blog/$slug': typeof BlogSlugRoute
   '/coleccion/$slug': typeof ColeccionSlugRoute
   '/guias/$slug': typeof GuiasSlugRoute
+  '/blog': typeof BlogIndexRoute
   '/coleccion': typeof ColeccionIndexRoute
   '/guias': typeof GuiasIndexRoute
 }
@@ -165,8 +181,10 @@ export interface FileRoutesById {
   '/pedidos': typeof PedidosRoute
   '/privacidad': typeof PrivacidadRoute
   '/sobre-mi': typeof SobreMiRoute
+  '/blog/$slug': typeof BlogSlugRoute
   '/coleccion/$slug': typeof ColeccionSlugRoute
   '/guias/$slug': typeof GuiasSlugRoute
+  '/blog/': typeof BlogIndexRoute
   '/coleccion/': typeof ColeccionIndexRoute
   '/guias/': typeof GuiasIndexRoute
 }
@@ -186,8 +204,10 @@ export interface FileRouteTypes {
     | '/pedidos'
     | '/privacidad'
     | '/sobre-mi'
+    | '/blog/$slug'
     | '/coleccion/$slug'
     | '/guias/$slug'
+    | '/blog/'
     | '/coleccion/'
     | '/guias/'
   fileRoutesByTo: FileRoutesByTo
@@ -204,8 +224,10 @@ export interface FileRouteTypes {
     | '/pedidos'
     | '/privacidad'
     | '/sobre-mi'
+    | '/blog/$slug'
     | '/coleccion/$slug'
     | '/guias/$slug'
+    | '/blog'
     | '/coleccion'
     | '/guias'
   id:
@@ -223,8 +245,10 @@ export interface FileRouteTypes {
     | '/pedidos'
     | '/privacidad'
     | '/sobre-mi'
+    | '/blog/$slug'
     | '/coleccion/$slug'
     | '/guias/$slug'
+    | '/blog/'
     | '/coleccion/'
     | '/guias/'
   fileRoutesById: FileRoutesById
@@ -243,7 +267,9 @@ export interface RootRouteChildren {
   PedidosRoute: typeof PedidosRoute
   PrivacidadRoute: typeof PrivacidadRoute
   SobreMiRoute: typeof SobreMiRoute
+  BlogSlugRoute: typeof BlogSlugRoute
   GuiasSlugRoute: typeof GuiasSlugRoute
+  BlogIndexRoute: typeof BlogIndexRoute
   GuiasIndexRoute: typeof GuiasIndexRoute
 }
 
@@ -340,6 +366,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SobreMiRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/blog/': {
+      id: '/blog/'
+      path: '/blog'
+      fullPath: '/blog/'
+      preLoaderRoute: typeof BlogIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/blog/$slug': {
+      id: '/blog/$slug'
+      path: '/blog/$slug'
+      fullPath: '/blog/$slug'
+      preLoaderRoute: typeof BlogSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/coleccion/': {
       id: '/coleccion/'
       path: '/'
@@ -399,7 +439,9 @@ const rootRouteChildren: RootRouteChildren = {
   PedidosRoute: PedidosRoute,
   PrivacidadRoute: PrivacidadRoute,
   SobreMiRoute: SobreMiRoute,
+  BlogSlugRoute: BlogSlugRoute,
   GuiasSlugRoute: GuiasSlugRoute,
+  BlogIndexRoute: BlogIndexRoute,
   GuiasIndexRoute: GuiasIndexRoute,
 }
 export const routeTree = rootRouteImport

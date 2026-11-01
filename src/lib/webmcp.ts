@@ -43,6 +43,11 @@ const PAGES = {
   privacidad: "/privacidad",
   "aviso-legal": "/aviso-legal",
   cookies: "/cookies",
+  blog: "/blog",
+  guias: "/guias",
+  "bolsos-con-flecos": "/bolsos-con-flecos",
+  "bolsos-con-tachuelas": "/bolsos-con-tachuelas",
+  "fundas-portatil": "/fundas-portatil",
 } as const;
 
 const text = (value: unknown): ToolResult => ({
